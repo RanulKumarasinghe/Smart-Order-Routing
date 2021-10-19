@@ -4,11 +4,20 @@ import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="order")
 public class Order {
 
 	//Attributes
+	@Id
+	@GeneratedValue(strategy= GenerationType.AUTO)
 	private int orderId;
 	private String orderType;
 	@Enumerated(EnumType.STRING)
@@ -16,13 +25,18 @@ public class Order {
 	
 	private LocalDateTime orderDate;
 	private double orderAmount;
-	
+	@ManyToOne(targetEntity= Stock.class)
+	@JoinColumn(name="stock_id")
 	private Stock stock;
+	
+	@ManyToOne(targetEntity= User.class)
+	@JoinColumn(name="user_id")
 	private User user;
+	
 	
 	//Constructors
 	public Order(int orderId, String orderType, OrderStatus orderStatus, LocalDateTime orderDate, double orderAmount,
-			Stock stock, User user) {
+		 Stock stock, User user) {
 		super();
 		this.orderId = orderId;
 		this.orderType = orderType;
@@ -95,7 +109,7 @@ public class Order {
 	@Override
 	public String toString() {
 		return "Order [orderId=" + orderId + ", orderType=" + orderType + ", orderStatus=" + orderStatus
-				+ ", orderDate=" + orderDate + ", orderAmount=" + orderAmount + ", stock=" + stock + ", user=" + user
+				+ ", orderDate=" + orderDate + ", orderAmount=" + orderAmount + ", stock=" + stock +", user=" + user
 				+ "]";
 	}
 	

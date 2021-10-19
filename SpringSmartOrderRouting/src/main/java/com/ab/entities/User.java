@@ -1,11 +1,24 @@
 package com.ab.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="user")
 public class User {
 
 	//Attributes
+	@Id
+	@GeneratedValue(strategy= GenerationType.AUTO)
 	private int userId;
 	private String userFirstName;
 	private String userLastName;
@@ -17,6 +30,11 @@ public class User {
 	private int walletId;
 	private double walletBalance;
 	
+	@OneToMany(targetEntity=Order.class,
+			fetch=FetchType.EAGER,
+			mappedBy = "user",
+			cascade = CascadeType.ALL)
+	private List<Order> orders = new ArrayList<Order>();
 	//Constructors
 	public User(int userId, String userFirstName, String userLastName, int userAge, String userEmail,
 			String userPassword, int walletId, double walletBalance) {
