@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="order")
+@Table(name="orders")
 public class Order {
 
 	//Attributes
@@ -25,6 +25,7 @@ public class Order {
 	
 	private LocalDateTime orderDate;
 	private double orderAmount;
+	
 	@ManyToOne(targetEntity= Stock.class)
 	@JoinColumn(name="stock_id")
 	private Stock stock;
