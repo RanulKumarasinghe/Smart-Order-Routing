@@ -2,6 +2,7 @@ package com.ab.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,8 +16,8 @@ public class UserController {
 	private UserService userService;
 	
 	
-    @GetMapping("/users")
-    public User findUserByUserId(int userId) {
+    @GetMapping("/users/{id}")
+    public User findUserByUserId(@PathVariable("id") int userId) {
 		return userService.findUserByUserId(userId);
     }
     @PostMapping("/verifyUser")
