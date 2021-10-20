@@ -24,7 +24,8 @@ public class Order {
 	private OrderStatus orderStatus;
 	
 	private LocalDateTime orderDate;
-	private double orderAmount;
+	private double orderStockAmount;
+	private double orderTotalPrice;
 	
 	@ManyToOne(targetEntity= Stock.class)
 	@JoinColumn(name="stock_id")
@@ -36,14 +37,15 @@ public class Order {
 	
 	
 	//Constructors
-	public Order(int orderId, String orderType, OrderStatus orderStatus, LocalDateTime orderDate, double orderAmount,
+	public Order(int orderId, String orderType, OrderStatus orderStatus, LocalDateTime orderDate, double orderStockAmount, double orderTotalPrice,
 		 Stock stock, User user) {
 		super();
 		this.orderId = orderId;
 		this.orderType = orderType;
 		this.orderStatus = orderStatus;
 		this.orderDate = orderDate;
-		this.orderAmount = orderAmount;
+		this.orderStockAmount = orderStockAmount;
+		this.orderTotalPrice = orderTotalPrice;
 		this.stock = stock;
 		this.user = user;
 	}
@@ -83,12 +85,21 @@ public class Order {
 		this.orderDate = orderDate;
 	}
 
-	public double getOrderAmount() {
-		return orderAmount;
+
+	public double getOrderStockAmount() {
+		return orderStockAmount;
 	}
 
-	public void setOrderAmount(double orderAmount) {
-		this.orderAmount = orderAmount;
+	public void setOrderStockAmount(double orderStockAmount) {
+		this.orderStockAmount = orderStockAmount;
+	}
+
+	public double getOrderTotalPrice() {
+		return orderTotalPrice;
+	}
+
+	public void setOrderTotalPrice(double orderTotalPrice) {
+		this.orderTotalPrice = orderTotalPrice;
 	}
 
 	public Stock getStock() {
@@ -110,10 +121,10 @@ public class Order {
 	@Override
 	public String toString() {
 		return "Order [orderId=" + orderId + ", orderType=" + orderType + ", orderStatus=" + orderStatus
-				+ ", orderDate=" + orderDate + ", orderAmount=" + orderAmount + ", stock=" + stock +", user=" + user
-				+ "]";
+				+ ", orderDate=" + orderDate + ", orderStockAmount=" + orderStockAmount + ", orderTotalPrice="
+				+ orderTotalPrice + ", stock=" + stock + ", user=" + user + "]";
 	}
-	
+
 	
 	
 	
