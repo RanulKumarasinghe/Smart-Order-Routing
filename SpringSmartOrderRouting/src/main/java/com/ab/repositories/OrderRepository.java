@@ -23,15 +23,15 @@ public interface OrderRepository extends JpaRepository<Order,Integer>{
 	
 	
 	//Get All user Orders
-	//@Query(value ="SELECT * FROM orders WHERE user_id=:userId", nativeQuery=true)
-	public List<Order> findAllOrdersByUserId(int userId);
+	@Query(value ="SELECT * FROM orders WHERE user_id=:userId", nativeQuery=true)
+	public List<Order> findAllOrdersByUserId(@Param("userId") int userId);
 	
 	//Get Order by Id
 	public Order findOrderByOrderId(int orderId);
 	
 	//Get Orders By StockId
 	@Query(value ="SELECT * FROM orders WHERE stock_id=:stockId", nativeQuery=true)
-	public List<Order> findAllOrdersByStockId(int stockId);
+	public List<Order> findAllOrdersByStockId( @Param("stockId") int stockId);
 	
 	//Update Order 
 	@Transactional
