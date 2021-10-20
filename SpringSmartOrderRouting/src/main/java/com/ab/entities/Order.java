@@ -35,6 +35,11 @@ public class Order {
 	@JoinColumn(name="user_id")
 	private User user;
 	
+	@ManyToOne(targetEntity= OrderBook.class)
+	@JoinColumn(name="orderbook_id")
+	private OrderBook orderBook;
+	
+	
 	
 	//Constructors
 	public Order(int orderId, String orderType, OrderStatus orderStatus, LocalDateTime orderDate, double orderStockAmount, double orderTotalPrice,

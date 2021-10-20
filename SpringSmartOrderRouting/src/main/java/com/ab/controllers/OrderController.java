@@ -57,9 +57,9 @@ public class OrderController {
 	}
 	
 	//Update order to Partially Fulfilled
-		@PostMapping("/updateToPartiallyFulfilled")
-		public int updateToPartiallyFulfilled(int orderId) {
-			return orderService.updateOrderToPartiallyFullfilled(orderId);
-		}
+	@PostMapping("/updateToPartiallyFulfilled")
+	public int updateToPartiallyFulfilled(int orderId) {
+		return orderService.updateOrderToPartiallyFullfilled(orderId);
+	}
 
 }
