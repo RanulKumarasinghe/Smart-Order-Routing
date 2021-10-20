@@ -26,18 +26,18 @@ public class UserController {
     
     
     @PostMapping("/addUser")
-    public int insertNewUser(String user_first_name, String user_last_name, String user_email, String password, int user_age, double wallet_balance, int wallet_id) {
-    	return userService.insertNewUser(user_first_name, user_last_name, user_email, password, user_age, wallet_balance, wallet_id);
+    public void insertNewUser(String user_first_name, String user_last_name, String user_email, String password, int user_age, double wallet_balance, int wallet_id) {
+    	userService.insertNewUser(user_first_name, user_last_name, user_email, password, user_age, wallet_balance, wallet_id);
     }
     
     @PostMapping("/editUser")
-    public int updateUser(int userId, String user_first_name, String user_last_name, String user_email, String password, int user_age, double wallet_balance, int wallet_id) {
-    	return userService.updateUser(userId, user_first_name, user_last_name, user_email, password, user_age, wallet_balance, wallet_id);
+    public void updateUser(int userId, String user_first_name, String user_last_name, String user_email, String password, int user_age, double wallet_balance, int wallet_id) {
+    	userService.updateUser(userId, user_first_name, user_last_name, user_email, password, user_age, wallet_balance, wallet_id);
     }
     
     @PostMapping("/email_verification")
-    public String verifyEmail(String email) {
-    	return userService.verifyEmail(email);
+    public void verifyEmail(String email) {
+    	 userService.verifyEmail(email);
     }
 	
     
