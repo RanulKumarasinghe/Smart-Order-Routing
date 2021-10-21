@@ -20,7 +20,7 @@ import javax.persistence.Table;
 public class Exchange {
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
-	private int exchnageId;
+	private int exchangeId;
 	private double feeLadder;
 
 	
@@ -41,9 +41,9 @@ public class Exchange {
 		private List<User> users = new ArrayList<>();
 	
 
-	public Exchange(int exchnageId, double feeLadder, List<OrderBook> orderBooks) {
+	public Exchange(int exchangeId, double feeLadder, List<OrderBook> orderBooks) {
 		super();
-		this.exchnageId = exchnageId;
+		this.exchangeId = exchangeId;
 		this.feeLadder = feeLadder;
 		this.orderBooks = orderBooks;
 	}
@@ -51,12 +51,12 @@ public class Exchange {
 	public Exchange() {}
 	
 	
-	public int getExchnageId() {
-		return exchnageId;
+	public int getExchangeId() {
+		return exchangeId;
 	}
 
-	public void setExchnageId(int exchnageId) {
-		this.exchnageId = exchnageId;
+	public void setExchangeId(int exchangeId) {
+		this.exchangeId = exchangeId;
 	}
 
 	public double getFeeLadder() {
@@ -83,7 +83,7 @@ public class Exchange {
 
 	@Override
 	public String toString() {
-		return "Exchange [exchnageId=" + exchnageId + ", feeLadder=" + feeLadder + ", orderBooks=" + orderBooks + "]";
+		return "Exchange [exchangeId=" + exchangeId + ", feeLadder=" + feeLadder + ", orderBooks=" + orderBooks + "]";
 	}
 	
 	

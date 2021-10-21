@@ -27,8 +27,7 @@ public class User {
 	private String userPassword;
 	
 	//wallet
-	private int walletId;
-	private double walletBalance;
+	private double userBalance;
 	
 	@OneToMany(targetEntity=Order.class,
 			fetch=FetchType.EAGER,
@@ -37,7 +36,7 @@ public class User {
 	private List<Order> orders = new ArrayList<Order>();
 	//Constructors
 	public User(int userId, String userFirstName, String userLastName, int userAge, String userEmail,
-			String userPassword, int walletId, double walletBalance) {
+			String userPassword, double userBalance) {
 		super();
 		this.userId = userId;
 		this.userFirstName = userFirstName;
@@ -45,8 +44,7 @@ public class User {
 		this.userAge = userAge;
 		this.userEmail = userEmail;
 		this.userPassword = userPassword;
-		this.walletId = walletId;
-		this.walletBalance = walletBalance;
+		this.userBalance = userBalance;
 	}
 	
 	public User() {}
@@ -100,28 +98,29 @@ public class User {
 		this.userPassword = userPassword;
 	}
 
-	public int getWalletId() {
-		return walletId;
+	public double getUserBalance() {
+		return userBalance;
 	}
 
-	public void setWalletId(int walletId) {
-		this.walletId = walletId;
+	public void setUserBalance(double userBalance) {
+		this.userBalance = userBalance;
 	}
 
-	public double getWalletBalance() {
-		return walletBalance;
+	public List<Order> getOrders() {
+		return orders;
 	}
 
-	public void setWalletBalance(double walletBalance) {
-		this.walletBalance = walletBalance;
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
 	}
 
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", userFirstName=" + userFirstName + ", userLastName=" + userLastName
-				+ ", userAge=" + userAge + ", userEmail=" + userEmail + ", userPassword=" + userPassword + ", walletId="
-				+ walletId + ", walletBalance=" + walletBalance + "]";
+				+ ", userAge=" + userAge + ", userEmail=" + userEmail + ", userPassword=" + userPassword
+				+ ", userBalance=" + userBalance + ", orders=" + orders + "]";
 	}
+	
 	
 	
 	
