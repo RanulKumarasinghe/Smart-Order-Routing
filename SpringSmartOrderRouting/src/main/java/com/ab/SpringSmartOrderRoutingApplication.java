@@ -21,7 +21,7 @@ public class SpringSmartOrderRoutingApplication implements CommandLineRunner {
 		
 		
 		
-		System.out.println(orderController.createOrder(3.0, 360.0, "Buy", 1, 1));
+//		System.out.println(orderController.createOrder(3.0, 360.0, "Buy", 1, 1));
 		
 		//System.out.println(orderController.getAllUserOrders(1));
 //		int update = orderController.updateOrder(4,480, 1);
