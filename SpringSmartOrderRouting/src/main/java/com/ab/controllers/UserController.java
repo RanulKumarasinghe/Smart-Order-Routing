@@ -1,6 +1,7 @@
 package com.ab.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,13 +23,17 @@ public class UserController {
     }
     @PostMapping("/verifyUser")
     public void verifyUser(String email, String password) {
-    	userService.verifyUser(email, password);
+    	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String hashedPassword = passwordEncoder.encode(password);
+    	userService.verifyUser(email, hashedPassword);
     }
     
     
     @PostMapping("/addUser")
     public void insertNewUser(String user_first_name, String user_last_name, String user_email, String password, int user_age, double wallet_balance, int wallet_id) {
-    	userService.insertNewUser(user_first_name, user_last_name, user_email, password, user_age, wallet_balance, wallet_id);
+    	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String hashedPassword = passwordEncoder.encode(password);
+    	userService.insertNewUser(user_first_name, user_last_name, user_email, hashedPassword, user_age, wallet_balance, wallet_id);
     }
     
     @PostMapping("/editUser")

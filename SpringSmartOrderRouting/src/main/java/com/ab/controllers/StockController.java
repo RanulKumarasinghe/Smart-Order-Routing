@@ -25,8 +25,8 @@ public class StockController {
 	public Stock getStocks(@PathVariable("name") String stock_symbol){
 		return stockService.getStock(stock_symbol);		
 	}
-	@GetMapping("/stockPrice")
-	public double getStockPrice(int stock_id){
+	@GetMapping("/stockPrice/{id}")
+	public double getStockPrice(@PathVariable("id") int stock_id){
 		return stockService.getStockPrice(stock_id);		
 	}
 	
