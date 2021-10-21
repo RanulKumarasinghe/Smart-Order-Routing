@@ -34,8 +34,7 @@ public class OrderBook {
 		@JoinColumn(name="exchange_id")
 		private Exchange exchange;
 		
-		
-		
+	
 		
 		//Constructors
 		public OrderBook(int orderBookId, List<Order> orders) {

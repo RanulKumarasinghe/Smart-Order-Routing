@@ -27,17 +27,18 @@ public class Order {
 	private double orderStockAmount;
 	private double orderTotalPrice;
 	
+	//FK1
 	@ManyToOne(targetEntity= Stock.class)
 	@JoinColumn(name="stock_id")
 	private Stock stock;
-	
+	//FK2
 	@ManyToOne(targetEntity= User.class)
 	@JoinColumn(name="user_id")
 	private User user;
-	
+	//FK3
 	@ManyToOne(targetEntity= OrderBook.class)
 	@JoinColumn(name="orderbook_id")
-	private OrderBook orderBook;
+	private OrderBook orderbook;
 	
 	
 	
