@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="orderbook")
 public class OrderBook {
@@ -23,6 +25,7 @@ public class OrderBook {
 		@GeneratedValue(strategy= GenerationType.AUTO)
 		private int orderBookId;
 	
+		@JsonIgnore
 		@OneToMany(targetEntity=Order.class,
 				fetch=FetchType.EAGER,
 				mappedBy = "orderbook",

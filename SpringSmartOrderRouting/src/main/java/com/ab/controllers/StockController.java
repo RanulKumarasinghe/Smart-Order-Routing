@@ -30,6 +30,11 @@ public class StockController {
 		return stockService.getStockPrice(stock_id);		
 	}
 	
+	@GetMapping("/stocks/{stock_id}")
+	public Stock getStockById(@PathVariable("stock_id")int stock_id){
+		return stockService.getStockById(stock_id);
+	}
+	
 	@PostMapping("/addStock")
 	public void insertNewStock(double stock_price, String stock_symbol, double stock_total_shares) {
 		stockService.insertNewStock(stock_price, stock_symbol, stock_total_shares);

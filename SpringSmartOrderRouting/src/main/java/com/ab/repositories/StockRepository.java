@@ -23,6 +23,9 @@ public interface StockRepository extends JpaRepository<Stock, Integer> {
 	@Query(value="SELECT stock_price FROM stock WHERE stock_id =:stock_id",nativeQuery=true)
 	public double getStockPrice(@Param("stock_id")int stock_id); 
 	
+	@Query(value="SELECT * FROM stock WHERE stock_id =:stock_id",nativeQuery=true)
+	public Stock getStockById(@Param("stock_id")int stock_id); 
+	
 	@Modifying
     @Transactional
 	@Query(value="INSERT INTO stock(stock_price,stock_symbol,stock_total_shares) VALUES(:stock_price,:stock_symbol,:stock_total_shares)",nativeQuery=true)
