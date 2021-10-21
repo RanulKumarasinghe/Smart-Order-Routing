@@ -1,5 +1,6 @@
 package com.ab.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +10,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ab.entities.Stock;
+import com.ab.services.ExchangeService;
 import com.ab.services.StockService;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 @RestController
+@SessionAttributes("loggedInUser")
 public class StockController {
 	@Autowired
 	private StockService stockService;
+	
+	@Autowired
+	private ExchangeService exchangeService;
 	
 	
 	@GetMapping("/stocks")
@@ -54,4 +61,27 @@ public class StockController {
 	public void updateStockSymbol(int stock_id, String stock_symbol) {
 		stockService.updateStockSymbol(stock_id, stock_symbol);
 	}
+	
+	
+	@GetMapping("/stockpresentinexchange/{userId}")
+	public List<Stock> getStocksPresentInExchange(@PathVariable("userId") int userId){
+		
+		int exchangeId = exchangeService.getUserLinkedExchangeId(userId);
+		
+		List<Integer> stockList = exchangeService.getStockInExchange(exchangeId);
+		System.out.println(stockList);
+		
+		List<Stock> sList = new ArrayList<>();
+		
+		for(int i=0;i<stockList.size();i++) {
+			
+			Stock s = stockService.getStockById(i);
+			sList.add(s);
+		}
+		
+		return sList;
+	}
+	
+	
+	
 }

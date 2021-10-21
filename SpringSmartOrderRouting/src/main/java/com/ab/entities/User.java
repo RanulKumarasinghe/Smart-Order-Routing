@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="user")
 public class User {
@@ -29,6 +31,7 @@ public class User {
 	//wallet
 	private double userBalance;
 	
+	@JsonIgnore
 	@OneToMany(targetEntity=Order.class,
 			fetch=FetchType.EAGER,
 			mappedBy = "user",
