@@ -7,18 +7,21 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.ab.entities.Exchange;
+import com.ab.entities.OrderBook;
 import com.ab.entities.Stock;
+import com.ab.entities.StockExchange;
 public interface ExchangeRepository extends JpaRepository<Exchange, Integer>{
 
 	//get exchange details 
-	@Query(value ="SELECT exchange_id, fee_ladder FROM exchange WHERE exchange_id=:exchangeId", nativeQuery=true)
+	@Query(value ="SELECT exchange_id, fee_ladder,exchange_name FROM exchange WHERE exchange_id=:exchangeId", nativeQuery=true)
 	public Exchange findExchangeByExchangeId(@Param("exchangeId") int exchangeId);
 	
-	//get stocks presents in the exchange --> check bridge table
-	//@Query(value ="SELECT stocks_stock_id FROM exchange_stocks WHERE exchange_exchange_id=:exchangeId", nativeQuery=true)
-	@Query(value ="SELECT * FROM stock s INNER JOIN exchange_stocks es ON s.stock_id=es.stocks_stock_id AND es.exchange_exchange_id=:exchangeId", nativeQuery=true)
-	public List<Integer> findStockInExchange(@Param("exchangeId") int exchangeId);
+	
 	
 	//get exchange order books 
+	//get exchange details 
+	@Query(value ="SELECT order_book_id FROM orderbook WHERE exchange_id=:exchangeId", nativeQuery=true)
+	public int findExchangeOrderBookId(@Param("exchangeId") int exchangeId);
+		
 	
 }

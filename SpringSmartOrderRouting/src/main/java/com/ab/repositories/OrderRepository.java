@@ -34,7 +34,7 @@ public interface OrderRepository extends JpaRepository<Order,Integer>{
 	public List<Order> findAllOrdersByStockId( @Param("stockId") int stockId);
 	
 	@Query(value ="SELECT * FROM orders WHERE orderbook_id =:orderbookId", nativeQuery=true)
-	public List<Order> findAllOrdersByOrderBookId( @Param("orderbookId ") int orderbookId); 
+	public List<Order> findAllOrdersByOrderBookId( @Param("orderbookId") int orderbookId); 
 	
     @Query(value ="SELECT SUM(order_total_price) FROM orders WHERE stock_id=:stockId AND user_id=:userId AND order_type = 'Buy' AND order_status = 'Fulfilled' ", nativeQuery=true)
 	public double getBuyStockAmount( @Param("stockId") int stockId, @Param("userId") int userId);

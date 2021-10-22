@@ -11,6 +11,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.hibernate.FetchMode;
+import org.hibernate.annotations.Fetch;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="stock")
@@ -19,21 +23,33 @@ public class Stock {
 	@GeneratedValue(strategy= GenerationType.AUTO)
 	private int stockId;
 	private String stockSymbol;
-	private double stockPrice;
 	private double stockTotalShares;
 	
+	@JsonIgnore
 	@OneToMany(targetEntity=Order.class,
 			fetch=FetchType.EAGER,
 			mappedBy = "stock",
 			cascade = CascadeType.ALL)
+	@Fetch(value= org.hibernate.annotations.FetchMode.SUBSELECT)
 	private List<Order> orders = new ArrayList<Order>();
 	
-	public Stock(int stockId, String stockSymbol, double stockPrice, double stockTotalShares) {
+	@JsonIgnore
+	@OneToMany(targetEntity=StockExchange.class,
+			fetch=FetchType.EAGER,
+			mappedBy = "stock",
+			cascade = CascadeType.ALL)
+	@Fetch(value= org.hibernate.annotations.FetchMode.SUBSELECT)
+	private List<StockExchange> stockExchanges = new ArrayList<StockExchange>(); 
+	
+	
+	public Stock(int stockId, String stockSymbol, double stockTotalShares, List<Order> orders, List<StockExchange> stockExchanges) {
 		super();
 		this.stockId = stockId;
 		this.stockSymbol = stockSymbol;
-		this.stockPrice = stockPrice;
 		this.stockTotalShares = stockTotalShares;
+		this.orders = orders;
+		this.stockExchanges = stockExchanges;
+		
 	}
 	
 	
@@ -47,11 +63,6 @@ public class Stock {
 
 	public void setStockSymbol(String stockSymbol) {
 		this.stockSymbol = stockSymbol;
-	}
-
-
-	public void setStockPrice(double stockPrice) {
-		this.stockPrice = stockPrice;
 	}
 
 
@@ -70,21 +81,38 @@ public class Stock {
 	}
 
 
-	public double getStockPrice() {
-		return stockPrice;
-	}
-
-
 	public double getStockTotalShares() {
 		return stockTotalShares;
 	}
 
 
-	@Override
-	public String toString() {
-		return "Stock [stockId=" + stockId + ", stockSymbol=" + stockSymbol + ", stockPrice=" + stockPrice
-				+ ", stockTotalShares=" + stockTotalShares + "]";
+	public List<Order> getOrders() {
+		return orders;
 	}
+
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
+	}
+
+
+	public List<StockExchange> getStockExchanges() {
+		return stockExchanges;
+	}
+
+
+	public void setStockExchanges(List<StockExchange> stockExchanges) {
+		this.stockExchanges = stockExchanges;
+	}
+
+//
+//	@Override
+//	public String toString() {
+//		return "Stock [stockId=" + stockId + ", stockSymbol=" + stockSymbol + ", stockTotalShares=" + stockTotalShares
+//				+ ", orders=" + orders + ", stockExchanges=" + stockExchanges + "]";
+//	}
+//	
 	
+
 	
 }

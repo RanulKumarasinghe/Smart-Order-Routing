@@ -10,9 +10,8 @@ import org.springframework.stereotype.Repository;
 import com.ab.entities.OrderBook;
 @Repository
 public interface OrderBookRepository extends JpaRepository<OrderBook,Integer>{
- //Get orderbook of one stock
-@Query(value="SELECT * FROM orderbook ob INNER JOIN orders o ON ob.order_book_id = o.orderbook_id WHERE o.stock_id =:stock_id",nativeQuery=true)	
- public List<OrderBook> getOrderBookByStock(@Param("stock_id")int stock_id);	
- //Get all order books
 
-}
+	//Get orderbook of one stock
+	@Query(value="SELECT * FROM orderbook ob INNER JOIN orders o ON ob.order_book_id = o.orderbook_id WHERE o.stock_id =:stock_id",nativeQuery=true)	
+	 public List<OrderBook> getOrderBookByStock(@Param("stock_id")int stock_id);	
+	}

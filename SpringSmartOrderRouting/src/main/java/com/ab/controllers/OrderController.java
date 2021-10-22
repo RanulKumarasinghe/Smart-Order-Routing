@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.ab.entities.Order;
+import com.ab.services.ExchangeService;
 import com.ab.services.OrderService;
 
 @RestController
@@ -15,6 +16,11 @@ public class OrderController {
 	
 	@Autowired
 	private OrderService orderService;
+	
+	@Autowired
+	private ExchangeService exchangeService;
+	
+	
 	
 	@PostMapping("/placeOrder/")
 	public int createOrder(double orderStockAmount, double orderTotalPrice,String orderType, int stockId,int userId) {
@@ -67,6 +73,14 @@ public class OrderController {
 	@PostMapping("/updateToPartiallyFulfilled")
 	public int updateToPartiallyFulfilled(int orderId) {
 		return orderService.updateOrderToPartiallyFullfilled(orderId);
+	}
+	
+	@GetMapping("/orderbook/orders/{orderbookId}")
+	public List<Order> getAllOrdersByOrderBookId(@PathVariable("orderbookId") int orderbookId){
+		int exchangeId =1;
+		orderbookId = exchangeService.getExchangeOrderBookId(exchangeId);
+		return orderService.findAllOrdersByOrderBookId(orderbookId);
+
 	}
 
 }

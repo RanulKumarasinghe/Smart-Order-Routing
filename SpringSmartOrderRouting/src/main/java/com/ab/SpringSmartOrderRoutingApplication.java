@@ -36,7 +36,8 @@ public class SpringSmartOrderRoutingApplication implements CommandLineRunner {
 		
 				//insert order
 				//System.out.println(orderController.createOrder(3.0, 360.0, "Buy", 1, 1));
-				
+		//System.out.println(orderController.createOrder(1.0, 120.0, "Buy", 1, 1));
+
 				//System.out.println(orderController.getAllUserOrders(1));
 //				int update = orderController.updateOrder(4,480, 1);
 //				System.out.println(update);
@@ -45,18 +46,18 @@ public class SpringSmartOrderRoutingApplication implements CommandLineRunner {
 				
 				//get user exchange id
 				
-				List<Integer> stockList = exchangeController.getStockInExchange(1);
-				System.out.println(stockList);
+//				List<Integer> stockList = exchangeController.getStockInExchange(1);
+//				System.out.println(stockList);
+//				
+//				List<Stock> sList = new ArrayList<>();
+//				
+//				for(int i=0;i<stockList.size();i++) {
+//					
+//					Stock s = stockController.getStockById(i);
+//					sList.add(s);
+//				}
 				
-				List<Stock> sList = new ArrayList<>();
-				
-				for(int i=0;i<stockList.size();i++) {
-					
-					Stock s = stockController.getStockById(i);
-					sList.add(s);
-				}
-				
-				System.out.println(sList);
+				//System.out.println(sList);
 
 	}
 

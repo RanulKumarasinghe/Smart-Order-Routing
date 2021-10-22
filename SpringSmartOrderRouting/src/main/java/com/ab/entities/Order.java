@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="orders")
 public class Order {
@@ -28,10 +30,13 @@ public class Order {
 	private double orderTotalPrice;
 	
 	//FK1
+	@JsonIgnore
 	@ManyToOne(targetEntity= Stock.class)
 	@JoinColumn(name="stock_id")
 	private Stock stock;
+	
 	//FK2
+	@JsonIgnore
 	@ManyToOne(targetEntity= User.class)
 	@JoinColumn(name="user_id")
 	private User user;
@@ -123,13 +128,13 @@ public class Order {
 	public void setUser(User user) {
 		this.user = user;
 	}
-
-	@Override
-	public String toString() {
-		return "Order [orderId=" + orderId + ", orderType=" + orderType + ", orderStatus=" + orderStatus
-				+ ", orderDate=" + orderDate + ", orderStockAmount=" + orderStockAmount + ", orderTotalPrice="
-				+ orderTotalPrice + ", stock=" + stock + ", user=" + user + "]";
-	}
+//
+//	@Override
+//	public String toString() {
+//		return "Order [orderId=" + orderId + ", orderType=" + orderType + ", orderStatus=" + orderStatus
+//				+ ", orderDate=" + orderDate + ", orderStockAmount=" + orderStockAmount + ", orderTotalPrice="
+//				+ orderTotalPrice + ", stock=" + stock + ", user=" + user + "]";
+//	}
 
 	
 	

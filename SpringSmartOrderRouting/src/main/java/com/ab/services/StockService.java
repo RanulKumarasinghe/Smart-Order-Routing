@@ -45,4 +45,10 @@ public class StockService {
 	public int updateStockSymbol(int stock_id, String stock_symbol) {
 		return stockRepository.updateStockSymbol(stock_id, stock_symbol);
 	}
+	
+	public List<Stock> getStockInExchange(int exchangeId) {
+		
+		return stockRepository.findStockInExchange(exchangeId);
+		
+	}
 }

@@ -13,6 +13,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -22,6 +24,7 @@ public class Exchange {
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
 	private int exchangeId;
+	private String exchangeName;
 	private double feeLadder;
 
 	@JsonIgnore
@@ -29,32 +32,44 @@ public class Exchange {
 			fetch=FetchType.EAGER,
 			mappedBy = "exchange",
 			cascade = CascadeType.ALL)
+	@Fetch(value= org.hibernate.annotations.FetchMode.SUBSELECT)
 	private List<OrderBook> orderBooks = new ArrayList<>();
 	
-	@JsonIgnore
+	//@JsonIgnore
 	//ManyToMany
-	@ManyToMany
-	private List<Stock> stocks = new ArrayList<>();
+//	@ManyToMany
+//	private List<Stock> stocks = new ArrayList<>();
+	
+	@JsonIgnore
+	@OneToMany(targetEntity=StockExchange.class,
+	fetch=FetchType.EAGER,
+	mappedBy = "exchange",
+	cascade = CascadeType.ALL)
+	@Fetch(value= org.hibernate.annotations.FetchMode.SUBSELECT)
+	private List<StockExchange> stockExchanges = new ArrayList<>();; 
 	
 	
 	
-
-	public Exchange(int exchangeId, double feeLadder, List<OrderBook> orderBooks, List<Stock> stocks) {	
+	public Exchange(int exchangeId, String exchangeName, double feeLadder, List<OrderBook> orderBooks,
+			List<StockExchange> stockExchanges) {
 		super();
 		this.exchangeId = exchangeId;
+		this.exchangeName = exchangeName;
 		this.feeLadder = feeLadder;
 		this.orderBooks = orderBooks;
-		this.stocks = stocks;
+		this.stockExchanges = stockExchanges;
 	}
-	
+
 	public Exchange() {}
 
-	public List<Stock> getStocks() {
-		return stocks;
+	
+
+	public List<StockExchange> getStockExchanges() {
+		return stockExchanges;
 	}
 
-	public void setStocks(List<Stock> stocks) {
-		this.stocks = stocks;
+	public void setStockExchanges(List<StockExchange> stockExchanges) {
+		this.stockExchanges = stockExchanges;
 	}
 
 	public int getExchangeId() {
@@ -63,6 +78,15 @@ public class Exchange {
 
 	public void setExchangeId(int exchangeId) {
 		this.exchangeId = exchangeId;
+	}
+	
+
+	public String getExchangeName() {
+		return exchangeName;
+	}
+
+	public void setExchangeName(String exchangeName) {
+		this.exchangeName = exchangeName;
 	}
 
 	public double getFeeLadder() {
@@ -87,11 +111,7 @@ public class Exchange {
 		return 0.0;
 	}
 
-	@Override
-	public String toString() {
-		return "Exchange [exchangeId=" + exchangeId + ", feeLadder=" + feeLadder + ", orderBooks=" + orderBooks
-				+ ", stocks=" + stocks + "]";
-	}
+	
 
 
 

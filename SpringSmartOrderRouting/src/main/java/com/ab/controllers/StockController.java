@@ -62,23 +62,10 @@ public class StockController {
 		stockService.updateStockSymbol(stock_id, stock_symbol);
 	}
 	
-	
-	@GetMapping("/stockpresentinexchange/{exchangeId}")
-	public List<Stock> getStocksPresentInExchange(@PathVariable("exchangeId") int exchangeId){
-		
-		
-		List<Integer> stockList = exchangeService.getStockInExchange(exchangeId);
-		System.out.println(stockList);
-		
-		List<Stock> sList = new ArrayList<>();
-		
-		for(int i=0;i<stockList.size();i++) {
-			
-			Stock s = stockService.getStockById(i);
-			sList.add(s);
-		}
-		
-		return sList;
+
+	@GetMapping("/stockinexchange/{exchangeId}")
+	public  List<Stock> getStockInExchange(@PathVariable("exchangeId") int exchangeId) {
+		return stockService.getStockInExchange(exchangeId);
 	}
 	
 	

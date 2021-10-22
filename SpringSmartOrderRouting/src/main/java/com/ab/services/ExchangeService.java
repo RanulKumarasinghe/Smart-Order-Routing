@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import com.ab.entities.Exchange;
+import com.ab.entities.OrderBook;
 import com.ab.repositories.ExchangeRepository;
 import com.ab.repositories.OrderBookRepository;
 @Service
@@ -22,10 +23,10 @@ public class ExchangeService {
 		
 	}
 	
-	public List<Integer> getStockInExchange(int exchangeId) {
-		
-		return exchangeRepository.findStockInExchange(exchangeId);
-		
+	
+	
+	public int getExchangeOrderBookId(int exchangeId) {
+		return exchangeRepository.findExchangeOrderBookId(exchangeId);
 	}
 	
 	
