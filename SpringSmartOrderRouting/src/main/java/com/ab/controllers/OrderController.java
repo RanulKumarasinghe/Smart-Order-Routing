@@ -36,6 +36,13 @@ public class OrderController {
 		return orderService.getOrderByOrderId(orderId);
 	}
 	
+	@GetMapping("/stockAmount/{userId}/{stockId}")
+	public double getUserStockAmount(@PathVariable("userId") int userId, @PathVariable("stockId") int stockId) {
+		double buyAmount = orderService.getBuyStockAmount(stockId, userId);
+		double sellAmount = orderService.getSellStockAmount(stockId, userId);
+		double amount = buyAmount - sellAmount;
+		return amount;
+	}
 	
 	//Calculate the stock total price on base of amount
 	@PostMapping("/updateOrder")

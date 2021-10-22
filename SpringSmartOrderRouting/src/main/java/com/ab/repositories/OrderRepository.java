@@ -33,7 +33,15 @@ public interface OrderRepository extends JpaRepository<Order,Integer>{
 	@Query(value ="SELECT * FROM orders WHERE stock_id=:stockId", nativeQuery=true)
 	public List<Order> findAllOrdersByStockId( @Param("stockId") int stockId);
 	
-	//Update Order 
+	@Query(value ="SELECT * FROM orders WHERE orderbook_id =:orderbookId", nativeQuery=true)
+	public List<Order> findAllOrdersByOrderBookId( @Param("orderbookId ") int orderbookId); 
+	
+    @Query(value ="SELECT SUM(order_total_price) FROM orders WHERE stock_id=:stockId AND user_id=:userId AND order_type = 'Buy' AND order_status = 'Fulfilled' ", nativeQuery=true)
+	public double getBuyStockAmount( @Param("stockId") int stockId, @Param("userId") int userId);
+	
+    @Query(value ="SELECT SUM(order_total_price) FROM orders WHERE stock_id=:stockId AND user_id=:userId AND order_type = 'Sell' AND order_status = 'Fulfilled' ", nativeQuery=true)
+	public String getSellStockAmount( @Param("stockId") int stockId, @Param("userId") int userId);
+    //Update Order 
 	@Transactional
 	@Modifying
 	@Query(value = "UPDATE orders o SET o.order_stock_amount=:orderStockAmount, o.order_total_price=:orderTotalPrice WHERE o.order_id=:orderId", nativeQuery=true)	

@@ -50,5 +50,29 @@ public class OrderService {
 		return orderRepository.changeOrderToPartiallyFullfilled(userId);
 	}
 	
+	public double getBuyStockAmount(int stockId, int userId) {
+		return orderRepository.getBuyStockAmount(stockId, userId);
+	}
+	
+	public double getSellStockAmount(int stockId, int userId) {
+		String getNumber = orderRepository.getSellStockAmount(stockId, userId);
+		boolean numeric = isNumeric(getNumber);
+		double stockAmount = 0.0;
+		if (!numeric) {
+			stockAmount = 0.0;
+		} else {
+			stockAmount = (double) Integer.parseInt(getNumber);
+		}
+		return stockAmount;
+	}
+	
+	private static boolean isNumeric(String str){
+        return str != null && str.matches("[0-9.]+");
+    }
+	
+	public List<Order> findAllOrdersByOrderBookId(int orderbookId){
+		return orderRepository.findAllOrdersByOrderBookId(orderbookId);
+	}
+	
 
 }
