@@ -63,10 +63,9 @@ public class StockController {
 	}
 	
 	
-	@GetMapping("/stockpresentinexchange/{userId}")
-	public List<Stock> getStocksPresentInExchange(@PathVariable("userId") int userId){
+	@GetMapping("/stockpresentinexchange/{exchangeId}")
+	public List<Stock> getStocksPresentInExchange(@PathVariable("exchangeId") int exchangeId){
 		
-		int exchangeId = exchangeService.getUserLinkedExchangeId(userId);
 		
 		List<Integer> stockList = exchangeService.getStockInExchange(exchangeId);
 		System.out.println(stockList);

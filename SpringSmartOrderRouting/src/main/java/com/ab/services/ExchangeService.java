@@ -15,12 +15,7 @@ public class ExchangeService {
 	@Autowired
 	private ExchangeRepository exchangeRepository;
 	
-	public int getUserLinkedExchangeId(int userId) {
-		
-		return exchangeRepository.findUserLinkedExchangeId(userId);
-		
-	}
-	
+
 	public Exchange getExchangeByExchangeId(int exchangeId) {
 		
 		return exchangeRepository.findExchangeByExchangeId(exchangeId);

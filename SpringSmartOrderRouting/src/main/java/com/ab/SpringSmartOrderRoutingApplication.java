@@ -44,7 +44,6 @@ public class SpringSmartOrderRoutingApplication implements CommandLineRunner {
 				//System.out.println(orderController.cancelOrder(1));
 				
 				//get user exchange id
-				System.out.println("Exchange:"+exchangeController.getUserLinkedExchangeId(1));
 				
 				List<Integer> stockList = exchangeController.getStockInExchange(1);
 				System.out.println(stockList);

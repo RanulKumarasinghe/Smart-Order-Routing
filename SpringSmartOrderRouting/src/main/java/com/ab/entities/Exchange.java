@@ -36,18 +36,15 @@ public class Exchange {
 	@ManyToMany
 	private List<Stock> stocks = new ArrayList<>();
 	
-	@JsonIgnore
-	//ManyToMany
-		@ManyToMany
-		private List<User> users = new ArrayList<>();
+	
 	
 
-	public Exchange(int exchangeId, double feeLadder, List<OrderBook> orderBooks, List<Stock> stocks, List<User> users) {		super();
+	public Exchange(int exchangeId, double feeLadder, List<OrderBook> orderBooks, List<Stock> stocks) {	
+		super();
 		this.exchangeId = exchangeId;
 		this.feeLadder = feeLadder;
 		this.orderBooks = orderBooks;
 		this.stocks = stocks;
-		this.users = users;
 	}
 	
 	public Exchange() {}
@@ -60,16 +57,6 @@ public class Exchange {
 		this.stocks = stocks;
 	}
 
-	public List<User> getUsers() {
-		return users;
-	}
-
-	public void setUsers(List<User> users) {
-		this.users = users;
-	}
-	
-	
-	
 	public int getExchangeId() {
 		return exchangeId;
 	}
@@ -103,8 +90,10 @@ public class Exchange {
 	@Override
 	public String toString() {
 		return "Exchange [exchangeId=" + exchangeId + ", feeLadder=" + feeLadder + ", orderBooks=" + orderBooks
-				+ ", stocks=" + stocks + ", users=" + users + "]";
+				+ ", stocks=" + stocks + "]";
 	}
+
+
 
 	
 	

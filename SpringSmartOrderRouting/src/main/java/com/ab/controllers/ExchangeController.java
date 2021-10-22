@@ -18,11 +18,7 @@ public class ExchangeController {
 	@Autowired
 	private ExchangeService exchangeService;
 	
-	@GetMapping("/userexchange/{userId}")
-	public  int getUserLinkedExchangeId(@PathVariable("userId") int userId) {
-		return exchangeService.getUserLinkedExchangeId(userId);
 	
-	}
 	
 	@GetMapping("/exchanges/{exchangeId}")
 	public  Exchange getExchangeByExchangeId(@PathVariable("exchangeId") int exchangeId) {

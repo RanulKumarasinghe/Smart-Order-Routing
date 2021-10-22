@@ -21,9 +21,4 @@ public interface ExchangeRepository extends JpaRepository<Exchange, Integer>{
 	
 	//get exchange order books 
 	
-	//get User's exchange --> check bridge table
-	@Query(value ="SELECT exchange_exchange_id FROM exchange_users WHERE users_user_id=:userId", nativeQuery=true)
-	public int findUserLinkedExchangeId(@Param("userId") int userId);
-	
-	
 }
