@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -37,9 +38,17 @@ public class User {
 			mappedBy = "user",
 			cascade = CascadeType.ALL)
 	private List<Order> orders = new ArrayList<Order>();
+	
+	
+	@JsonIgnore
+	//ManyToMany
+	@ManyToMany
+	private List<Stock> stocks = new ArrayList<>();
+	
+	
 	//Constructors
 	public User(int userId, String userFirstName, String userLastName, int userAge, String userEmail,
-			String userPassword, double userBalance) {
+			String userPassword, double userBalance, List<Stock> stocks) {
 		super();
 		this.userId = userId;
 		this.userFirstName = userFirstName;
@@ -48,6 +57,7 @@ public class User {
 		this.userEmail = userEmail;
 		this.userPassword = userPassword;
 		this.userBalance = userBalance;
+		this.stocks = stocks;
 	}
 	
 	public User() {}
@@ -116,13 +126,23 @@ public class User {
 	public void setOrders(List<Order> orders) {
 		this.orders = orders;
 	}
+	
+	
+	public List<Stock> getStocks() {
+		return stocks;
+	}
+
+	public void setStocks(List<Stock> stocks) {
+		this.stocks = stocks;
+	}
 
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", userFirstName=" + userFirstName + ", userLastName=" + userLastName
 				+ ", userAge=" + userAge + ", userEmail=" + userEmail + ", userPassword=" + userPassword
-				+ ", userBalance=" + userBalance + ", orders=" + orders + "]";
+				+ ", userBalance=" + userBalance + ", orders=" + orders + ", stocks=" + stocks + "]";
 	}
+
 	
 	
 	
