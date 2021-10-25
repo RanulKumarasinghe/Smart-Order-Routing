@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ab.entities.Stock;
@@ -43,22 +44,22 @@ public class StockController {
 	}
 	
 	@PostMapping("/addStock")
-	public void insertNewStock(double stock_price, String stock_symbol, double stock_total_shares) {
+	public void insertNewStock(@RequestParam("stock_price") double stock_price, @RequestParam("stock_symbol") String stock_symbol, @RequestParam("stock_total_shares") double stock_total_shares) {
 		stockService.insertNewStock(stock_price, stock_symbol, stock_total_shares);
 	}
 	
 	@PostMapping("/update_stock_price")
-	public void updateStockPrice(int stock_id, double stock_price) {
+	public void updateStockPrice(@RequestParam("stock_id") int stock_id, @RequestParam("stock_price") double stock_price) {
 		stockService.updateStockPrice(stock_id, stock_price);
 	}
 	
 	@PostMapping("/update_stock_total")
-	public void updateStockTotal(int stock_id, double stock_total_shares) {
+	public void updateStockTotal(@RequestParam("stock_id") int stock_id, @RequestParam("stock_total_shares") double stock_total_shares) {
 		stockService.updateStockTotal(stock_id, stock_total_shares);
 	}
 	
 	@PostMapping("/update_stock_symbol")
-	public void updateStockSymbol(int stock_id, String stock_symbol) {
+	public void updateStockSymbol(@RequestParam("stock_id") int stock_id, @RequestParam("stock_symbol") String stock_symbol) {
 		stockService.updateStockSymbol(stock_id, stock_symbol);
 	}
 	

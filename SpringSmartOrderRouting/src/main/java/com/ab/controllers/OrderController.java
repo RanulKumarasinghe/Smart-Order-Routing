@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ab.entities.Order;
 import com.ab.services.ExchangeService;
@@ -23,7 +24,7 @@ public class OrderController {
 	
 	
 	@PostMapping("/placeOrder/")
-	public int createOrder(double orderStockAmount, double orderTotalPrice,String orderType, int stockId,int userId) {
+	public int createOrder(@RequestParam("orderStockAmount") double orderStockAmount, @RequestParam("orderTotalPrice") double orderTotalPrice, @RequestParam("orderType") String orderType, @RequestParam("stockId") int stockId, @RequestParam("userId") int userId) {
 		return orderService.createOrder(orderStockAmount, orderTotalPrice, orderType, stockId, userId);
 	}
 	
@@ -52,25 +53,25 @@ public class OrderController {
 	
 	//Calculate the stock total price on base of amount
 	@PostMapping("/updateOrder")
-	public int updateOrder(double orderStockAmount, double orderTotalPrice,int userId) {
+	public int updateOrder(@RequestParam("orderStockAmount") double orderStockAmount, @RequestParam("orderTotalPrice") double orderTotalPrice, @RequestParam("userId") int userId) {
 		return orderService.updateOrder(orderStockAmount, orderTotalPrice, userId);
 	}
 	
 	//Cancel order
 	@PostMapping("/cancelOrder")
-	public int cancelOrder(int orderId) {
+	public int cancelOrder(@RequestParam("orderId") int orderId) {
 		return orderService.cancelOrderByOrderId(orderId);
 	}
 	
 	//Update order to Fulfilled
 	@PostMapping("/updateToFulfilled")
-	public int updateToFulfilled(int orderId) {
+	public int updateToFulfilled(@RequestParam("orderId") int orderId) {
 		return orderService.updateOrderToFullfilled(orderId);
 	}
 	
 	//Update order to Partially Fulfilled
 	@PostMapping("/updateToPartiallyFulfilled")
-	public int updateToPartiallyFulfilled(int orderId) {
+	public int updateToPartiallyFulfilled(@RequestParam("orderId") int orderId) {
 		return orderService.updateOrderToPartiallyFullfilled(orderId);
 	}
 	
