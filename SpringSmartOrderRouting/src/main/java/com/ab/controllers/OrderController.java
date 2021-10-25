@@ -80,7 +80,23 @@ public class OrderController {
 		int exchangeId =1;
 		orderbookId = exchangeService.getExchangeOrderBookId(exchangeId);
 		return orderService.findAllOrdersByOrderBookId(orderbookId);
-
 	}
+	@GetMapping("sellorders/{userId}")
+	public List<Order> getUserSellOrders(@PathVariable("userId") int userId){
+		return orderService.getUserSellOrders(userId);
+	}
+	@GetMapping("buyorders/{userId}")
+	public List<Order> getUserBuyOrders(@PathVariable("userId") int userId){
+		return orderService.getUserBuyOrders(userId);
+	}
+	@GetMapping("tradehistory/{userId}")
+	public List<Order> getUserTradeHistory(@PathVariable("userId") int userId){
+		return orderService.getUserTradeHistory(userId);
+	}
+	@GetMapping("pendingorders/{userId}")
+	public List<Order> getUserPendingOrders(@PathVariable("userId") int userId){
+		return orderService.getUserPendingOrders(userId);
+	}
+	
 
 }

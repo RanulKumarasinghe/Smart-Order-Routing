@@ -59,13 +59,28 @@ public interface OrderRepository extends JpaRepository<Order,Integer>{
 	@Query(value = "UPDATE orders o SET o.order_status = 'Fullfilled' WHERE o.order_id=:orderId", nativeQuery=true)	
 	public int changeOrderToFullfilled(@Param("orderId") int orderId);
 	
-	
 
 	@Transactional
 	@Modifying
 	@Query(value = "UPDATE orders o SET o.order_status = 'Partially Fullfilled' WHERE o.order_id=:orderId", nativeQuery=true)	
 	public int changeOrderToPartiallyFullfilled(@Param("orderId") int orderId);
 	
+	//user's sell orders 
+	@Query(value ="SELECT * FROM orders WHERE user_id=:userId AND order_type='Sell'", nativeQuery=true)
+	public List<Order> findSellOrdersByUserId(@Param("userId") int userId); 
+	
+
+	//user's buy orders 
+	@Query(value ="SELECT * FROM orders WHERE user_id=:userId AND order_type='Buy'", nativeQuery=true)
+	public List<Order> findBuyOrdersByUserId(@Param("userId") int userId); 
+	
+	//user's trade history 
+	@Query(value ="SELECT * FROM orders WHERE user_id=:userId AND order_status='Fulfilled'", nativeQuery=true)
+	public List<Order> findTradeHistoryByUserId(@Param("userId") int userId);
+
+	//user's pending orders
+	@Query(value ="SELECT * FROM orders WHERE user_id=:userId AND order_status='Pending'", nativeQuery=true)
+	public List<Order> findUserPendingOrders(@Param("userId") int userId); 
 	
 	
 	

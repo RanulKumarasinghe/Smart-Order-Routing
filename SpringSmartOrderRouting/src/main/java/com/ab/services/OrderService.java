@@ -74,5 +74,20 @@ public class OrderService {
 		return orderRepository.findAllOrdersByOrderBookId(orderbookId);
 	}
 	
+	public List<Order> getUserSellOrders(int userId){
+		return orderRepository.findSellOrdersByUserId(userId);
+	}
+	public List<Order> getUserBuyOrders(int userId){
+		return orderRepository.findBuyOrdersByUserId(userId);
+	}
+	public List<Order> getUserTradeHistory(int userId){
+		return orderRepository.findTradeHistoryByUserId(userId);
+	}
+
+	public List<Order> getUserPendingOrders(int userId) {
+		return orderRepository.findUserPendingOrders(userId);
+
+	}
+	
 
 }

@@ -23,13 +23,17 @@ public class StockExchange {
 	    Exchange exchange;
 	    
 		private double stockPrice;
+		//keep record of available shares
+		private double availableShares; //sell orders available on that exchange for 
 
-		public StockExchange(int id, Stock stock, Exchange exchange, double stockPrice) {
+		public StockExchange(int id, Stock stock, Exchange exchange, double stockPrice, double availableShares) {
 			super();
 			this.id = id;
 			this.stock = stock;
 			this.exchange = exchange;
 			this.stockPrice = stockPrice;
+			this.availableShares = availableShares;
+			
 		}
 
 		public StockExchange() {}
@@ -65,12 +69,23 @@ public class StockExchange {
 		public void setStockPrice(double stockPrice) {
 			this.stockPrice = stockPrice;
 		}
+		
+
+		public double getAvailableShares() {
+			return availableShares;
+		}
+
+		public void setAvailableShares(double availableShares) {
+			this.availableShares = availableShares;
+		}
 
 		@Override
 		public String toString() {
 			return "StockExchange [id=" + id + ", stock=" + stock + ", exchange=" + exchange + ", stockPrice="
-					+ stockPrice + "]";
+					+ stockPrice + ", availableShares=" + availableShares + "]";
 		}
+
+		
 		
 		
 	
