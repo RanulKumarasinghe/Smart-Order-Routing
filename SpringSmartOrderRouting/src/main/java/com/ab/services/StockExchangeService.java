@@ -27,5 +27,15 @@ public class StockExchangeService {
 			return stockExchangeRepository.findStockPriceInExchanges(stockId);
 		}
 		
-
+		public double findLowestStockPrice(int stockId) {
+			return stockExchangeRepository.findLowestStockPrice(stockId);
+		}
+		
+		public double findHighestStockPrice(int stockId) {
+			return stockExchangeRepository.findHighestStockPrice(stockId);
+		}
+		
+		public double findAverageStockPrice(int stockId) {
+			return stockExchangeRepository.findAverageStockPrice(stockId);
+		}
 }

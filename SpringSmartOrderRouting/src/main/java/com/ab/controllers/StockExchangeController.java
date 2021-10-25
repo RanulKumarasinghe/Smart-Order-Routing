@@ -27,5 +27,20 @@ public class StockExchangeController {
 	public  List<StockExchange> getStockInExchange(@PathVariable("stockId") int stockId) {
 		return stockExchangeService.getStockPriceInExchanges(stockId);
 	}
+	
+	@GetMapping("/LowestStockPrice/{stockId}")
+	public double findLowestStockPrice(@PathVariable("stockId") int stockId) {
+		return stockExchangeService.findLowestStockPrice(stockId);
+	}
+	
+	@GetMapping("/HighestStockPrice/{stockId}")
+	public double findHighestStockPrice(@PathVariable("stockId") int stockId) {
+		return stockExchangeService.findHighestStockPrice(stockId);
+	}
+	
+	@GetMapping("/AverageStockPrice/{stockId}")
+	public double findAverageStockPrice(@PathVariable("stockId") int stockId) {
+		return stockExchangeService.findAverageStockPrice(stockId);
+	}
 
 }

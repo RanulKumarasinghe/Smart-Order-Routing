@@ -18,4 +18,12 @@ public interface StockExchangeRepository extends JpaRepository<StockExchange,Int
 		@Query(value="SELECT * FROM stock_exchange WHERE stock_id=:stockId", nativeQuery=true)
 		public List<StockExchange> findStockPriceInExchanges(int stockId);
 		
+		@Query(value="SELECT MIN(stock_price) FROM stock_exchange WHERE stock_id=:stockId", nativeQuery=true)
+		public double findLowestStockPrice(int stockId);
+		
+		@Query(value="SELECT MAX(stock_price) FROM stock_exchange WHERE stock_id=:stockId", nativeQuery=true)
+		public double findHighestStockPrice(int stockId);
+		
+		@Query(value="SELECT AVG(stock_price) FROM stock_exchange WHERE stock_id=:stockId", nativeQuery=true)
+		public double findAverageStockPrice(int stockId);
 }
