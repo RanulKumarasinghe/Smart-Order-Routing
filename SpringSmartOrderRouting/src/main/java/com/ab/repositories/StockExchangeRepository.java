@@ -12,8 +12,8 @@ public interface StockExchangeRepository extends JpaRepository<StockExchange,Int
 	
 	//get stock price with exchange & stock id 
 		@Query(value="SELECT * FROM stock_exchange WHERE stock_id=:stockId AND exchange_id=:exchangeId", nativeQuery=true)
-		public List<StockExchange> findStockPriceOnExchange(@Param("stockId") int stockId, @Param("exchangeId") int exchangeId);
-		
+		public List<StockExchange> findStockPriceOnExchange(@Param("stockId") int stockId, @Param("exchangeId") int exchangeId);	
+	//get stock price across all exchanges	
 		
 		@Query(value="SELECT * FROM stock_exchange WHERE stock_id=:stockId", nativeQuery=true)
 		public List<StockExchange> findStockPriceInExchanges(int stockId);

@@ -28,7 +28,10 @@ public class ExchangeService {
 	public int getExchangeOrderBookId(int exchangeId) {
 		return exchangeRepository.findExchangeOrderBookId(exchangeId);
 	}
-	
+	public Exchange getLowestExchangeFees(){
+		return exchangeRepository.findLowestExchangeFees();
+	}
+
 	
 	
 	

@@ -10,5 +10,4 @@ public class SORT {
 	private List<Stock> stocks = new ArrayList<>();
 	
 
-
 }

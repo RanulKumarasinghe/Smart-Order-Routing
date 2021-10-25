@@ -32,5 +32,9 @@ public class ExchangeController {
 		return exchangeService.getExchangeOrderBookId(exchangeId);
 	}
 	
+	@GetMapping("/exchangewithlowestfees")
+	public Exchange getLowestExchangeFees(){
+		return exchangeService.getLowestExchangeFees();
+	}
 	
 }
