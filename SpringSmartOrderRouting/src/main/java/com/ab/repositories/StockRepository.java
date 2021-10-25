@@ -53,4 +53,6 @@ public interface StockRepository extends JpaRepository<Stock, Integer> {
 	@Query(value ="SELECT * FROM stock s INNER JOIN stock_exchange se ON s.stock_id=se.stock_id AND se.exchange_id=:exchangeId", nativeQuery=true)
 	public List<Stock> findStockInExchange(@Param("exchangeId") int exchangeId);
 	
+	
+	
 }

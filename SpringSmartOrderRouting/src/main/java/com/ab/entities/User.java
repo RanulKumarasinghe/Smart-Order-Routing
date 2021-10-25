@@ -13,6 +13,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -39,16 +41,24 @@ public class User {
 			cascade = CascadeType.ALL)
 	private List<Order> orders = new ArrayList<Order>();
 	
-	
 	@JsonIgnore
-	//ManyToMany
-	@ManyToMany
-	private List<Stock> stocks = new ArrayList<>();
+	@OneToMany(targetEntity=UserStock.class,
+			fetch=FetchType.EAGER,
+			mappedBy = "user",
+			cascade = CascadeType.ALL)
+	@Fetch(value= org.hibernate.annotations.FetchMode.SUBSELECT)
+	private List<UserStock> userStocks = new ArrayList<UserStock>(); 
+	
+	
+//	@JsonIgnore
+//	//ManyToMany
+//	@ManyToMany
+//	private List<Stock> stocks = new ArrayList<>();
 	
 	
 	//Constructors
 	public User(int userId, String userFirstName, String userLastName, int userAge, String userEmail,
-			String userPassword, double userBalance, List<Stock> stocks) {
+			String userPassword, double userBalance, List<UserStock> userStocks) {
 		super();
 		this.userId = userId;
 		this.userFirstName = userFirstName;
@@ -57,7 +67,7 @@ public class User {
 		this.userEmail = userEmail;
 		this.userPassword = userPassword;
 		this.userBalance = userBalance;
-		this.stocks = stocks;
+		this.userStocks = userStocks;
 	}
 	
 	public User() {}
@@ -128,20 +138,24 @@ public class User {
 	}
 	
 	
-	public List<Stock> getStocks() {
-		return stocks;
+	public List<UserStock> getUserStocks() {
+		return userStocks;
 	}
 
-	public void setStocks(List<Stock> stocks) {
-		this.stocks = stocks;
+	public void setUserStocks(List<UserStock> userStocks) {
+		this.userStocks = userStocks;
 	}
 
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", userFirstName=" + userFirstName + ", userLastName=" + userLastName
 				+ ", userAge=" + userAge + ", userEmail=" + userEmail + ", userPassword=" + userPassword
-				+ ", userBalance=" + userBalance + ", orders=" + orders + ", stocks=" + stocks + "]";
+				+ ", userBalance=" + userBalance + ", orders=" + orders + ", userStocks=" + userStocks + "]";
 	}
+	
+	
+
+	
 
 	
 	

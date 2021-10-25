@@ -39,16 +39,26 @@ public class Stock {
 			mappedBy = "stock",
 			cascade = CascadeType.ALL)
 	@Fetch(value= org.hibernate.annotations.FetchMode.SUBSELECT)
-	private List<StockExchange> stockExchanges = new ArrayList<StockExchange>(); 
+	private List<StockExchange> stockExchanges = new ArrayList<StockExchange>();
 	
 	
-	public Stock(int stockId, String stockSymbol, double stockTotalShares, List<Order> orders, List<StockExchange> stockExchanges) {
+	@JsonIgnore
+	@OneToMany(targetEntity=UserStock.class,
+			fetch=FetchType.EAGER,
+			mappedBy = "stock",
+			cascade = CascadeType.ALL)
+	@Fetch(value= org.hibernate.annotations.FetchMode.SUBSELECT)
+	private List<UserStock> userStocks = new ArrayList<UserStock>(); 
+	
+	
+	public Stock(int stockId, String stockSymbol, double stockTotalShares, List<Order> orders, List<StockExchange> stockExchanges, List<UserStock> userStocks) {
 		super();
 		this.stockId = stockId;
 		this.stockSymbol = stockSymbol;
 		this.stockTotalShares = stockTotalShares;
 		this.orders = orders;
 		this.stockExchanges = stockExchanges;
+		this.userStocks = userStocks;
 		
 	}
 	
@@ -104,6 +114,18 @@ public class Stock {
 	public void setStockExchanges(List<StockExchange> stockExchanges) {
 		this.stockExchanges = stockExchanges;
 	}
+
+
+	public List<UserStock> getUserStocks() {
+		return userStocks;
+	}
+
+
+	public void setUserStocks(List<UserStock> userStocks) {
+		this.userStocks = userStocks;
+	}
+	
+	
 
 //
 //	@Override

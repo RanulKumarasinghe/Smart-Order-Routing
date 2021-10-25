@@ -51,4 +51,6 @@ public class StockService {
 		return stockRepository.findStockInExchange(exchangeId);
 		
 	}
+	
+
 }

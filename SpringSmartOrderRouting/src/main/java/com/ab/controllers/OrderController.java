@@ -56,7 +56,6 @@ public class OrderController {
 		return orderService.updateOrder(orderStockAmount, orderTotalPrice, userId);
 	}
 	
-	
 	//Cancel order
 	@PostMapping("/cancelOrder")
 	public int cancelOrder(int orderId) {

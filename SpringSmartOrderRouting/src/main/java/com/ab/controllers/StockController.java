@@ -68,6 +68,8 @@ public class StockController {
 		return stockService.getStockInExchange(exchangeId);
 	}
 	
+
+	
 	
 	
 }
