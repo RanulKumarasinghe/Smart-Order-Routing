@@ -97,6 +97,18 @@ public class OrderController {
 	public List<Order> getUserPendingOrders(@PathVariable("userId") int userId){
 		return orderService.getUserPendingOrders(userId);
 	}
+	@GetMapping("pendingsaleorders/{stockId}")
+	public List<Order> findPendingSaleOrders(@PathVariable("stockId") int stockId){
+		return orderService.findPendingSaleOrders(stockId);
+	}
+	@GetMapping("pendingsaleorders/{stockId}/{orderBookId}")
+	public List<Order> findPendingSaleOrdersByOrderBookId(@PathVariable("stockId") int stockId, @PathVariable("orderBookId") int orderBookId){
+		return orderService.findPendingSaleOrdersByOrderBookId(stockId, orderBookId);
+	}
+//	@GetMapping("pendingsaleorders/{stockId}/{orderBookId}/{buyAmount}")
+//	public Order findBestOrder(@PathVariable("stockId") int stockId, @PathVariable("orderBookId") int orderBookId,@PathVariable("buyAmount") double buyAmount) {
+//		return orderService.findBestOrder(stockId, orderBookId, buyAmount);
+//	}
 	
 
 }

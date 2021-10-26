@@ -82,6 +82,16 @@ public interface OrderRepository extends JpaRepository<Order,Integer>{
 	@Query(value ="SELECT * FROM orders WHERE user_id=:userId AND order_status='Pending'", nativeQuery=true)
 	public List<Order> findUserPendingOrders(@Param("userId") int userId); 
 	
+	//get sell orders for one stock that are pending
+	@Query(value ="SELECT * FROM orders WHERE stock_id=:stockId AND order_status='Pending' AND order_type='Sell'", nativeQuery=true)
+	public List<Order> findPendingSaleOrders(@Param("stockId") int stockId); 
 	
+	
+	@Query(value ="SELECT * FROM orders WHERE stock_id=:stockId AND orderbook_id=:orderBookId AND order_status='Pending' AND order_type='Sell'", nativeQuery=true)
+	public List<Order> findPendingSaleOrdersByOrderBookId(@Param("stockId") int stockId, @Param("orderBookId") int orderBookId); 
+	
+	@Query(value ="SELECT * FROM orders o INNER JOIN stock_exchange se ON o.stock_id = se.stock_id WHERE o.stock_id=:stockId AND o.orderbook_id=:orderBookId AND o.order_status='Pending' AND o.order_type='Sell' AND o.order_stock_amount >=:buyAmount AND se.stock_price=(SELECT MIN(stock_price) FROM stock_Exchange)", nativeQuery=true)
+	public Order findBestOrder(@Param("stockId") int stockId, @Param("orderBookId") int orderBookId, @Param("buyAmount") double buyAmount);
+	//get sum of all pending sell orders for one orderbook and one stock
 	
 }

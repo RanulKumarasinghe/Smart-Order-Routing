@@ -13,5 +13,7 @@ public interface OrderBookRepository extends JpaRepository<OrderBook,Integer>{
 
 	//Get orderbook of one stock
 	@Query(value="SELECT * FROM orderbook ob INNER JOIN orders o ON ob.order_book_id = o.orderbook_id WHERE o.stock_id =:stock_id",nativeQuery=true)	
-	 public List<OrderBook> getOrderBookByStock(@Param("stock_id")int stock_id);	
+	 public List<OrderBook> getOrderBookByStock(@Param("stock_id")int stock_id);
+	
+	//get orderbook by exchange id
 	}

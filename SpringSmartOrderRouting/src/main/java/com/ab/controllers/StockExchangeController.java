@@ -1,5 +1,6 @@
 package com.ab.controllers;
 
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ab.entities.StockExchange;
+import com.ab.services.OrderService;
 import com.ab.services.StockExchangeService;
 
 @RestController
@@ -16,7 +18,10 @@ public class StockExchangeController {
 	@Autowired
 	private StockExchangeService stockExchangeService;
 	
+	@Autowired
+	private OrderService orderService;
 	
+	private StockExchange se;
 	@GetMapping("/stockpriceinexchange/{stockId}/{exchangeId}")
 	public  List<StockExchange> getStockInExchange(@PathVariable("stockId") int stockId,@PathVariable("exchangeId") int exchangeId) {
 		return stockExchangeService.getStockPriceOnExchange(stockId, exchangeId);
@@ -42,5 +47,19 @@ public class StockExchangeController {
 	public double findAverageStockPrice(@PathVariable("stockId") int stockId) {
 		return stockExchangeService.findAverageStockPrice(stockId);
 	}
+	
+	@GetMapping("/LowestStock/{stockId}/{buyAmount}")
+	public StockExchange findLowsestStockPricedStock(@PathVariable("stockId") int stockId, @PathVariable("buyAmount") double buyAmount) {
+		List<StockExchange> stockExchanges = stockExchangeService.findLowsestStockPricedStock(stockId, buyAmount);
+		se = stockExchanges.stream().min(Comparator.comparingDouble(StockExchange::getStockPrice)).get();
+		return se;
+	}
+	
+	
+
+	
+
+
+	
 
 }
