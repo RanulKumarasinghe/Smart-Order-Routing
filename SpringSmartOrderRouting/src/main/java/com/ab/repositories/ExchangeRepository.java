@@ -27,4 +27,15 @@ public interface ExchangeRepository extends JpaRepository<Exchange, Integer>{
 		@Query(value="SELECT * FROM exchange WHERE fee_ladder=(SELECT MIN(fee_ladder) FROM exchange)", nativeQuery=true)
 		public Exchange findLowestExchangeFees();
 	
+	//get exchanges in EMEA
+	@Query(value = "SELECT * FROM exchange WHERE region='EMEA'")
+	public List<Exchange> getEMEAExchanges();
+	
+	//get exchanges in NA
+	@Query(value = "SELECT * FROM exchange WHERE region='NA'")
+	public List<Exchange> getNAExchanges();
+	
+	//get exchanges in APAC
+	@Query(value = "SELECT * FROM exchange WHERE region='APAC'") 
+	public List<Exchange> getAPACExchanges();
 }
