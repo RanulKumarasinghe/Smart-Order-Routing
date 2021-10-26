@@ -6,8 +6,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ab.entities.Order;
 import com.ab.entities.StockExchange;
 import com.ab.services.OrderService;
 import com.ab.services.StockExchangeService;
@@ -55,8 +58,16 @@ public class StockExchangeController {
 		return se;
 	}
 	
-	
+	@PostMapping("pendingSaleOrders")
+	public List<Order> findPendingSaleOrdersByOrderBookId(@RequestParam("stockId") int stockId, @RequestParam("orderBookId") int orderBookId, @RequestParam("buyAmount") double buyAmount){
+//		int orderBookId = se.getExchange().getExchangeId();
+//		int stockId = se.getStock().getStockId();
+		List<Order> orders = orderService.findPendingSaleOrdersByOrderBookId(stockId, orderBookId);
+		double buy_amount = buyAmount;
+		return orderService.findPendingSaleOrdersByOrderBookId(stockId, orderBookId);
+	}
 
+	
 	
 
 

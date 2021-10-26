@@ -94,4 +94,6 @@ public interface OrderRepository extends JpaRepository<Order,Integer>{
 	public Order findBestOrder(@Param("stockId") int stockId, @Param("orderBookId") int orderBookId, @Param("buyAmount") double buyAmount);
 	//get sum of all pending sell orders for one orderbook and one stock
 	
+	
+	
 }

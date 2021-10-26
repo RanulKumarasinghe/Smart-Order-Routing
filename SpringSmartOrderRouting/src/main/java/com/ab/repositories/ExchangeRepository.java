@@ -28,14 +28,14 @@ public interface ExchangeRepository extends JpaRepository<Exchange, Integer>{
 		public Exchange findLowestExchangeFees();
 	
 	//get exchanges in EMEA
-	@Query(value = "SELECT * FROM exchange WHERE region='EMEA'")
+	@Query(value = "SELECT * FROM exchange WHERE region='EMEA'", nativeQuery=true)
 	public List<Exchange> getEMEAExchanges();
 	
 	//get exchanges in NA
-	@Query(value = "SELECT * FROM exchange WHERE region='NA'")
+	@Query(value = "SELECT * FROM exchange WHERE region='NA'", nativeQuery=true)
 	public List<Exchange> getNAExchanges();
 	
 	//get exchanges in APAC
-	@Query(value = "SELECT * FROM exchange WHERE region='APAC'") 
+	@Query(value = "SELECT * FROM exchange WHERE region='APAC'", nativeQuery=true) 
 	public List<Exchange> getAPACExchanges();
 }

@@ -5,10 +5,10 @@ import org.springframework.stereotype.Repository;
 
 import com.ab.entities.SORTEMEA;
 
-@Repository
-public interface SORTEMEARepository extends JpaRepository<SORTEMEA, Integer>{
-
-	
-	
-	
-}
+//@Repository
+//public interface SORTEMEARepository extends JpaRepository<SORTEMEA, Integer>{
+//
+//	
+//	
+//	
+//}
