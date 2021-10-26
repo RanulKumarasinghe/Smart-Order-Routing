@@ -38,4 +38,14 @@ public class StockExchangeService {
 		public double findAverageStockPrice(int stockId) {
 			return stockExchangeRepository.findAverageStockPrice(stockId);
 		}
+		
+		public List<StockExchange> findLowsestStockPricedStock(int stockId, double buyAmount) {
+			return stockExchangeRepository.findLowsestStockPricedStock(stockId, buyAmount);
+		}
+
+
+//		public StockExchange findMinPriceStock(List<StockExchange> stockExchanges) {
+//			return stockExchangeRepository.findMinFromList(stockExchanges);
+//		}
+
 }

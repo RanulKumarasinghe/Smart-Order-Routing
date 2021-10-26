@@ -89,5 +89,16 @@ public class OrderService {
 
 	}
 	
+	public List<Order> findPendingSaleOrders(int stockId){
+		return orderRepository.findPendingSaleOrders(stockId);
+	}
+	
+	public List<Order> findPendingSaleOrdersByOrderBookId(int stockId, int orderBookId){
+		return orderRepository.findPendingSaleOrdersByOrderBookId(stockId, orderBookId);
+	}
+
+	public Order findBestOrder(int stockId, int orderBookId,double buyAmount) {
+		return orderRepository.findBestOrder(stockId, orderBookId, buyAmount);
+	}
 
 }

@@ -1,6 +1,7 @@
 package com.ab;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.ab.controllers.OrderController;
 import com.ab.controllers.StockController;
+import com.ab.controllers.StockExchangeController;
 import com.ab.entities.Stock;
+import com.ab.entities.StockExchange;
 import com.ab.controllers.ExchangeController;
 
 
@@ -25,6 +28,8 @@ public class SpringSmartOrderRoutingApplication implements CommandLineRunner {
 	@Autowired
 	public StockController stockController;
 	
+	@Autowired
+	public StockExchangeController stockExchangeController;
 	public static void main(String[] args) {
 		SpringApplication.run(SpringSmartOrderRoutingApplication.class, args);
 	}
@@ -58,7 +63,23 @@ public class SpringSmartOrderRoutingApplication implements CommandLineRunner {
 //				}
 				
 				//System.out.println(sList);
-
+//		double price = 0.0;
+//		
+//		List<StockExchange> stockExchanges = stockExchangeController.findLowsestStockPricedStock(1, 20);
+//		
+//		StockExchange se = stockExchanges.stream()
+//				.min(Comparator.comparingDouble(StockExchange::getStockPrice)).get();
+				//stockExchangeController.findMinStock(stockExchanges);
+//		for(int i = 1; i <= stockExchanges.size(); i++) {
+//			price = stockExchanges.get(i).getStockPrice();	
+//			if(price >= stockExchanges.get(i-1).getStockPrice()) {
+//				se = stockExchanges.get(i);
+//			}
+//	
+//		
+//	System.out.println(se);
+		
+		
 	}
 
 }
