@@ -16,8 +16,8 @@ public class OrderService {
 	@Autowired
 	public OrderRepository orderRepository;
 	
-	public int createOrder(double orderStockAmount, double orderTotalPrice, String orderType, int stockId,int userId) {
-		return orderRepository.insertOrder(orderStockAmount,orderTotalPrice, orderType, stockId, userId);
+	public int createOrder(double orderStockAmount, double orderTotalPrice, String orderType, int orderbookId, int stockId,int userId) {
+		return orderRepository.insertOrder(orderStockAmount,orderTotalPrice, orderType, orderbookId, stockId, userId);
 	}
 	
 	public List<Order> getAllOrdersByUserId(int userId){
@@ -91,6 +91,10 @@ public class OrderService {
 	
 	public List<Order> findPendingSaleOrders(int stockId){
 		return orderRepository.findPendingSaleOrders(stockId);
+	}
+	
+	public List<Order> findPendingBuyOrders(int userId){
+		return orderRepository.findPendingBuyOrders(userId);
 	}
 	
 	public List<Order> findPendingSaleOrdersByOrderBookId(int stockId, int orderBookId){

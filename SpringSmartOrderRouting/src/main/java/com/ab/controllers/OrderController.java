@@ -24,8 +24,8 @@ public class OrderController {
 	
 	
 	@PostMapping("/placeOrder/")
-	public int createOrder(@RequestParam("orderStockAmount") double orderStockAmount, @RequestParam("orderTotalPrice") double orderTotalPrice, @RequestParam("orderType") String orderType, @RequestParam("stockId") int stockId, @RequestParam("userId") int userId) {
-		return orderService.createOrder(orderStockAmount, orderTotalPrice, orderType, stockId, userId);
+	public int createOrder(@RequestParam("orderStockAmount") double orderStockAmount, @RequestParam("orderTotalPrice") double orderTotalPrice, @RequestParam("orderType") String orderType, @RequestParam("orderbookId") int orderbookId, @RequestParam("stockId") int stockId, @RequestParam("userId") int userId) {
+		return orderService.createOrder(orderStockAmount, orderTotalPrice, orderType, orderbookId, stockId, userId);
 	}
 	
 	@GetMapping("/userorders/{userId}")

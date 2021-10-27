@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ab.entities.Order;
 import com.ab.entities.StockExchange;
 import com.ab.services.OrderService;
+import com.ab.services.SORTServiceAPAC;
+import com.ab.services.SORTServiceEMEA;
+import com.ab.services.SORTServiceNA;
 import com.ab.services.StockExchangeService;
 
 @RestController
@@ -23,6 +26,15 @@ public class StockExchangeController {
 	
 	@Autowired
 	private OrderService orderService;
+	
+	@Autowired
+	private SORTServiceAPAC sortServiceAPAC;
+	
+	@Autowired
+	private SORTServiceEMEA sortServiceEMEA;
+	
+	@Autowired
+	private SORTServiceNA sortServiceNA;
 	
 	private StockExchange se;
 	@GetMapping("/stockpriceinexchange/{stockId}/{exchangeId}")
@@ -73,7 +85,7 @@ public class StockExchangeController {
 	} 
 	
 	@PostMapping("updateSaleOrder")
-	public void updatePendingSaleOrdersByOrderBookId(@RequestParam("stockId") int stockId, @RequestParam("orderBookId") int orderBookId, @RequestParam("buyAmount") double buyAmount){
+	public void updatePendingSaleOrderByOrderBookId(@RequestParam("stockId") int stockId, @RequestParam("orderBookId") int orderBookId, @RequestParam("buyAmount") double buyAmount){
 		
 		Order order = orderService.findPendingSaleOrdersByOrderBookIdAndBuyAmount(stockId, orderBookId, buyAmount);
 		
@@ -82,24 +94,69 @@ public class StockExchangeController {
 	}
 	
 	@PostMapping("updateBuyOrder")
-	public void updatePendingBuyOrdersByOrderBookId(@RequestParam("stockId") int stockId, @RequestParam("orderBookId") int orderBookId, @RequestParam("buyAmount") double buyAmount){
-//		int orderBookId = se.getExchange().getExchangeId();
-//		int stockId = se.getStock().getStockId();
-		
+	public void updatePendingBuyOrderByOrderBookId(@RequestParam("stockId") int stockId, @RequestParam("orderBookId") int orderBookId, @RequestParam("buyAmount") double buyAmount){		
 		Order order = orderService.findPendingBuyOrdersByOrderBookIdAndBuyAmount(stockId, orderBookId, buyAmount);
 		
 		orderService.updateOrderToFullfilled(order.getOrderId());
-		//		double buy_amount = buyAmount;
-//	
-//			
-		//order with sell amount = buy amount --> update to fulfill
 		
 	}
-
 	
+	@PostMapping("updateTradeOrders")
+	public void updateTradeOrders(@RequestParam("stockId") int stockId, @RequestParam("orderBookId") int orderBookId, @RequestParam("buyAmount") double buyAmount){
+		Order buyOrder = orderService.findPendingBuyOrdersByOrderBookIdAndBuyAmount(stockId, orderBookId, buyAmount);
+		
+		orderService.updateOrderToFullfilled(buyOrder.getOrderId());
+		
+        Order sellOrder = orderService.findPendingSaleOrdersByOrderBookIdAndBuyAmount(stockId, orderBookId, buyAmount);
+		
+		orderService.updateOrderToFullfilled(sellOrder.getOrderId());
+	}
 	
-
-
+	//@GetMapping("/saleOrderStocks/{stockId}/{region}")
+	public List<Order> saleOrdersPerRegion(@PathVariable("stockId") int stockId, @PathVariable("region") String region){
+		if(region.equals("APAC")) {
+			return sortServiceAPAC.findPendingSaleOrdersByRegion(stockId, region);
+		} else if(region.equals("EMEA")) {
+			return sortServiceEMEA.findPendingSaleOrdersByRegion(stockId, region);
+		} else if(region.equals("NA")) {
+			return sortServiceNA.findPendingSaleOrdersByRegion(stockId, region);
+		} else {
+			return null;
+		}
+	}
+	
+	//@GetMapping("/getmatchedorder/{stockId}/{region}/{buyAmount}")
+	public Order getMatchedSaleOrder(@PathVariable("stockId") int stockId, @PathVariable("region") String region, @PathVariable("buyAmount") double buyAmount) {
+		Order order = null;
+		
+		List<Order> orders = saleOrdersPerRegion(stockId,region);
+		for(int i=0; i<orders.size();i++) {
+			
+			if(orders.get(i).getOrderStockAmount() == buyAmount) {
+				order = orders.get(i);
+			}
+		}
+		return order;
+	}
+	
+	@PostMapping("/updateMatchedOrder")
+	public void updateMatchedOrder(@RequestParam("userId") int userId, @RequestParam("stockId") int stockId, @RequestParam("region") String region, @RequestParam("buyAmount") double buyAmount) {
+		Order sellOrder = getMatchedSaleOrder(stockId,region,buyAmount);
+		double buyamount = buyAmount; 
+		orderService.updateOrderToFullfilled(sellOrder.getOrderId());
+		int orderBookId = sellOrder.getOrderbook().getOrderBookId();
+		
+		Order buyOrder = orderService.findPendingBuyOrdersByOrderBookIdAndBuyAmount(stockId, orderBookId, buyamount);
+//		for(int i=0; i<buyOrders.size();i++) {
+//		
+//		if(buyOrders.get(i).getOrderStockAmount() == buyamount) {
+//			buyOrder = buyOrders.get(i);
+//		}
+//	}
+		orderService.updateOrderToFullfilled(buyOrder.getOrderId());
+		}
+			
+	
 	
 
 }

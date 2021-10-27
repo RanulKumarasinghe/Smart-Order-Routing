@@ -18,8 +18,8 @@ public interface OrderRepository extends JpaRepository<Order,Integer>{
 	//Create Order
 	@Transactional
 	@Modifying
-	@Query(value ="INSERT INTO orders(order_status, order_stock_amount, order_total_price, order_type, stock_id, user_id) VALUES('Pending',:orderStockAmount,:orderTotalPrice,:orderType,:stockId,:userId)", nativeQuery=true)
-	public int insertOrder(@Param("orderStockAmount") double orderStockAmount,@Param("orderTotalPrice") double orderTotalPrice, @Param("orderType") String orderType, @Param("stockId") int stockId, @Param("userId") int userId);
+	@Query(value ="INSERT INTO orders(order_status, order_stock_amount, order_total_price, order_type, orderbook_id, stock_id, user_id) VALUES('Pending',:orderStockAmount,:orderTotalPrice,:orderType,:orderbookId,:stockId,:userId)", nativeQuery=true)
+	public int insertOrder(@Param("orderStockAmount") double orderStockAmount,@Param("orderTotalPrice") double orderTotalPrice, @Param("orderType") String orderType, @Param("orderbookId") int orderbookId, @Param("stockId") int stockId, @Param("userId") int userId);
 	
 	
 	//Get All user Orders
@@ -86,6 +86,8 @@ public interface OrderRepository extends JpaRepository<Order,Integer>{
 	@Query(value ="SELECT * FROM orders WHERE stock_id=:stockId AND order_status='Pending' AND order_type='Sell'", nativeQuery=true)
 	public List<Order> findPendingSaleOrders(@Param("stockId") int stockId); 
 	
+	@Query(value ="SELECT * FROM orders WHERE user_id=:userId AND order_status='Pending' AND order_type='Buy'", nativeQuery=true)
+	public List<Order> findPendingBuyOrders(@Param("userId") int userId);
 	
 	@Query(value ="SELECT * FROM orders WHERE stock_id=:stockId AND orderbook_id=:orderBookId AND order_status='Pending' AND order_type='Sell'", nativeQuery=true)
 	public List<Order> findPendingSaleOrdersByOrderBookId(@Param("stockId") int stockId, @Param("orderBookId") int orderBookId); 
@@ -100,4 +102,8 @@ public interface OrderRepository extends JpaRepository<Order,Integer>{
 	@Query(value ="SELECT * FROM orders WHERE stock_id=:stockId AND orderbook_id=:orderBookId AND order_stock_amount=:buyAmount AND order_status='Pending' AND order_type='Buy'", nativeQuery=true)
 	public Order findPendingBuyOrdersByOrderBookIdAndBuyAmount(@Param("stockId") int stockId, @Param("orderBookId") int orderBookId, @Param("buyAmount") double buyAmount); 
 
+	@Query(value ="SELECT * FROM orders o INNER JOIN exchange e ON o.orderbook_id = e.exchange_id WHERE o.stock_id=:stockId AND o.order_status='Pending' AND o.order_type='Sell' AND e.region=:region", nativeQuery=true)
+	public List<Order> findPendingSaleOrdersByRegion(@Param("stockId") int stockId, @Param("region") String region);
+	
+	
 }

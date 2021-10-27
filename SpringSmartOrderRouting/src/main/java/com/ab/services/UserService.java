@@ -17,16 +17,19 @@ public class UserService {
 		return userRepository.findUserByUserId(userId);
 	}
 	
-	public int insertNewUser(String user_first_name, String user_last_name, String user_email, String password, int user_age, double wallet_balance, int wallet_id) {
-		return userRepository.insertNewUser(user_first_name, user_last_name, user_email, password, user_age, wallet_balance, wallet_id);
+	public int insertNewUser(String user_first_name, String user_last_name, String user_email, String password, int user_age, double wallet_balance, String userRegion) {
+		return userRepository.insertNewUser(user_first_name, user_last_name, user_email, password, user_age, wallet_balance, userRegion);
 	}
 	
 	public User verifyUser(String email, String password) {
+		
 		return userRepository.verifyUser(email, password);
 	}
 	
-	public int updateUser(int userId, String user_first_name, String user_last_name, String user_email, String password, int user_age, double wallet_balance, int wallet_id) {
-		return userRepository.updateUser(userId, user_first_name, user_last_name, user_email, password, user_age, wallet_balance, wallet_id);
+	
+	
+	public int updateUser(int userId, String user_first_name, String user_last_name, String user_email, String password, int user_age, double wallet_balance, String userRegion) {
+		return userRepository.updateUser(userId, user_first_name, user_last_name, user_email, password, user_age, wallet_balance, userRegion);
 	}
 	
 	public String verifyEmail(String email) {

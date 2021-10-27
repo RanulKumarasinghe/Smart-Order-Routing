@@ -49,7 +49,7 @@ public class Order {
 	
 	//Constructors
 	public Order(int orderId, String orderType, OrderStatus orderStatus, LocalDateTime orderDate, double orderStockAmount, double orderTotalPrice,
-		 Stock stock, User user) {
+		 Stock stock, User user,OrderBook orderbook) {
 		super();
 		this.orderId = orderId;
 		this.orderType = orderType;
@@ -59,6 +59,7 @@ public class Order {
 		this.orderTotalPrice = orderTotalPrice;
 		this.stock = stock;
 		this.user = user;
+		this.orderbook = orderbook;
 	}
 	
 	public Order() {}
@@ -128,6 +129,16 @@ public class Order {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	public OrderBook getOrderbook() {
+		return orderbook;
+	}
+
+	public void setOrderbook(OrderBook orderbook) {
+		this.orderbook = orderbook;
+	}
+	
+	
 //
 //	@Override
 //	public String toString() {
