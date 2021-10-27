@@ -18,6 +18,8 @@ public class SORTServiceEMEA {
 		return exchangeRepoistory.getEMEAExchanges();
 	}
 	
+	//execute trade by region 
+	//we know region, exchanges 
 	
 	  
 

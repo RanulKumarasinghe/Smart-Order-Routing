@@ -61,7 +61,7 @@ public class OrderService {
 		if (!numeric) {
 			stockAmount = 0.0;
 		} else {
-			stockAmount = (double) Integer.parseInt(getNumber);
+			stockAmount = Double.parseDouble(getNumber);
 		}
 		return stockAmount;
 	}

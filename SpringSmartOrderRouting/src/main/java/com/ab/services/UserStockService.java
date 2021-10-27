@@ -18,14 +18,29 @@ public class UserStockService {
 
 	public List<UserStock> findUserStocks(int userId){
 		return userStockRepository.findUserStocks(userId);
-
 	}
-
 	public  int updateStockAmount(int userId, int stockId, double stockAmount){
 		return userStockRepository.updateStockAmount(userId, stockId, stockAmount);
 	}
 	
-	public  double getStockAmount(int userId, int stockId){
-		return userStockRepository.getStockAmount(userId, stockId);
+	public double getStockAmount(int userId, int stockId){
+		 String amount = userStockRepository.getStockAmount(userId, stockId);
+		 boolean numeric = isNumeric(amount);
+		 double stockAmount = 0.0;
+		if (!numeric) {
+			stockAmount = 0.0;
+		} else {
+			stockAmount = Double.parseDouble(amount);
+		}
+		return stockAmount;
 	}
+	
+	private static boolean isNumeric(String str){
+        return str != null && str.matches("[0-9.]+");
+    }
+	
+	public int addUserStock(int userId,int stockId, double stockAmount) {
+		return userStockRepository.addUserStock(userId, stockId, stockAmount);
+	}
+
 }

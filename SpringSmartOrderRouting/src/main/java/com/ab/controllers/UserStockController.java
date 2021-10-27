@@ -29,7 +29,8 @@ public class UserStockController {
 		return userStockService.findUserStocks(userId);
 	}
 	
-	public  double getStockAmount(int userId, int stockId){
+	@GetMapping("/userstocksinwallet/{userId}/{stockId}")
+	public  double getStockAmount(@PathVariable("userId") int userId, @PathVariable("stockId") int stockId){
 		return userStockService.getStockAmount(userId, stockId);
 	}
 	
@@ -45,4 +46,31 @@ public class UserStockController {
 		amount = stockAmount-sellAmount;
 		return userStockService.updateStockAmount(userId,stockId,amount);
 	}
+	
+	@PostMapping("/updatewalletonbuy")
+	public int updateUserWalletOnBuy(@RequestParam("userId") int userId, @RequestParam("stockId") int stockId, @RequestParam("stockAmount") double stockAmount) {
+		double amount = userStockService.getStockAmount(userId, stockId);
+		
+		System.out.println(amount);
+			if(amount==0.0) {
+				return userStockService.addUserStock(userId, stockId, stockAmount);
+				
+			}else{
+				return userStockService.updateStockAmount(userId, stockId, amount + stockAmount);
+
+			}	
+	}
+	
+	@PostMapping("/updatewalletonsell")
+	public int updateUserWalletOnSell(@RequestParam("userId") int userId, @RequestParam("stockId") int stockId, @RequestParam("stockAmount") double stockAmount) {
+		double amount = userStockService.getStockAmount(userId, stockId);
+		//if stock not present in wallet then return -1
+		if(amount <=0) {
+			return -1;
+		}
+		//update wallet
+		return userStockService.updateStockAmount(userId, stockId, amount - stockAmount);
+
+	}
+	
 }

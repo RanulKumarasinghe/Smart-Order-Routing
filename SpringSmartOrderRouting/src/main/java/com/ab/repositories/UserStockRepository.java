@@ -24,6 +24,13 @@ public interface UserStockRepository extends JpaRepository<UserStock, Integer> {
 	@Query(value = "UPDATE user_stock us SET us.stock_amount=:stockAmount WHERE us.user_id=:userId AND us.stock_id=:stockId", nativeQuery=true)
 	public int updateStockAmount(@Param("userId") int userId, @Param("stockId") int stockId, @Param("stockAmount") double stockAmount);
 	
-	@Query(value ="SELECT stock_amount FROM user_stock WHERE stock_id=:stockId AND user_id=:userId", nativeQuery=true)
-	public double getStockAmount(@Param("userId") int userId, @Param("stockId") int stockId);
+	@Query(value ="SELECT stock_amount FROM user_stock WHERE user_id=:userId AND stock_id=:stockId", nativeQuery=true)
+	public String getStockAmount(@Param("userId") int userId, @Param("stockId") int stockId);
+	
+	@Transactional
+	@Modifying
+	@Query(value="INSERT INTO user_stock(stock_amount,stock_id,user_id) VALUES(:stockAmount, :stockId, :userId)", nativeQuery=true)
+	public int addUserStock(@Param("userId") int userId, @Param("stockId") int stockId, @Param("stockAmount") double stockAmount);
+	
+	
 }

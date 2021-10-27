@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,6 +32,9 @@ public class User {
 	private int userAge;
 	private String userEmail;
 	private String userPassword;
+	
+	@Enumerated(EnumType.STRING)
+	private Region userRegion;
 	
 	//wallet
 	private double userBalance;
@@ -58,7 +63,7 @@ public class User {
 	
 	//Constructors
 	public User(int userId, String userFirstName, String userLastName, int userAge, String userEmail,
-			String userPassword, double userBalance, List<UserStock> userStocks) {
+			String userPassword, double userBalance, List<UserStock> userStocks,Region userRegion) {
 		super();
 		this.userId = userId;
 		this.userFirstName = userFirstName;
@@ -68,6 +73,7 @@ public class User {
 		this.userPassword = userPassword;
 		this.userBalance = userBalance;
 		this.userStocks = userStocks;
+		this.userRegion = userRegion;
 	}
 	
 	public User() {}
@@ -145,14 +151,24 @@ public class User {
 	public void setUserStocks(List<UserStock> userStocks) {
 		this.userStocks = userStocks;
 	}
+	
+
+	public Region getUserRegion() {
+		return userRegion;
+	}
+
+	public void setUserRegion(Region userRegion) {
+		this.userRegion = userRegion;
+	}
 
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", userFirstName=" + userFirstName + ", userLastName=" + userLastName
 				+ ", userAge=" + userAge + ", userEmail=" + userEmail + ", userPassword=" + userPassword
-				+ ", userBalance=" + userBalance + ", orders=" + orders + ", userStocks=" + userStocks + "]";
+				+ ", userRegion=" + userRegion + ", userBalance=" + userBalance + ", orders=" + orders + ", userStocks="
+				+ userStocks + "]";
 	}
-	
+
 	
 
 	
