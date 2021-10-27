@@ -56,13 +56,13 @@ public interface OrderRepository extends JpaRepository<Order,Integer>{
 	
 	@Transactional
 	@Modifying
-	@Query(value = "UPDATE orders o SET o.order_status = 'Fullfilled' WHERE o.order_id=:orderId", nativeQuery=true)	
+	@Query(value = "UPDATE orders o SET o.order_status = 'Fulfilled' WHERE o.order_id=:orderId", nativeQuery=true)	
 	public int changeOrderToFullfilled(@Param("orderId") int orderId);
 	
 
 	@Transactional
 	@Modifying
-	@Query(value = "UPDATE orders o SET o.order_status = 'Partially Fullfilled' WHERE o.order_id=:orderId", nativeQuery=true)	
+	@Query(value = "UPDATE orders o SET o.order_status = 'Partially_Fulfilled' WHERE o.order_id=:orderId", nativeQuery=true)	
 	public int changeOrderToPartiallyFullfilled(@Param("orderId") int orderId);
 	
 	//user's sell orders 
@@ -94,6 +94,10 @@ public interface OrderRepository extends JpaRepository<Order,Integer>{
 	public Order findBestOrder(@Param("stockId") int stockId, @Param("orderBookId") int orderBookId, @Param("buyAmount") double buyAmount);
 	//get sum of all pending sell orders for one orderbook and one stock
 	
-	
-	
+	@Query(value ="SELECT * FROM orders WHERE stock_id=:stockId AND orderbook_id=:orderBookId AND order_stock_amount=:buyAmount AND order_status='Pending' AND order_type='Sell'", nativeQuery=true)
+	public Order findPendingSaleOrdersByOrderBookIdAndBuyAmount(@Param("stockId") int stockId, @Param("orderBookId") int orderBookId, @Param("buyAmount") double buyAmount); 
+
+	@Query(value ="SELECT * FROM orders WHERE stock_id=:stockId AND orderbook_id=:orderBookId AND order_stock_amount=:buyAmount AND order_status='Pending' AND order_type='Buy'", nativeQuery=true)
+	public Order findPendingBuyOrdersByOrderBookIdAndBuyAmount(@Param("stockId") int stockId, @Param("orderBookId") int orderBookId, @Param("buyAmount") double buyAmount); 
+
 }

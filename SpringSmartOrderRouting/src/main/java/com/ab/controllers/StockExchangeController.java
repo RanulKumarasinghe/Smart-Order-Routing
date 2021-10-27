@@ -58,13 +58,42 @@ public class StockExchangeController {
 		return se;
 	}
 	
-	@PostMapping("pendingSaleOrders")
-	public List<Order> findPendingSaleOrdersByOrderBookId(@RequestParam("stockId") int stockId, @RequestParam("orderBookId") int orderBookId, @RequestParam("buyAmount") double buyAmount){
+	@PostMapping("pendingSaleOrder")
+	public Order findPendingSaleOrdersByOrderBookId(@RequestParam("stockId") int stockId, @RequestParam("orderBookId") int orderBookId, @RequestParam("buyAmount") double buyAmount){
+		Order order = orderService.findPendingSaleOrdersByOrderBookIdAndBuyAmount(stockId, orderBookId, buyAmount);
+	
+		return order;
+	} 
+	
+	@PostMapping("pendingBuyOrder")
+	public Order findPendingBuyOrdersByOrderBookId(@RequestParam("stockId") int stockId, @RequestParam("orderBookId") int orderBookId, @RequestParam("buyAmount") double buyAmount){
+		
+		Order order = orderService.findPendingBuyOrdersByOrderBookIdAndBuyAmount(stockId, orderBookId, buyAmount);
+		return order;
+	} 
+	
+	@PostMapping("updateSaleOrder")
+	public void updatePendingSaleOrdersByOrderBookId(@RequestParam("stockId") int stockId, @RequestParam("orderBookId") int orderBookId, @RequestParam("buyAmount") double buyAmount){
+		
+		Order order = orderService.findPendingSaleOrdersByOrderBookIdAndBuyAmount(stockId, orderBookId, buyAmount);
+		
+		orderService.updateOrderToFullfilled(order.getOrderId());
+		
+	}
+	
+	@PostMapping("updateBuyOrder")
+	public void updatePendingBuyOrdersByOrderBookId(@RequestParam("stockId") int stockId, @RequestParam("orderBookId") int orderBookId, @RequestParam("buyAmount") double buyAmount){
 //		int orderBookId = se.getExchange().getExchangeId();
 //		int stockId = se.getStock().getStockId();
-		List<Order> orders = orderService.findPendingSaleOrdersByOrderBookId(stockId, orderBookId);
-		double buy_amount = buyAmount;
-		return orderService.findPendingSaleOrdersByOrderBookId(stockId, orderBookId);
+		
+		Order order = orderService.findPendingBuyOrdersByOrderBookIdAndBuyAmount(stockId, orderBookId, buyAmount);
+		
+		orderService.updateOrderToFullfilled(order.getOrderId());
+		//		double buy_amount = buyAmount;
+//	
+//			
+		//order with sell amount = buy amount --> update to fulfill
+		
 	}
 
 	

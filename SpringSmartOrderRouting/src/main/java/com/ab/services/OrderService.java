@@ -42,8 +42,8 @@ public class OrderService {
 		return orderRepository.cancelOrderByOrderId(userId);
 	}
 	
-	public int updateOrderToFullfilled(int userId){
-		return orderRepository.changeOrderToFullfilled(userId);
+	public int updateOrderToFullfilled(int orderId){
+		return orderRepository.changeOrderToFullfilled(orderId);
 	}
 	
 	public int updateOrderToPartiallyFullfilled(int userId){
@@ -100,5 +100,13 @@ public class OrderService {
 	public Order findBestOrder(int stockId, int orderBookId,double buyAmount) {
 		return orderRepository.findBestOrder(stockId, orderBookId, buyAmount);
 	}
+	
+	public Order findPendingSaleOrdersByOrderBookIdAndBuyAmount(int stockId, int orderBookId, double buyAmount){
+		return orderRepository.findPendingSaleOrdersByOrderBookIdAndBuyAmount(stockId, orderBookId, buyAmount);
+	} 
+	public Order findPendingBuyOrdersByOrderBookIdAndBuyAmount(int stockId, int orderBookId, double buyAmount) {
+		return orderRepository.findPendingBuyOrdersByOrderBookIdAndBuyAmount(stockId, orderBookId, buyAmount);
+	} 
+
 
 }
