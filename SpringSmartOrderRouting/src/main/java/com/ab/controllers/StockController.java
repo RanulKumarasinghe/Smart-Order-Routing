@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +16,7 @@ import com.ab.services.ExchangeService;
 import com.ab.services.StockService;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-@RestController
+@Controller
 @SessionAttributes("loggedInUser")
 public class StockController {
 	@Autowired

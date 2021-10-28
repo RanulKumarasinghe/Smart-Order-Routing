@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +19,7 @@ import com.ab.services.SORTServiceEMEA;
 import com.ab.services.SORTServiceNA;
 import com.ab.services.StockExchangeService;
 
-@RestController
+@Controller
 public class StockExchangeController {
 	
 	@Autowired
