@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org" xml:lang="en">
+<head>
+
+<meta charset="ISO-8859-1">
+<title>SOR Trading Application</title>
+<link rel="stylesheet" type="text/css" href="../../resources/theme/css/style.css" >
+
+</head>
+<body>
+
+	<h2 align="center">Smart Order Routing Trading Application</h2>
+<form class="myForm" th:action="@{/login}" method="post">
+  <div class="imgcontainer">
+    <img src="../../resources/theme/images/av.png" alt="Avatar" class="avatar">
+  </div>
+
+  <div class="container">
+    <label for="email"><b>Email</b></label>
+    <input type="text" placeholder="Enter Email" name="email" required>
+
+    <label for="password"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="password" required>
+    
+    <button type="submit">Login</button>
+   
+  </div>
+</form>
+<form class="myForm" th:action="@{/register}" method="post">
+  <div class="container">
+	<label for="reg"><b>Don't have an Account?</b></label>
+     <button type="submit">Register</button> 
+   </div>
+</form>
+</body>
+</html>

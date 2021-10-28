@@ -1,5 +1,7 @@
 package com.ab.repositories;
 
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,6 +16,9 @@ import com.ab.entities.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 	
+	@Query(value="SELECT * FROM user WHERE user_email=:userEmail", nativeQuery=true)
+	Optional<User> findUserByUserEmail(@Param("userEmail") String userEmail);
+
 	public User findUserByUserId(int userId);
 	
 	

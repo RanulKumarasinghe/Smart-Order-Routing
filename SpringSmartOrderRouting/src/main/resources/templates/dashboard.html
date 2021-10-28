@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Dashboard</title>
+<link rel="stylesheet" type="text/css" href="../../resources/theme/css/style.css" >
+
+</head>
+<body>
+
+<h1>Welcome to Trading Dashboard</h1>
+<h2>Logged in as : [[${#request.userPrincipal}]]</h2>
+<br><br><br><br>
+<div class="navbar">
+	
+	<a href="/home">Home</a>
+	<a href="/wallet">Wallet</a>
+	<a href="/tradinghistory">Trading History</a>
+	
+	<form class="myForm1">
+		<a href="/logout"  align="right" formaction="/logout">Logout</a>
+	</form>
+	
+</div>
+
+<!--  ><p>Email : <span  th:text="${#authentication.principal.email}"></span></p>-->
+
+</body>
+</html>

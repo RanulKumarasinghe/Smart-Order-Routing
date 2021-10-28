@@ -1,18 +1,26 @@
 package com.ab.controllers;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
-
+import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.ModelAndView;
 import com.ab.entities.User;
 import com.ab.services.UserService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @Controller
 @SessionAttributes("loggedInUser")
@@ -60,6 +68,80 @@ public class UserController {
     public void verifyEmail(@RequestParam("userId") String email) {
     	 userService.verifyEmail(email);
     }
+    
+   
+    
+    
+    @GetMapping("/dashboard")
+    public String authenticated(Model model) {
+    	model.addAttribute("user", getPrincipal());
+		return "/dashboard";
+    }
+    
+   
+    @GetMapping("/login")
+	public String login() {
+		User user = getPrincipal();
+		if(user != null) {
+			System.out.println("...dashboard");
+			return "dashboard";
+		}
+		System.out.println("...login");
+		return "login";
+	}
+    
+    private User getPrincipal() {
+    	User user = null;
+    	if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User) {
+    		user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    	}
+    	return user;
+    }
+    
+    
+	@RequestMapping(method = RequestMethod.POST, value="/login")
+	public ModelAndView userLogin(@RequestParam (value = "email") String email,
+	@RequestParam (value = "password") String password) {
+
+		ModelAndView mv = new ModelAndView();
+		//BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		//String hashedPassword = passwordEncoder.encode(password);
+		User u = userService.verifyUser(email, password);
+		
+		if(u == null){
+			mv.setViewName("errorPage");
+			return mv;
+
+		}
+		else {
+			mv.addObject("loggedInUser", u);
+			mv.setViewName("dashboard");
+			//load stuff on dash board here
+			//mv.addObject("savingsAccountDetails",savingsAccount);
+			return mv;
+		}
+	}
+	
+//	@Controller
+//	public class SecurityController {
+//
+//	    @RequestMapping(value = "/email", method = RequestMethod.GET)
+//	    @ResponseBody
+//	    public String currentUserName(Principal principal) {
+//	        return principal.getName();
+//	    }
+//	}
+	
+	@RequestMapping(method = RequestMethod.GET, value="/logout")
+	  public String logout(SessionStatus status) {
+	    status.setComplete();
+	    return "login";
+	  }
+	  
+	  @ModelAttribute("loggedInUser")
+	  public User user(){
+	    return new User();
+	  } 
 	
     
 }
