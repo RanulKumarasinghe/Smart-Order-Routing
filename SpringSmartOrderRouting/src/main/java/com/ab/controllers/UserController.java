@@ -51,6 +51,26 @@ public class UserController {
 		
     }
     
+	@RequestMapping(method = RequestMethod.GET, value="/register")
+    public String loadRegisterView() {
+		System.out.println("...register");
+		return "register";
+    }
+    
+    @PostMapping("/@{/register}")
+    public boolean registerUser(@RequestParam("userFirstName") String userFirstName,@RequestParam("userLastName") String userLastName,@RequestParam("userEmail") String userEmail, @RequestParam("userAge") int userAge, @RequestParam("password") String password, @RequestParam("repassword") String repassword,  @RequestParam("walletBalance") double walletBalance, @RequestParam("userRegion") String userRegion) {
+    	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String hashedPassword = passwordEncoder.encode(password);
+		
+		if(userService.validateEmail(userEmail)!=-1) {
+			userService.insertNewUser(userFirstName, userLastName, userEmail, password, userAge, walletBalance, userRegion);
+			return true;
+		}
+		else {
+			return false;
+		}
+		 
+    }
     
     @PostMapping("/addUser")
     public void insertNewUser(@RequestParam("user_first_name") String user_first_name, @RequestParam("user_last_name") String user_last_name, @RequestParam("user_email") String user_email, @RequestParam("password") String password, @RequestParam("user_age") int user_age, @RequestParam("user_balance") double user_balance, @RequestParam("userRegion") String userRegion) {

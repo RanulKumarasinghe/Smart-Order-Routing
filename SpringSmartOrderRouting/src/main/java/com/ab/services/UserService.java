@@ -26,12 +26,15 @@ public class UserService {
 		return userRepository.insertNewUser(user_first_name, user_last_name, user_email, password, user_age, wallet_balance, userRegion);
 	}
 	
-	public User verifyUser(String email, String password) {
+	public User verifyUser(String  user_email, String password) {
 		
-		return userRepository.verifyUser(email, password);
+		return userRepository.verifyUser( user_email, password);
 	}
 	
-	
+
+	public int validateEmail(String  user_email) {
+		return userRepository.getUserByUserEmail(user_email);
+	}
 	
 	public int getUserId() {
        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

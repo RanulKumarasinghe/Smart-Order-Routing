@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org" xml:lang="en">
+<head>
+
+<meta charset="ISO-8859-1">
+<title>SOR Login</title>
+<link rel="stylesheet" type="text/css" href="../../resources/theme/css/style.css" >
+
+</head>
+<body>
+
+	<h2 align="center">Smart Order Routing Trading Application</h2>
+<form class="myForm" th:action="@{/register}">
+  <div class="imgcontainer">
+    <img src="../../resources/theme/images/av.png" alt="Avatar" class="avatar">
+  </div>
+
+  <div class="container">
+ 	<label for="userFirstName"><b>First Name</b></label>
+    <input type="text" placeholder="Enter First Name" name="userFirstName" required>
+    
+    <label for="userLasttName"><b>Last Name</b></label>
+    <input type="text" placeholder="Enter Last Name" name="userLasttName" required>
+    
+    <label for="userEmail"><b>Email</b></label>
+    <input class="myEmail" type="text" placeholder="Enter Email" name="userEmail" required>
+    
+    <label for="userAge"><b>Age</b></label>
+    <input type="text" placeholder="Enter Age" name="userAge" required>
+    
+    <label for="userRegion"><b>Region</b></label>
+    <input type="text" placeholder="Enter Region" name="userRegion" required>
+    
+     <label for="userBalance"><b>Balance</b></label>
+    <input type="text" placeholder="Enter Balance" name="userBalance" required>
+   
+
+    <label for="userPassword"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="userPassword" required>
+    
+    <label for="userRePassword"><b>Confirm Password</b></label>
+    <input type="password" placeholder="Enter Confirm Password" name="userRePassword" required>
+    
+    <button type="submit">Sign up</button>    
+   
+  </div>
+</form>
+<form class="myForm" th:action="@{/login}" method="GET">
+  <div class="container">
+	<label for="reg"><b>Already have an account?</b></label>
+     <button type="submit">Login</button> 
+   </div>
+</form>
+</body>
+</html>
