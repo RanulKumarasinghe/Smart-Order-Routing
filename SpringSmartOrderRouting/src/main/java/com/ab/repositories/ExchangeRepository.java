@@ -38,4 +38,11 @@ public interface ExchangeRepository extends JpaRepository<Exchange, Integer>{
 	//get exchanges in APAC
 	@Query(value = "SELECT * FROM exchange WHERE region='APAC'", nativeQuery=true) 
 	public List<Exchange> getAPACExchanges();
+	
+	//get exchangeId by region 
+	@Query(value = "SELECT exchange_id FROM exchange WHERE region=:region", nativeQuery=true) 
+	public int getExchangeIdByRegion(@Param("region") String region);
+	
+	
+	
 }

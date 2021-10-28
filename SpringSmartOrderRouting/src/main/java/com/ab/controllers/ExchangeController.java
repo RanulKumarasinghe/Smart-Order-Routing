@@ -38,4 +38,9 @@ public class ExchangeController {
 		return exchangeService.getLowestExchangeFees();
 	}
 	
+	public int getExchangeIdByRegion(String region){
+		return exchangeService.getExchangeIdByRegion(region);
+	}
+
+	
 }
