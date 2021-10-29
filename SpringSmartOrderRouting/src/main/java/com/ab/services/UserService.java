@@ -63,7 +63,7 @@ public class UserService {
 		return userRepository.verifyEmail(email);
 	}
 
-	public Optional<User> findUserByUserEmail(String userEmail) {
+	public User findUserByUserEmail(String userEmail) {
 		
 		return userRepository.findUserByUserEmail(userEmail);
 	}

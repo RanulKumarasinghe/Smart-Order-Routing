@@ -17,7 +17,7 @@ import com.ab.entities.User;
 public interface UserRepository extends JpaRepository<User, Integer> {
 	
 	@Query(value="SELECT * FROM user WHERE user_email=:userEmail", nativeQuery=true)
-	Optional<User> findUserByUserEmail(@Param("userEmail") String userEmail);
+	User findUserByUserEmail(@Param("userEmail") String userEmail);
 
 	@Query(value="SELECT * FROM user WHERE user_email=:userEmail", nativeQuery=true)
 	public int getUserByUserEmail(@Param("userEmail") String userEmail);

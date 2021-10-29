@@ -29,7 +29,7 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	
+	private String user_email;
     @GetMapping("/users/{id}")
     public User findUserByUserId(@PathVariable("id") int userId) {
 		return userService.findUserByUserId(userId);
@@ -102,10 +102,12 @@ public class UserController {
     @GetMapping("/login")
 	public String login() {
 		User user = getPrincipal();
+		
 		if(user != null) {
 			System.out.println("...dashboard");
 			return "dashboard";
 		}
+		
 		System.out.println("...login");
 		return "login";
 	}
@@ -127,14 +129,17 @@ public class UserController {
 		//BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		//String hashedPassword = passwordEncoder.encode(password);
 		User u = userService.verifyUser(email, password);
-		
+		user_email = u.getUserEmail();
+		System.out.println(user_email);
 		if(u == null){
 			mv.setViewName("errorPage");
 			return mv;
 
 		}
 		else {
-			mv.addObject("loggedInUser", u);
+			User user = userService.findUserByUserEmail(user_email);
+			System.out.println(user);
+			mv.addObject("loggedInUser", user);
 			mv.setViewName("dashboard");
 			//load stuff on dash board here
 			//mv.addObject("savingsAccountDetails",savingsAccount);

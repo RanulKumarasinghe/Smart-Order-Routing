@@ -1,5 +1,6 @@
+
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
 <title>Dashboard</title>
@@ -9,7 +10,10 @@
 <body>
 
 <h1>Welcome to Trading Dashboard</h1>
-<h2>Logged in as : [[${#request.userPrincipal}]]</h2>
+<div th:each="loggedInUser : ${loggedInUser}">
+    <h2>Logged in as : <span th:text="${loggedInUser.getUserEmail()}"></span></h2>
+</div>
+<!-- <h2>Logged in as : th:text="${loggedInUser.getUserEmail()}"</h2>  -->
 <br><br><br><br>
 <div class="navbar">
 	

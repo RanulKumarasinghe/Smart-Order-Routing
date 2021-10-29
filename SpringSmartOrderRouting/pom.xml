@@ -30,6 +30,7 @@
 		    <artifactId>tomcat-embed-jasper</artifactId>
 		    <version>9.0.44</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
@@ -62,7 +63,11 @@
 		    <groupId>org.thymeleaf</groupId>
 		    <artifactId>thymeleaf-spring5</artifactId>
 		</dependency>
-    	
+    	<dependency>
+		    <groupId>javax.servlet</groupId>
+		    <artifactId>jstl</artifactId>
+		    <version>1.2</version>
+		</dependency>
     	<dependency>
 	        <groupId>com.h2database</groupId>
 	        <artifactId>h2</artifactId>
