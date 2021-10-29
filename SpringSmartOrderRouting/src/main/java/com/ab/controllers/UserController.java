@@ -171,6 +171,7 @@ public class UserController {
 			
 
 			mv.addObject("loggedInUser", user);
+			mv.addObject("exchanges", getAllExchanges);
 			mv.addObject("stocks", dashBoardStocks);
 			mv.setViewName("dashboard");
 			//load stuff on dash board here

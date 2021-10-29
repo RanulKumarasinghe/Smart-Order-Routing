@@ -32,9 +32,10 @@
     <tr>
     <th> Stock ID </th>
     <th> Stock Name </th>
-    <th> Deutsche Bank </th>
-    <th> Sony-Epcot </th>
-    <th> Microsoft</th>
+    <div th:each="exchange : ${exchanges}">
+     <th><span th:text="${exchange.getExchangeName()}"></span></th>
+	</div>
+    
     <th> View </th>
     </thead>
     <tbody>
