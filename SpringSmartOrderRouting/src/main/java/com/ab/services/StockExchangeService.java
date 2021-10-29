@@ -22,6 +22,17 @@ public class StockExchangeService {
 			return stockExchangeRepository.findStockPriceOnExchange(stock, exchangeId);
 		}
 
+		public String getAvailability(int stockId, int exchangeId) {
+			List<StockExchange> getStockExchanges = stockExchangeRepository.findStockPriceOnExchange(stockId, exchangeId);
+			String available = "available";
+			if(getStockExchanges.isEmpty()) {
+				available = "not available";
+			} else {
+				available = "available";
+			}
+			
+			return available;
+		}
 
 		public List<StockExchange> getStockPriceInExchanges(int stockId) {
 			return stockExchangeRepository.findStockPriceInExchanges(stockId);

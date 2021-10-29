@@ -26,7 +26,34 @@
 	</form>
 	
 </div>
-
+<br><br><br><br>
+<table>
+    <thead>
+    <tr>
+    <th> Stock ID </th>
+    <th> Stock Name </th>
+    <th> Deutsche Bank </th>
+    <th> Sony-Epcot </th>
+    <th> Microsoft</th>
+    <th> View </th>
+    </thead>
+    <tbody>
+	<tr th:if="${stocks.empty}">
+            <td colspan="2"> No stocks Available </td>
+        </tr>
+       
+        <tr th:each="stock : ${stocks}">
+            <td><span th:text="${stock.getStockId()}"> Stock ID </span></td>
+            <td><span th:text="${stock.getStockName()}"> Stock Name </span></td>
+            
+            <td><span th:text="${stock.getAvailableFirst()}"> First Exchange </span></td>
+            <td><span th:text="${stock.getAvailableSecond()}"> Second Exchange </span></td>
+            <td><span th:text="${stock.getAvailableThird()}"> Third Exchange </span></td>
+            <td><a th:href="@{/viewStock/{stock_id}/stock(stock_id=${stock.getStockId()})}">View Stock</a></td>
+        </tr>
+        
+    </tbody>
+</table>
 <!--  ><p>Email : <span  th:text="${#authentication.principal.email}"></span></p>-->
 
 </body>

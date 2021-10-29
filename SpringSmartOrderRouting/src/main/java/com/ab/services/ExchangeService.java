@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.ab.entities.Exchange;
 import com.ab.entities.OrderBook;
+import com.ab.entities.Stock;
 import com.ab.repositories.ExchangeRepository;
 import com.ab.repositories.OrderBookRepository;
 @Service
@@ -16,7 +17,10 @@ public class ExchangeService {
 	@Autowired
 	private ExchangeRepository exchangeRepository;
 	
-
+	
+	public List<Exchange> getAllExchanges() {
+		return exchangeRepository.findAll();
+	}
 	public Exchange getExchangeByExchangeId(int exchangeId) {
 		
 		return exchangeRepository.findExchangeByExchangeId(exchangeId);

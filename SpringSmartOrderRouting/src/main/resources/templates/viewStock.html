@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>View Stock</h1>
+<div th:each="stock : ${stock}">
+<h2>The stock is : <span th:text="${stock.getStockSymbol()}"></span></h2>
+</div>
+</body>
+</html>

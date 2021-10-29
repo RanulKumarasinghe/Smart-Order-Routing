@@ -1,6 +1,8 @@
 package com.ab.controllers;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,18 +19,33 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.ab.dto.DashBoardDto;
+import com.ab.entities.Exchange;
+import com.ab.entities.Stock;
 import com.ab.entities.User;
+import com.ab.services.ExchangeService;
+import com.ab.services.StockExchangeService;
+import com.ab.services.StockService;
 import com.ab.services.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 @Controller
-@SessionAttributes("loggedInUser")
+@SessionAttributes({"loggedInUser","stocks"})
 public class UserController {
 
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private StockService stockService;
+	
+	@Autowired
+	private ExchangeService exchangeService;
+	
+	@Autowired
+	private StockExchangeService stockExchangeService;
 	private String user_email;
     @GetMapping("/users/{id}")
     public User findUserByUserId(@PathVariable("id") int userId) {
@@ -138,8 +155,23 @@ public class UserController {
 		}
 		else {
 			User user = userService.findUserByUserEmail(user_email);
-			System.out.println(user);
+			List<Stock> getAllStocks = stockService.getAllStocks();
+			List<Exchange> getAllExchanges = exchangeService.getAllExchanges();
+			List<String> getFirstAvailabilty = new ArrayList<>();
+			List<String> getSecondAvailabilty = new ArrayList<>();
+			List<String> getThirdAvailabilty = new ArrayList<>();
+			List<DashBoardDto> dashBoardStocks = new ArrayList<>();
+			for (Stock stock : getAllStocks)  {
+				String firstExchange = stockExchangeService.getAvailability(stock.getStockId(), 0);
+				String secondExchange = stockExchangeService.getAvailability(stock.getStockId(), 1);
+				String thirdExchange = stockExchangeService.getAvailability(stock.getStockId(), 2);
+				DashBoardDto dashBoardStock = new DashBoardDto(stock.getStockId(),stock.getStockSymbol(),firstExchange,secondExchange,thirdExchange);
+				dashBoardStocks.add(dashBoardStock);
+			}
+			
+
 			mv.addObject("loggedInUser", user);
+			mv.addObject("stocks", dashBoardStocks);
 			mv.setViewName("dashboard");
 			//load stuff on dash board here
 			//mv.addObject("savingsAccountDetails",savingsAccount);

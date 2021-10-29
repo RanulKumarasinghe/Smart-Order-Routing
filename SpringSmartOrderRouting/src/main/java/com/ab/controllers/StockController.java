@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,9 +17,10 @@ import com.ab.entities.Stock;
 import com.ab.services.ExchangeService;
 import com.ab.services.StockService;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@SessionAttributes("loggedInUser")
+@SessionAttributes({"loggedInUser","stocks"})
 public class StockController {
 	@Autowired
 	private StockService stockService;
@@ -25,11 +28,21 @@ public class StockController {
 	@Autowired
 	private ExchangeService exchangeService;
 	
-	
+	ModelAndView mv = new ModelAndView();
 	@GetMapping("/stocks")
 	public List<Stock> getAllStocks(){
 		return stockService.getAllStocks();		
 	}
+	@GetMapping("/viewStock/{id}/stock")
+	public ModelAndView viewStock(@PathVariable("id")int stock_id) {
+//		int stockId = Integer.parseInt(stock_id); 
+		Stock stock = stockService.getStockById(stock_id);
+		mv.addObject("stock", stock);
+		mv.setViewName("viewStock");
+		return mv;
+		
+	}
+	
 	@GetMapping("/stock/{name}")
 	public Stock getStocks(@PathVariable("name") String stock_symbol){
 		return stockService.getStock(stock_symbol);		
