@@ -10,17 +10,18 @@
 <body>
 
 	<h2 align="center">Smart Order Routing Trading Application</h2>
-<form class="myForm" th:action="@{/register}">
+<form class="myForm" th:action="@{/register}" method="post">
   <div class="imgcontainer">
     <img src="../../resources/theme/images/av.png" alt="Avatar" class="avatar">
   </div>
 
   <div class="container">
+  
  	<label for="userFirstName"><b>First Name</b></label>
     <input type="text" placeholder="Enter First Name" name="userFirstName" required>
     
-    <label for="userLasttName"><b>Last Name</b></label>
-    <input type="text" placeholder="Enter Last Name" name="userLasttName" required>
+   <label for="userLastName"><b>Last Name</b></label>
+    <input type="text" placeholder="Enter Last Name" name="userLastName" required>
     
     <label for="userEmail"><b>Email</b></label>
     <input class="myEmail" type="text" placeholder="Enter Email" name="userEmail" required>
@@ -34,12 +35,11 @@
      <label for="userBalance"><b>Balance</b></label>
     <input type="text" placeholder="Enter Balance" name="userBalance" required>
    
-
-    <label for="userPassword"><b>Password</b></label>
+	<label for="userPassword"><b>Password</b></label>
     <input type="password" placeholder="Enter Password" name="userPassword" required>
     
     <label for="userRePassword"><b>Confirm Password</b></label>
-    <input type="password" placeholder="Enter Confirm Password" name="userRePassword" required>
+    <input type="password" placeholder="Enter Confirm Password" name="userRepassword" required>
     
     <button type="submit">Sign up</button>    
    

@@ -22,8 +22,8 @@ public class UserService {
 		return userRepository.findUserByUserId(userId);
 	}
 	
-	public int insertNewUser(String user_first_name, String user_last_name, String user_email, String password, int user_age, double wallet_balance, String userRegion) {
-		return userRepository.insertNewUser(user_first_name, user_last_name, user_email, password, user_age, wallet_balance, userRegion);
+	public int insertNewUser(int user_id, String user_first_name, String user_last_name, String user_email, String password, int user_age, double wallet_balance, String userRegion) {
+		return userRepository.insertNewUser(user_id,user_first_name, user_last_name, user_email, password, user_age, wallet_balance, userRegion);
 	}
 	
 	public User verifyUser(String  user_email, String password) {
@@ -66,6 +66,10 @@ public class UserService {
 	public User findUserByUserEmail(String userEmail) {
 		
 		return userRepository.findUserByUserEmail(userEmail);
+	}
+	
+	public int findMaxUserId() {
+		return userRepository.findMaxUserId();
 	}
 
 }

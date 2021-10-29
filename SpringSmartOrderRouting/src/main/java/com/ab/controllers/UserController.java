@@ -3,6 +3,7 @@ package com.ab.controllers;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -67,33 +68,14 @@ public class UserController {
 		}
 		
     }
-    
-	@RequestMapping(method = RequestMethod.GET, value="/register")
-    public String loadRegisterView() {
-		System.out.println("...register");
-		return "register";
-    }
-    
-    @PostMapping("/@{/register}")
-    public boolean registerUser(@RequestParam("userFirstName") String userFirstName,@RequestParam("userLastName") String userLastName,@RequestParam("userEmail") String userEmail, @RequestParam("userAge") int userAge, @RequestParam("password") String password, @RequestParam("repassword") String repassword,  @RequestParam("walletBalance") double walletBalance, @RequestParam("userRegion") String userRegion) {
-    	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		String hashedPassword = passwordEncoder.encode(password);
-		
-		if(userService.validateEmail(userEmail)!=-1) {
-			userService.insertNewUser(userFirstName, userLastName, userEmail, password, userAge, walletBalance, userRegion);
-			return true;
-		}
-		else {
-			return false;
-		}
-		 
-    }
+  
     
     @PostMapping("/addUser")
     public void insertNewUser(@RequestParam("user_first_name") String user_first_name, @RequestParam("user_last_name") String user_last_name, @RequestParam("user_email") String user_email, @RequestParam("password") String password, @RequestParam("user_age") int user_age, @RequestParam("user_balance") double user_balance, @RequestParam("userRegion") String userRegion) {
     	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String hashedPassword = passwordEncoder.encode(password);
-    	userService.insertNewUser(user_first_name, user_last_name, user_email, hashedPassword, user_age, user_balance, userRegion);
+		int user_id = userService.findMaxUserId()+1;
+    	userService.insertNewUser(user_id,user_first_name, user_last_name, user_email, hashedPassword, user_age, user_balance, userRegion);
     }
     
     @PostMapping("/editUser")
@@ -106,36 +88,11 @@ public class UserController {
     	 userService.verifyEmail(email);
     }
     
-   
-    
-    
-    @GetMapping("/dashboard")
-    public String authenticated(Model model) {
-    	model.addAttribute("user", getPrincipal());
-		return "/dashboard";
-    }
-    
-   
+ 
     @GetMapping("/login")
 	public String login() {
-		User user = getPrincipal();
-		
-		if(user != null) {
-			System.out.println("...dashboard");
-			return "dashboard";
-		}
-		
-		System.out.println("...login");
 		return "login";
 	}
-    
-    private User getPrincipal() {
-    	User user = null;
-    	if(SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User) {
-    		user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    	}
-    	return user;
-    }
     
     
 	@RequestMapping(method = RequestMethod.POST, value="/login")
@@ -143,16 +100,19 @@ public class UserController {
 	@RequestParam (value = "password") String password) {
 
 		ModelAndView mv = new ModelAndView();
-		//BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		//String hashedPassword = passwordEncoder.encode(password);
-		User u = userService.verifyUser(email, password);
-		user_email = u.getUserEmail();
-		System.out.println(user_email);
-		if(u == null){
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String hashedPassword = passwordEncoder.encode(password);
+		System.out.println(hashedPassword);
+		User u = userService.verifyUser(email, hashedPassword);
+		//user_email = u.getUserEmail();
+		//System.out.println(user_email);
+		
+		if(Objects.isNull(u)) {
 			mv.setViewName("errorPage");
 			return mv;
 
 		}
+		
 		else {
 			User user = userService.findUserByUserEmail(user_email);
 			List<Stock> getAllStocks = stockService.getAllStocks();
@@ -180,15 +140,45 @@ public class UserController {
 		}
 	}
 	
-//	@Controller
-//	public class SecurityController {
-//
-//	    @RequestMapping(value = "/email", method = RequestMethod.GET)
-//	    @ResponseBody
-//	    public String currentUserName(Principal principal) {
-//	        return principal.getName();
-//	    }
-//	}
+	
+	@RequestMapping(method = RequestMethod.GET, value="/register")
+    public String loadRegisterView() {
+		System.out.println("...register");
+		return "register";
+    }
+    
+	@RequestMapping(method = RequestMethod.POST, value="/register")
+    public ModelAndView registerUser(
+    		@RequestParam(value="userFirstName") String userFirstName,
+    		@RequestParam(value="userLastName") String userLastName,
+    		@RequestParam(value="userEmail") String userEmail, 
+    		@RequestParam(value="userAge") String userAge, 
+    		@RequestParam(value="userPassword") String userPassword, 
+    		@RequestParam(value="userRepassword") String userRepassword, 
+    		@RequestParam(value="userBalance") double userBalance,
+    		@RequestParam(value="userRegion") String userRegion) {
+		
+		int age = Integer.parseInt(userAge);
+		int userId = userService.findMaxUserId()+1;
+		
+    	System.out.println("entered in register controller");
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String hashedPassword = passwordEncoder.encode(userPassword);
+		ModelAndView mv = new ModelAndView();
+		System.out.println(userService.findUserByUserEmail(userEmail));
+		if(userService.findUserByUserEmail(userEmail) == null ) {
+			
+			userService.insertNewUser(userId,userFirstName, userLastName, userEmail, hashedPassword, age, userBalance, userRegion);
+			System.out.println("Registered");
+			mv.setViewName("login");
+		}
+		else {
+			mv.setViewName("register");
+			System.out.println("Error!");
+		}
+		return mv;	 
+    }
+	
 	
 	@RequestMapping(method = RequestMethod.GET, value="/logout")
 	  public String logout(SessionStatus status) {
