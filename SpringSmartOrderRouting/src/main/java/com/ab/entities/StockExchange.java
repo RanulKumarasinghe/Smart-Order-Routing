@@ -22,16 +22,16 @@ public class StockExchange {
 	    @JoinColumn(name = "exchange_id")
 	    Exchange exchange;
 	    
-		private double stockPrice;
+		private double totalPrice;
 		//keep record of available shares
 		private double availableShares; //sell orders available on that exchange for 
 
-		public StockExchange(int id, Stock stock, Exchange exchange, double stockPrice, double availableShares) {
+		public StockExchange(int id, Stock stock, Exchange exchange, double totalPrice, double availableShares) {
 			super();
 			this.id = id;
 			this.stock = stock;
 			this.exchange = exchange;
-			this.stockPrice = stockPrice;
+			this.totalPrice = totalPrice;
 			this.availableShares = availableShares;
 			
 		}
@@ -62,14 +62,15 @@ public class StockExchange {
 			this.exchange = exchange;
 		}
 
-		public double getStockPrice() {
-			return stockPrice;
+		
+
+		public double getTotalPrice() {
+			return totalPrice;
 		}
 
-		public void setStockPrice(double stockPrice) {
-			this.stockPrice = stockPrice;
+		public void setTotalPrice(double totalPrice) {
+			this.totalPrice = totalPrice;
 		}
-		
 
 		public double getAvailableShares() {
 			return availableShares;
@@ -81,10 +82,12 @@ public class StockExchange {
 
 		@Override
 		public String toString() {
-			return "StockExchange [id=" + id + ", stock=" + stock + ", exchange=" + exchange + ", stockPrice="
-					+ stockPrice + ", availableShares=" + availableShares + "]";
+			return "StockExchange [id=" + id + ", stock=" + stock + ", exchange=" + exchange + ", totalPrice="
+					+ totalPrice + ", availableShares=" + availableShares + "]";
 		}
 
+		
+		
 		
 		
 		

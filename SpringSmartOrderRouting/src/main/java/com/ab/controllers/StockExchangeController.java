@@ -67,7 +67,7 @@ public class StockExchangeController {
 	@GetMapping("/LowestStock/{stockId}/{buyAmount}")
 	public StockExchange findLowsestStockPricedStock(@PathVariable("stockId") int stockId, @PathVariable("buyAmount") double buyAmount) {
 		List<StockExchange> stockExchanges = stockExchangeService.findLowsestStockPricedStock(stockId, buyAmount);
-		se = stockExchanges.stream().min(Comparator.comparingDouble(StockExchange::getStockPrice)).get();
+		se = stockExchanges.stream().min(Comparator.comparingDouble(StockExchange::getTotalPrice)).get();
 		return se;
 	}
 	

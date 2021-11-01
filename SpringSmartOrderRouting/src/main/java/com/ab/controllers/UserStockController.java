@@ -18,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ab.entities.User;
 import com.ab.entities.UserStock;
 import com.ab.services.UserStockService;
-@SessionAttributes({"loggedInUser","stocks","exchanges","userStocks"})
+@SessionAttributes({"loggedInUser","stocks","exchanges","userStocks","userStock"})
 @Controller
 public class UserStockController {
 

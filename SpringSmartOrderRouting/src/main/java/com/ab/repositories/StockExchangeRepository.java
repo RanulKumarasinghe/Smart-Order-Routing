@@ -21,17 +21,17 @@ public interface StockExchangeRepository extends JpaRepository<StockExchange,Int
 		@Query(value="SELECT * FROM stock_exchange WHERE stock_id=:stockId", nativeQuery=true)
 		public List<StockExchange> findStockPriceInExchanges(int stockId);
 		
-		@Query(value="SELECT MIN(stock_price) FROM stock_exchange WHERE stock_id=:stockId AND exchange_id=:exchangeId", nativeQuery=true)
+		@Query(value="SELECT MIN(total_price) FROM stock_exchange WHERE stock_id=:stockId AND exchange_id=:exchangeId", nativeQuery=true)
 		public double findBestStockPriceOnExchange(@Param("stockId") int stockId, @Param("exchangeId") int exchangeId);
 		
 		
-		@Query(value="SELECT MIN(stock_price) FROM stock_exchange WHERE stock_id=:stockId", nativeQuery=true)
+		@Query(value="SELECT MIN(total_price) FROM stock_exchange WHERE stock_id=:stockId", nativeQuery=true)
 		public double findLowestStockPrice(int stockId);
 		
-		@Query(value="SELECT MAX(stock_price) FROM stock_exchange WHERE stock_id=:stockId", nativeQuery=true)
+		@Query(value="SELECT MAX(total_price) FROM stock_exchange WHERE stock_id=:stockId", nativeQuery=true)
 		public double findHighestStockPrice(int stockId);
 		
-		@Query(value="SELECT AVG(stock_price) FROM stock_exchange WHERE stock_id=:stockId", nativeQuery=true)
+		@Query(value="SELECT AVG(total_price) FROM stock_exchange WHERE stock_id=:stockId", nativeQuery=true)
 		public double findAverageStockPrice(int stockId);
 		
 		@Query(value="SELECT * FROM stock_exchange WHERE stock_id=:stockId AND available_shares >=:buyAmount", nativeQuery=true)

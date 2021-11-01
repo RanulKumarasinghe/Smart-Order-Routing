@@ -18,11 +18,27 @@
 	</form>
 	
 </div>
+<div th:each="loggedInUser : ${loggedInUser}">
+    <h2>Balance : <span th:text="${loggedInUser.getUserBalance()}"></span></h2>
+</div>
 
 <div th:each="userStock : ${userStock}">
 <h2>Stock : <span th:text="${userStock.getStock().getStockSymbol()}"></span></h2>
-<h2>Amount : <span th:text="${userStock.getStockAmount()}"></span></h2>
+<h2>Amount in Wallet : <span th:text="${userStock.getStockAmount()}"></span></h2>
 
+<form class="myForm" th:action="@{/sellStock}"method="post">
+  
+  <div class="container">
+    <label for="amount"><b>Sell Amount:</b></label>
+     <select id="stockAmount" name="stockAmount">
+    <option th:each="i : ${#numbers.sequence(1, userStock.getStockAmount())}" th:value="${i}" th:text="${i}" ></option>
+	</select>
+
+    <button type="submit">Place Order</button>
+   
+  </div>
+
+</form>
 </div>
 </body>
 </html>

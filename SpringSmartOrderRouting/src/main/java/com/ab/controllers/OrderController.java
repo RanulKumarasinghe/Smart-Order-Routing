@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ab.entities.Order;
@@ -17,11 +19,12 @@ import com.ab.entities.Region;
 import com.ab.entities.Stock;
 import com.ab.entities.StockExchange;
 import com.ab.entities.User;
+import com.ab.entities.UserStock;
 import com.ab.services.ExchangeService;
 import com.ab.services.OrderService;
 import com.ab.services.StockExchangeService;
 import com.ab.services.StockService;
-@SessionAttributes({"loggedInUser","stocks","exchanges","userStocks"})
+@SessionAttributes({"loggedInUser","stocks","exchanges","userStocks","userStock","result","pendingOrders"})
 @Controller
 public class OrderController {
 	
@@ -40,6 +43,38 @@ public class OrderController {
 	@PostMapping("/placeOrder/")
 	public int createOrder(@RequestParam("orderStockAmount") double orderStockAmount, @RequestParam("orderTotalPrice") double orderTotalPrice, @RequestParam("orderType") String orderType, @RequestParam("orderbookId") int orderbookId, @RequestParam("stockId") int stockId, @RequestParam("userId") int userId) {
 		return orderService.createOrder(orderStockAmount, orderTotalPrice, orderType, orderbookId, stockId, userId);
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value="/sellStock")
+	public ModelAndView placeSellOrder(@ModelAttribute("loggedInUser") User u, @ModelAttribute("userStock") UserStock userStock, @RequestParam(value="stockAmount") double stockAmount ) {
+		
+		int userStockId = userStock.getStock().getStockId();
+		int userId = u.getUserId();
+		//double stockPrice = userStock.getStock().getStockPrice();
+		double stockPrice = stockExchangeService.findLowestStockPrice(userStockId);
+		double orderTotalPrice = stockAmount * stockPrice;
+		int orderbookId = exchangeService.getExchangeIdByRegion(u.getUserRegion().toString());	
+		int result = orderService.createOrder(stockAmount, orderTotalPrice, "Sell", orderbookId, userStockId, userId);
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("result","Order Placed Successfully!");
+		System.out.println();
+		mv.setViewName("sellOrder");
+		return mv;
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value="/sellStock")
+	public String loadSellPage() {
+		return "sellOrder";
+	}
+	@RequestMapping(method = RequestMethod.GET, value="/pendingOrders")
+	public ModelAndView loadPendingOrderPage(@ModelAttribute("loggedInUser") User u) {
+		int userId = u.getUserId();
+		List<Order> pendingOrders = orderService.getUserPendingOrders(userId);
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("pendingOrders");
+		mv.addObject("pendingOrders",pendingOrders);
+		
+		return mv;
 	}
 	
 	@GetMapping("/buyOrder/{id}/stock")
