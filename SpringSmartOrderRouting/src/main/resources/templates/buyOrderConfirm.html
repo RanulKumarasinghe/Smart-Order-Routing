@@ -3,8 +3,35 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="../../resources/theme/css/style.css" >
 </head>
 <body>
 
+<div class="navbar">
+	
+	<a href="/dashboard">Back To Dashboard</a>	
+	<form class="myForm1">
+		<a href="/logout"  align="right" formaction="/logout">Logout</a>
+	</form>
+	
+</div>
+
+
+<div th:each="price : ${price}">
+<h2>The Order Price is : $<span th:text="${price}"></span></h2>
+
+</div>
+
+<div th:each="amount : ${amount}">
+<h2>The amount you placed an order for is: <span th:text="${amount}"></span></h2>
+
+</div>
+
+<form class="myForm" th:action="@{/buyOrderConfirm}" method="post">
+<div class="container">
+<button type="submit">Confirm</button>
+   
+</div>
+</form>
 </body>
 </html>

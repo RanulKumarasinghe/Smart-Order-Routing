@@ -9,13 +9,18 @@ import org.springframework.stereotype.Service;
 
 import com.ab.entities.Order;
 import com.ab.repositories.OrderRepository;
+import com.ab.repositories.UserRepository;
+import com.ab.repositories.UserStockRepository;
 
 @Service
 public class OrderService {
 	
 	@Autowired
 	public OrderRepository orderRepository;
-	
+	@Autowired
+    public UserRepository userRepository;
+	@Autowired
+	public UserStockRepository userStockRepository;
 	public int createOrder(double orderStockAmount, double orderTotalPrice, String orderType, int orderbookId, int stockId,int userId) {
 		return orderRepository.insertOrder(orderStockAmount,orderTotalPrice, orderType, orderbookId, stockId, userId);
 	}
@@ -49,6 +54,36 @@ public class OrderService {
 	public int updateOrderToPartiallyFullfilled(int userId){
 		return orderRepository.changeOrderToPartiallyFullfilled(userId);
 	}
+	
+	public void updateOrdersToFullfilled(List<Order> buyOrders, List<Order> sellOrders) {
+		boolean fulfilled = false;
+		for(Order buyOrder : buyOrders){
+			for(Order sellOrder: sellOrders) {
+				if(buyOrder.getOrderStockAmount() == sellOrder.getOrderStockAmount() && 
+						buyOrder.getStock().getStockId() == sellOrder.getStock().getStockId() && 
+						buyOrder.getUser().getUserId() != sellOrder.getUser().getUserId() && !fulfilled){
+						orderRepository.changeOrderToFullfilled(buyOrder.getOrderId());
+						orderRepository.changeOrderToFullfilled(sellOrder.getOrderId());
+						double user_balance = userRepository.findUserBalance(buyOrder.getUser().getUserId());
+						double seller_balance = userRepository.findUserBalance(sellOrder.getUser().getUserId());
+						
+						userRepository.updateUserBalance(buyOrder.getUser().getUserId(), user_balance - buyOrder.getOrderTotalPrice());
+						userRepository.updateUserBalance(sellOrder.getUser().getUserId(), seller_balance + sellOrder.getOrderTotalPrice());
+						
+						
+						double userAmount = Double.parseDouble(userStockRepository.getStockAmount(buyOrder.getUser().getUserId(),buyOrder.getStock().getStockId()));
+						double sellerAmount = Double.parseDouble(userStockRepository.getStockAmount(sellOrder.getUser().getUserId(),sellOrder.getStock().getStockId()));
+						
+						double newUserAmount = userAmount + buyOrder.getOrderStockAmount();
+						double newSellerAmount = sellerAmount - buyOrder.getOrderStockAmount();
+						userStockRepository.updateStockAmount(buyOrder.getUser().getUserId(),buyOrder.getStock().getStockId(), newUserAmount);
+						userStockRepository.updateStockAmount(sellOrder.getUser().getUserId(),sellOrder.getStock().getStockId(), newSellerAmount);
+						fulfilled = true;
+				}
+			}
+			}
+	}
+	
 	
 	public double getBuyStockAmount(int stockId, int userId) {
 		return orderRepository.getBuyStockAmount(stockId, userId);

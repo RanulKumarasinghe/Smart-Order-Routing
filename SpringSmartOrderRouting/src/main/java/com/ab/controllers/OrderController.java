@@ -38,10 +38,17 @@ public class OrderController {
 	private StockExchangeService stockExchangeService;
 	@Autowired
 	private StockService stockService;
-	ModelAndView mv = new ModelAndView();
 	
-	@PostMapping("/placeOrder/")
-	public int createOrder(@RequestParam("orderStockAmount") double orderStockAmount, @RequestParam("orderTotalPrice") double orderTotalPrice, @RequestParam("orderType") String orderType, @RequestParam("orderbookId") int orderbookId, @RequestParam("stockId") int stockId, @RequestParam("userId") int userId) {
+	
+	private ModelAndView mv = new ModelAndView();
+	private int stock_Id = 0;
+	private int exchange_Id = 0;
+	private Order order = new Order();
+	private double stockPrice = 0.0;
+	private double totalPrice = 0.0;
+	private double stockAmount = 0.0;
+	
+	public int createOrder(double orderStockAmount, double orderTotalPrice, String orderType, int orderbookId, int stockId,int userId) {
 		return orderService.createOrder(orderStockAmount, orderTotalPrice, orderType, orderbookId, stockId, userId);
 	}
 	
@@ -80,16 +87,53 @@ public class OrderController {
 	@GetMapping("/buyOrder/{id}/stock")
 	public ModelAndView buyOrder(@PathVariable("id")int stock_id, @ModelAttribute("loggedInUser") User u) {
 		String region = u.getUserRegion().toString();
-		
+		stock_Id = stock_id;
 		int exchangeId = exchangeService.getExchangeIdByRegion(region);
-		double stockExchange = stockExchangeService.findBestStockPriceOnExchange(stock_id, exchangeId);
+		exchange_Id = exchangeId;
+		double stockExchange = stockExchangeService.findLowestStockPrice(stock_id);
+		stockPrice = stockExchange;
 		Stock stock = stockService.getStockById(stock_id);
-		
+		List<Order> BuyOrders = findPendingBuyOrders(u.getUserId());
+		List<Order> SellOrders = findPendingSaleOrders(stock_id);
+		updateToFullfilled(BuyOrders, SellOrders);
 		mv.addObject("stockExchange", stockExchange);
 		mv.addObject("stock", stock);
 		mv.setViewName("buyOrder");		
 		return mv;
 	}
+	
+	@RequestMapping(method = RequestMethod.POST, value="/buyOrder")
+	public ModelAndView enterAmount(@RequestParam (value = "amount") double amount) {
+		totalPrice = stockPrice * amount;
+		stockAmount = amount;
+		mv.addObject("price", totalPrice);
+		mv.addObject("amount", amount);
+		mv.setViewName("buyOrderConfirm");	
+		return mv;
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value="/buyOrderConfirm")
+	public ModelAndView confirmBuyOrder(@ModelAttribute("loggedInUser") User u) {
+		createOrder(stockAmount,totalPrice,"Buy",exchange_Id,stock_Id,u.getUserId());
+		mv.setViewName("dashboard");
+		return mv;
+	}
+	
+	
+	
+	public List<Order> findPendingBuyOrders(int user_id){
+		return orderService.findPendingBuyOrders(user_id);
+	}
+	
+	public List<Order> findPendingSaleOrders(int stockId){
+		return orderService.findPendingSaleOrders(stockId);
+	}
+	
+	public void updateToFullfilled(List<Order> BuyOrders, List<Order> SellOrders) {
+		orderService.updateOrdersToFullfilled(BuyOrders, SellOrders);
+	}
+	
+	
 	
 	@GetMapping("/userorders/{userId}")
 	public  List<Order> getAllUserOrders(@PathVariable("userId") int userId) {
@@ -160,14 +204,13 @@ public class OrderController {
 	public List<Order> getUserPendingOrders(@PathVariable("userId") int userId){
 		return orderService.getUserPendingOrders(userId);
 	}
-	@GetMapping("pendingsaleorders/{stockId}")
-	public List<Order> findPendingSaleOrders(@PathVariable("stockId") int stockId){
-		return orderService.findPendingSaleOrders(stockId);
-	}
+	
 	@GetMapping("pendingsaleorders/{stockId}/{orderBookId}")
 	public List<Order> findPendingSaleOrdersByOrderBookId(@PathVariable("stockId") int stockId, @PathVariable("orderBookId") int orderBookId){
 		return orderService.findPendingSaleOrdersByOrderBookId(stockId, orderBookId);
 	}
+	
+	
 //	@GetMapping("pendingsaleorders/{stockId}/{orderBookId}/{buyAmount}")
 //	public Order findBestOrder(@PathVariable("stockId") int stockId, @PathVariable("orderBookId") int orderBookId,@PathVariable("buyAmount") double buyAmount) {
 //		return orderService.findBestOrder(stockId, orderBookId, buyAmount);
