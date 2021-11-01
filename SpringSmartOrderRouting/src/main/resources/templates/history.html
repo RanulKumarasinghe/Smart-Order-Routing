@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Trading History</title>
+<link rel="stylesheet" type="text/css" href="../../resources/theme/css/style.css" >
+
+</head>
+<body>
+<h1>Welcome to Trading Dashboard</h1>
+<div th:each="loggedInUser : ${loggedInUser}">
+    <h2>Logged in as : <span th:text="${loggedInUser.getUserEmail()}"></span></h2>
+</div>
+<!-- <h2>Logged in as : th:text="${loggedInUser.getUserEmail()}"</h2>  -->
+<br><br><br><br>
+<div class="navbar">
+	
+	<a href="/dashboard">Home</a>
+	<a href="/wallet">Wallet</a>
+	<a  class="active" href="/history">Trading History</a>
+	
+	<form class="myForm1">
+		<a href="/logout"  align="right" formaction="/logout">Logout</a>
+	</form>
+	
+</div>
+<br><br><br><br>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Wallet</title>
+<link rel="stylesheet" type="text/css" href="../../resources/theme/css/style.css" >
+
+</head>
+<body>
+<h1>Welcome to Trading Dashboard</h1>
+<div th:each="loggedInUser : ${loggedInUser}">
+    <h2>Logged in as : <span th:text="${loggedInUser.getUserEmail()}"></span></h2>
+</div>
+<!-- <h2>Logged in as : th:text="${loggedInUser.getUserEmail()}"</h2>  -->
+
+
+
+
+<br><br><br><br>
+<div class="navbar">
+	
+	<a href="/dashboard">Home</a>
+	<a  class="active" href="/wallet">Wallet</a>
+	<a href="/history">Trading History</a>
+	
+	<form class="myForm1">
+		<a href="/logout"  align="right" formaction="/logout">Logout</a>
+	</form>
+	
+</div>
+<br><br><br><br>
+<table>
+    <thead>
+    <tr>
+    <th> Stock ID </th>
+    <th> Stock Name </th>
+     <th>Stock Amount</th>
+	</div>
+    
+    <th> Sell  </th>
+    </thead>
+    <tbody>
+	<!-- <tr th:if="${stocks.empty}">
+            <td colspan="2"> No stocks Available </td>
+        </tr>-->
+       
+        <tr th:each="userStock : ${userStocks}">
+            <td><span th:text="${userStock.getStock().getStockId()}"> Stock ID </span></td>
+            <td><span th:text="${userStock.getStock().getStockSymbol()}"> Stock Name </span></td>
+            <td><span th:text="${userStock.getStockAmount()}"> Stock Amount </span></td>             
+            <td><a th:href="@{/sellOrder/{userStockId}/userStock(userStockId=${userStock.getStock().getStockId()})}">Sell</a></td>
+            
+        </tr>
+        
+    </tbody>
+</table>
+<br><br><br><br>
+</body>
+</html>
