@@ -54,6 +54,10 @@ public class StockExchangeService {
 			return stockExchangeRepository.findLowsestStockPricedStock(stockId, buyAmount);
 		}
 
+		public double findBestStockPriceOnExchange(int stockId, int exchangeId) {
+			return stockExchangeRepository.findBestStockPriceOnExchange(stockId, exchangeId);
+		}
+
 
 //		public StockExchange findMinPriceStock(List<StockExchange> stockExchanges) {
 //			return stockExchangeRepository.findMinFromList(stockExchanges);

@@ -18,7 +18,7 @@
 <div class="navbar">
 	
 	<a  class= "active"href="/dashboard">Home</a>
-	<a href="/wallet">Wallet</a>
+	<a href="/wallet">Sell Stock</a>
 	<a href="/history">Trading History</a>
 	
 	<form class="myForm1">
@@ -50,7 +50,7 @@
             <td><span th:text="${stock.getAvailableFirst()}"> First Exchange </span></td>
             <td><span th:text="${stock.getAvailableSecond()}"> Second Exchange </span></td>
             <td><span th:text="${stock.getAvailableThird()}"> Third Exchange </span></td>
-            <td><a th:href="@{/viewStock/{stock_id}/stock(stock_id=${stock.getStockId()})}">View Stock</a></td>
+            <td><a th:href="@{/buyOrder/{stock_id}/stock(stock_id=${stock.getStockId()})}">Buy Stock</a></td>
         </tr>
         
     </tbody>

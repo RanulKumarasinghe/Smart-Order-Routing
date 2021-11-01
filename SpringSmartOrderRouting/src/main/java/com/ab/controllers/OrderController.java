@@ -4,15 +4,24 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ab.entities.Order;
+import com.ab.entities.Region;
+import com.ab.entities.Stock;
+import com.ab.entities.StockExchange;
+import com.ab.entities.User;
 import com.ab.services.ExchangeService;
 import com.ab.services.OrderService;
-
+import com.ab.services.StockExchangeService;
+import com.ab.services.StockService;
+@SessionAttributes({"loggedInUser","stocks","exchanges","userStocks"})
 @Controller
 public class OrderController {
 	
@@ -22,11 +31,29 @@ public class OrderController {
 	@Autowired
 	private ExchangeService exchangeService;
 	
-	
+	@Autowired
+	private StockExchangeService stockExchangeService;
+	@Autowired
+	private StockService stockService;
+	ModelAndView mv = new ModelAndView();
 	
 	@PostMapping("/placeOrder/")
 	public int createOrder(@RequestParam("orderStockAmount") double orderStockAmount, @RequestParam("orderTotalPrice") double orderTotalPrice, @RequestParam("orderType") String orderType, @RequestParam("orderbookId") int orderbookId, @RequestParam("stockId") int stockId, @RequestParam("userId") int userId) {
 		return orderService.createOrder(orderStockAmount, orderTotalPrice, orderType, orderbookId, stockId, userId);
+	}
+	
+	@GetMapping("/buyOrder/{id}/stock")
+	public ModelAndView buyOrder(@PathVariable("id")int stock_id, @ModelAttribute("loggedInUser") User u) {
+		String region = u.getUserRegion().toString();
+		
+		int exchangeId = exchangeService.getExchangeIdByRegion(region);
+		double stockExchange = stockExchangeService.findBestStockPriceOnExchange(stock_id, exchangeId);
+		Stock stock = stockService.getStockById(stock_id);
+		
+		mv.addObject("stockExchange", stockExchange);
+		mv.addObject("stock", stock);
+		mv.setViewName("buyOrder");		
+		return mv;
 	}
 	
 	@GetMapping("/userorders/{userId}")

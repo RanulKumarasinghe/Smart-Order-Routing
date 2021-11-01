@@ -1,10 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="../../resources/theme/css/style.css" >
+
 </head>
 <body>
+<div class="navbar">
+	
+	<a href="/dashboard">Back To Dashboard</a>	
+	<form class="myForm1">
+		<a href="/logout"  align="right" formaction="/logout">Logout</a>
+	</form>
+	
+</div>
+
+
+<div th:each="stock : ${stock}">
+<h2>The stock is : <span th:text="${stock.getStockSymbol()}"></span></h2>
+
+</div>
+
+<div th:each="stockExchange : ${stockExchange}">
+<h2>The stock price is : <span th:text="${stockExchange}"></span></h2>
+
+</div>
+<form class="myForm" th:action="@{/buyOrder}" method="post">
+  
+  <div class="container">
+    <label for="amount"><b>Buy Amount</b></label>
+    <input type="text" placeholder="Enter Amount" name="amount" required>
+    
+    <button type="submit">Submit</button>
+   
+  </div>
+</form>
 
 </body>
 </html>
