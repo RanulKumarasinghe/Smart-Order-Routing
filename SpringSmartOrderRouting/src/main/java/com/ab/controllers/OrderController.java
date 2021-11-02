@@ -53,12 +53,9 @@ public class OrderController {
 	private double stockAmount = 0.0;
 	
 
+
 	@Autowired
 	private UserStockService userStockService;
-	
-	public int createOrder(double orderStockAmount, double orderTotalPrice, String orderType, int orderbookId, int stockId,int userId) {
-		return orderService.createOrder(orderStockAmount, orderTotalPrice, orderType, orderbookId, stockId, userId);
-	}
 	
 	@RequestMapping(method = RequestMethod.POST, value="/sellStock")
 	public ModelAndView placeSellOrder(@ModelAttribute("loggedInUser") User u, @ModelAttribute("userStock") UserStock userStock, @RequestParam(value="stockAmount") double stockAmount ) {
@@ -148,11 +145,11 @@ public class OrderController {
 	
 	@GetMapping("/buyOrder/{id}/stock")
 	public ModelAndView buyOrder(@PathVariable("id")int stock_id, @ModelAttribute("loggedInUser") User u) {
-//		String region = u.getUserRegion().toString();
+		String region = u.getUserRegion().toString();
 		stock_Id = stock_id;
 		
-//		int exchangeId = exchangeService.getExchangeIdByRegion(region);
-//		exchange_Id = exchangeId;
+		int exchangeId = exchangeService.getExchangeIdByRegion(region);
+		exchange_Id = exchangeId;
 		double stockExchange = stockExchangeService.findLowestStockPrice(stock_id);
 		stockPrice = stockExchange;
 		String stock = stockService.getStockNameById(stock_id);
@@ -175,6 +172,10 @@ public class OrderController {
 		mv.addObject("amount", amount);
 		mv.setViewName("buyOrderConfirm");	
 		return mv;
+	}
+	
+	public int createOrder(double orderStockAmount, double orderTotalPrice, String orderType, int orderbookId, int stockId,int userId) {
+		return orderService.createOrder(orderStockAmount, orderTotalPrice, orderType, orderbookId, stockId, userId);
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value="/buyOrderConfirm")

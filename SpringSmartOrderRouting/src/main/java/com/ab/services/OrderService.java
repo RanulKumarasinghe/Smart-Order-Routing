@@ -8,8 +8,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import com.ab.entities.Order;
+import com.ab.entities.StockExchange;
 import com.ab.entities.UserStock;
 import com.ab.repositories.OrderRepository;
+import com.ab.repositories.StockExchangeRepository;
 import com.ab.repositories.UserRepository;
 import com.ab.repositories.UserStockRepository;
 
@@ -22,6 +24,10 @@ public class OrderService {
     public UserRepository userRepository;
 	@Autowired
 	public UserStockRepository userStockRepository;
+	@Autowired
+	private StockExchangeRepository stockExchangeRepository;
+	
+	
 	public int createOrder(double orderStockAmount, double orderTotalPrice, String orderType, int orderbookId, int stockId,int userId) {
 		return orderRepository.insertOrder(orderStockAmount,orderTotalPrice, orderType, orderbookId, stockId, userId);
 	}
@@ -85,6 +91,10 @@ public class OrderService {
 						
 						double newSellerAmount = sellerAmount - buyOrder.getOrderStockAmount();
 						userStockRepository.updateStockAmount(sellOrder.getUser().getUserId(),sellOrder.getStock().getStockId(), newSellerAmount);
+						StockExchange stockExchange = stockExchangeRepository.findStockOnExchange(sellOrder.getStock().getStockId(), sellOrder.getOrderbook().getOrderBookId());
+						double stockAmount = stockExchange.getAvailableShares() - buyOrder.getOrderStockAmount();
+						stockExchangeRepository.updateShares(sellOrder.getStock().getStockId(), sellOrder.getOrderbook().getOrderBookId(), stockAmount);
+						
 						fulfilled = true;
 				}
 			}

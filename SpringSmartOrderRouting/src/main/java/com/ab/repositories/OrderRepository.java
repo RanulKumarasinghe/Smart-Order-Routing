@@ -75,7 +75,7 @@ public interface OrderRepository extends JpaRepository<Order,Integer>{
 	public List<Order> findBuyOrdersByUserId(@Param("userId") int userId); 
 	
 	//user's trade history 
-	@Query(value ="SELECT * FROM orders WHERE user_id=:userId AND order_status='Fulfilled'", nativeQuery=true)
+	@Query(value ="SELECT * FROM orders WHERE user_id=:userId AND order_status='Fulfilled' OR order_status='Cancelled'", nativeQuery=true)
 	public List<Order> findTradeHistoryByUserId(@Param("userId") int userId);
 
 	//user's pending orders

@@ -36,6 +36,13 @@ public interface StockExchangeRepository extends JpaRepository<StockExchange,Int
 		
 		@Query(value="SELECT * FROM stock_exchange WHERE stock_id=:stockId AND available_shares >=:buyAmount", nativeQuery=true)
 		public List<StockExchange> findLowsestStockPricedStock(@Param("stockId") int stockId, @Param("buyAmount") double buyAmount);
+		
+		@Query(value="SELECT * FROM stock_exchange WHERE stock_id=:stockId AND exchange_id=:exchangeId", nativeQuery=true)
+		public StockExchange findStockOnExchange(@Param("stockId") int stockId, @Param("exchangeId") int exchangeId);	
+		@Modifying
+	    @Transactional
+	    @Query(value="UPDATE stock_exchange SET available_shares=:available_shares WHERE stock_id=:stockId AND exchange_id=:exchangeId", nativeQuery=true)
+		public int updateShares(@Param("stockId") int stockId, @Param("exchangeId") int exchangeId, @Param("available_shares") double available_shares);
 		//Update available shares 
 //		@Modifying
 //	    @Transactional
