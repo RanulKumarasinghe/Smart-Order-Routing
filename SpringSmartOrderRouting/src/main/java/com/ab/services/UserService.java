@@ -5,6 +5,7 @@ import org.springframework.security.core.Authentication;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -70,6 +71,10 @@ public class UserService {
 	
 	public int findMaxUserId() {
 		return userRepository.findMaxUserId();
+	}
+	
+	public double findUserBalance(int userId) {
+		return userRepository.findUserBalance(userId);
 	}
 
 }

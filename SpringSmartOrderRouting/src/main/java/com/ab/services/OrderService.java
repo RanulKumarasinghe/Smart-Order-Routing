@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import com.ab.entities.Order;
+import com.ab.entities.UserStock;
 import com.ab.repositories.OrderRepository;
 import com.ab.repositories.UserRepository;
 import com.ab.repositories.UserStockRepository;
@@ -70,13 +71,19 @@ public class OrderService {
 						userRepository.updateUserBalance(buyOrder.getUser().getUserId(), user_balance - buyOrder.getOrderTotalPrice());
 						userRepository.updateUserBalance(sellOrder.getUser().getUserId(), seller_balance + sellOrder.getOrderTotalPrice());
 						
+						List<UserStock> findUserStocks = userStockRepository.findUserStocks(buyOrder.getUser().getUserId());
+						if(findUserStocks.isEmpty()) {
+							userStockRepository.addUserStock(buyOrder.getUser().getUserId(), buyOrder.getStock().getStockId(), buyOrder.getOrderStockAmount());
+						} else {
+							double userAmount = Double.parseDouble(userStockRepository.getStockAmount(buyOrder.getUser().getUserId(),buyOrder.getStock().getStockId()));
+							double newUserAmount = userAmount + buyOrder.getOrderStockAmount();
+							userStockRepository.updateStockAmount(buyOrder.getUser().getUserId(),buyOrder.getStock().getStockId(), newUserAmount);
+						}
 						
-						double userAmount = Double.parseDouble(userStockRepository.getStockAmount(buyOrder.getUser().getUserId(),buyOrder.getStock().getStockId()));
+						
 						double sellerAmount = Double.parseDouble(userStockRepository.getStockAmount(sellOrder.getUser().getUserId(),sellOrder.getStock().getStockId()));
 						
-						double newUserAmount = userAmount + buyOrder.getOrderStockAmount();
 						double newSellerAmount = sellerAmount - buyOrder.getOrderStockAmount();
-						userStockRepository.updateStockAmount(buyOrder.getUser().getUserId(),buyOrder.getStock().getStockId(), newUserAmount);
 						userStockRepository.updateStockAmount(sellOrder.getUser().getUserId(),sellOrder.getStock().getStockId(), newSellerAmount);
 						fulfilled = true;
 				}

@@ -20,11 +20,15 @@ public interface StockRepository extends JpaRepository<Stock, Integer> {
 	
 	public Stock findStocksByStockSymbol(String stock_symbol);
 	
+	
 	@Query(value="SELECT stock_price FROM stock WHERE stock_id =:stock_id",nativeQuery=true)
 	public double getStockPrice(@Param("stock_id")int stock_id); 
 	
 	@Query(value="SELECT * FROM stock WHERE stock_id =:stock_id",nativeQuery=true)
 	public Stock getStockById(@Param("stock_id")int stock_id); 
+	
+	@Query(value="SELECT stock_symbol FROM stock WHERE stock_id =:stock_id",nativeQuery=true)
+	public String getStockNameById(@Param("stock_id")int stock_id); 
 	
 	@Modifying
     @Transactional

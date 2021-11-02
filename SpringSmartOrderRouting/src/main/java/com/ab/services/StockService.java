@@ -30,6 +30,10 @@ public class StockService {
 		return stockRepository.getStockById(stock_id);
 	}
 	
+	public String getStockNameById(int stock_id) {
+		return stockRepository.getStockNameById(stock_id);
+	}
+	
 	public int insertNewStock(double stock_price, String stock_symbol, double stock_total_shares) {
 		return stockRepository.insertNewStock(stock_price, stock_symbol, stock_total_shares);	
 	}

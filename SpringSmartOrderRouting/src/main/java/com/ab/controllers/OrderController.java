@@ -24,6 +24,7 @@ import com.ab.services.ExchangeService;
 import com.ab.services.OrderService;
 import com.ab.services.StockExchangeService;
 import com.ab.services.StockService;
+import com.ab.services.UserService;
 @SessionAttributes({"loggedInUser","stocks","exchanges","userStocks","userStock","result","pendingOrders"})
 @Controller
 public class OrderController {
@@ -38,6 +39,8 @@ public class OrderController {
 	private StockExchangeService stockExchangeService;
 	@Autowired
 	private StockService stockService;
+	@Autowired
+	private UserService userService;
 	
 	
 	private ModelAndView mv = new ModelAndView();
@@ -73,9 +76,23 @@ public class OrderController {
 	public String loadSellPage() {
 		return "sellOrder";
 	}
+	public List<Order> findPendingBuyOrders(int user_id){
+		return orderService.findPendingBuyOrders(user_id);
+	}
+	
+	public List<Order> findPendingSaleOrders(int stockId){
+		return orderService.findPendingSaleOrders(stockId);
+	}
+	
+	public void updateToFullfilled(List<Order> BuyOrders, List<Order> SellOrders) {
+		orderService.updateOrdersToFullfilled(BuyOrders, SellOrders);
+	}
 	@RequestMapping(method = RequestMethod.GET, value="/pendingOrders")
 	public ModelAndView loadPendingOrderPage(@ModelAttribute("loggedInUser") User u) {
 		int userId = u.getUserId();
+		List<Order> BuyOrders = findPendingBuyOrders(u.getUserId());
+		List<Order> SellOrders = findPendingSaleOrders(stock_Id);
+		updateToFullfilled(BuyOrders, SellOrders);
 		List<Order> pendingOrders = orderService.getUserPendingOrders(userId);
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("pendingOrders");
@@ -84,18 +101,22 @@ public class OrderController {
 		return mv;
 	}
 	
+	
 	@GetMapping("/buyOrder/{id}/stock")
 	public ModelAndView buyOrder(@PathVariable("id")int stock_id, @ModelAttribute("loggedInUser") User u) {
-		String region = u.getUserRegion().toString();
+//		String region = u.getUserRegion().toString();
 		stock_Id = stock_id;
-		int exchangeId = exchangeService.getExchangeIdByRegion(region);
-		exchange_Id = exchangeId;
+		
+//		int exchangeId = exchangeService.getExchangeIdByRegion(region);
+//		exchange_Id = exchangeId;
 		double stockExchange = stockExchangeService.findLowestStockPrice(stock_id);
 		stockPrice = stockExchange;
-		Stock stock = stockService.getStockById(stock_id);
-		List<Order> BuyOrders = findPendingBuyOrders(u.getUserId());
-		List<Order> SellOrders = findPendingSaleOrders(stock_id);
-		updateToFullfilled(BuyOrders, SellOrders);
+		String stock = stockService.getStockNameById(stock_id);
+//		List<Order> BuyOrders = findPendingBuyOrders(u.getUserId());
+//		List<Order> SellOrders = findPendingSaleOrders(stock_id);
+//		updateToFullfilled(BuyOrders, SellOrders);
+		double userBallance = userService.findUserBalance(u.getUserId());
+		mv.addObject("ballance",userBallance);
 		mv.addObject("stockExchange", stockExchange);
 		mv.addObject("stock", stock);
 		mv.setViewName("buyOrder");		
@@ -115,23 +136,15 @@ public class OrderController {
 	@RequestMapping(method = RequestMethod.POST, value="/buyOrderConfirm")
 	public ModelAndView confirmBuyOrder(@ModelAttribute("loggedInUser") User u) {
 		createOrder(stockAmount,totalPrice,"Buy",exchange_Id,stock_Id,u.getUserId());
-		mv.setViewName("dashboard");
+		int userId = u.getUserId();
+		List<Order> pendingOrders = orderService.getUserPendingOrders(userId);
+		mv.addObject("pendingOrders",pendingOrders);
+		mv.setViewName("pendingOrders");
 		return mv;
 	}
 	
 	
-	
-	public List<Order> findPendingBuyOrders(int user_id){
-		return orderService.findPendingBuyOrders(user_id);
-	}
-	
-	public List<Order> findPendingSaleOrders(int stockId){
-		return orderService.findPendingSaleOrders(stockId);
-	}
-	
-	public void updateToFullfilled(List<Order> BuyOrders, List<Order> SellOrders) {
-		orderService.updateOrdersToFullfilled(BuyOrders, SellOrders);
-	}
+
 	
 	
 	

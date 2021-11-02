@@ -33,15 +33,15 @@ public class StockController {
 	public List<Stock> getAllStocks(){
 		return stockService.getAllStocks();		
 	}
-	@GetMapping("/viewStock/{id}/stock")
-	public ModelAndView viewStock(@PathVariable("id")int stock_id) {
-//		int stockId = Integer.parseInt(stock_id); 
-		Stock stock = stockService.getStockById(stock_id);
-		mv.addObject("stock", stock);
-		mv.setViewName("viewStock");
-		return mv;
-		
-	}
+//	@GetMapping("/viewStock/{id}/stock")
+//	public ModelAndView viewStock(@PathVariable("id")int stock_id) {
+////		int stockId = Integer.parseInt(stock_id); 
+//		Stock stock = stockService.getStockById(stock_id);
+//		mv.addObject("stock", stock);
+//		mv.setViewName("viewStock");
+//		return mv;
+//		
+//	}
 	
 	@GetMapping("/stock/{name}")
 	public Stock getStocks(@PathVariable("name") String stock_symbol){

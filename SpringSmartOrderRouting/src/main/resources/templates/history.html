@@ -26,5 +26,36 @@
 	
 </div>
 <br><br><br><br>
+
+<table>
+    <thead>
+    <tr>
+    <th> Order ID </th>
+    <th> Date </th>
+     <th>Status</th>
+     <th>Stock Amount</th>
+     <th>Total Price</th>
+     <th>Type</th>
+     <th>Stock</th>
+    </thead>
+    <tbody>
+	<!-- <tr th:if="${stocks.empty}">
+            <td colspan="2"> No stocks Available </td>
+        </tr>-->
+       
+        <tr th:each="pOrder : ${trades}">
+            <td><span th:text="${pOrder.getOrderId()}"> Order ID </span></td>
+            <td><span th:text="${pOrder.getOrderDate()}"> Date </span></td>
+            <td><span th:text="${pOrder.getOrderStatus()}"> Status </span></td>      
+            <td><span th:text="${pOrder.getOrderStockAmount()}"> Stock Amount </span></td>   
+            <td><span th:text="${pOrder.getOrderTotalPrice()}">Total Price </span></td>   
+            <td><span th:text="${pOrder.getOrderType()}"> Type </span></td>  
+            <td><span th:text="${pOrder.getStock().getStockSymbol()}"> Stock </span></td>   
+           <!--  <td><a th:href="@{/sellOrder/{userStockId}/userStock(userStockId=${userStock.getStock().getStockId()})}">Cancel</a></td>
+            -->
+        </tr>
+        
+    </tbody>
+</table>
 </body>
 </html>

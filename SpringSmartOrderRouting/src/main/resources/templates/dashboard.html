@@ -51,7 +51,9 @@
             <td><span th:text="${stock.getAvailableFirst()}"> First Exchange </span></td>
             <td><span th:text="${stock.getAvailableSecond()}"> Second Exchange </span></td>
             <td><span th:text="${stock.getAvailableThird()}"> Third Exchange </span></td>
+            <th:block th:if="${stock.getAvailableThird() eq 'available' or stock.getAvailableSecond() eq 'available' or stock.getAvailableFirst() eq 'available'}">
             <td><a th:href="@{/buyOrder/{stock_id}/stock(stock_id=${stock.getStockId()})}">Buy Stock</a></td>
+            </th:block>
         </tr>
         
     </tbody>

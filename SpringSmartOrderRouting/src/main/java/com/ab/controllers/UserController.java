@@ -23,9 +23,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ab.dto.DashBoardDto;
 import com.ab.entities.Exchange;
+import com.ab.entities.Order;
 import com.ab.entities.Stock;
 import com.ab.entities.User;
 import com.ab.services.ExchangeService;
+import com.ab.services.OrderService;
 import com.ab.services.StockExchangeService;
 import com.ab.services.StockService;
 import com.ab.services.UserService;
@@ -43,6 +45,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 	
 	@Autowired
 	private ExchangeService exchangeService;
+	
+	@Autowired
+	private OrderService orderService;
 	
 	@Autowired
 	private StockExchangeService stockExchangeService;
@@ -191,9 +196,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 //		return "wallet";
 //    }
 	@RequestMapping(method = RequestMethod.GET, value="/history")
-    public String tradingHistory() {
-		System.out.println("...trading history");
-		return "history";
+    public ModelAndView tradingHistory(@ModelAttribute("loggedInUser") User u) {
+		List<Order> tradeHistory = orderService.getUserTradeHistory(u.getUserId());
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("trades",tradeHistory);
+		mv.setViewName("history");
+		
+		return mv;
     }
 	
 	@RequestMapping(method = RequestMethod.GET, value="/logout")

@@ -15,12 +15,12 @@
 	</form>
 	
 </div>
-<div th:each="loggedInUser : ${loggedInUser}">
-    <h2>Balance : <span th:text="${loggedInUser.getUserBalance()}"></span></h2>
+<div th:each="ballance : ${ballance}">
+    <h2>Balance : <span th:text="${ballance}"></span></h2>
 </div>
 
 <div th:each="stock : ${stock}">
-<h2>The stock is : <span th:text="${stock.getStockSymbol()}"></span></h2>
+<h2>The stock is : <span th:text="${stock}"></span></h2>
 
 </div>
 
