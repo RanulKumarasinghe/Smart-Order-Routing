@@ -59,7 +59,6 @@ public class UserStockController {
 		
 	} 
 	
-	
 	@GetMapping("/userstocksinwallet/{userId}/{stockId}")
 	public  double getStockAmount(@PathVariable("userId") int userId, @PathVariable("stockId") int stockId){
 		return userStockService.getStockAmount(userId, stockId);

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Cancel Order</title>
+<link rel="stylesheet" type="text/css" href="../../resources/theme/css/style.css" >
+
+</head>
+<body>
+<h1>Cancel Order</h1>
+
+
+<div class="navbar">
+	
+	<a href="/dashboard">Back To Dashboard</a>	
+	<form class="myForm1">
+		<a href="/logout"  align="right" formaction="/logout">Logout</a>
+	</form>
+	
+</div>
+<table>
+	<tr>
+	<th> Order ID </th>
+    <th> Date </th>
+     <th>Status</th>
+     <th>Stock Amount</th>
+     <th>Total Price</th>
+     <th>Type</th>
+     <th>Stock</th>
+	</tr>
+	<tr>
+	 <tr th:each="co : ${cOrder}">
+            <td><span th:text="${co.getOrderId()}"> Order ID </span></td>
+            <td><span th:text="${co.getOrderDate()}"> Date </span></td>
+            <td><span th:text="${co.getOrderStatus()}"> Status </span></td>      
+            <td><span th:text="${co.getOrderStockAmount()}"> Stock Amount </span></td>   
+            <td><span th:text="${co.getOrderTotalPrice()}">Total Price </span></td>   
+            <td><span th:text="${co.getOrderType()}"> Type </span></td>  
+            <td><span th:text="${co.getStock().getStockSymbol()}"> Stock </span></td>   
+	</tr>
+</table>
+<form class="myFrom" th:action="@{/cancelOrder}" method="post">
+<button type="submit">Confirm Cancellation</button>
+</form>
+</body>
+</html>

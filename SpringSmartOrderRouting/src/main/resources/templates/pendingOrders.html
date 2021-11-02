@@ -4,7 +4,7 @@
 <meta charset="ISO-8859-1">
 <title>Pending Orders</title>
 <link rel="stylesheet" type="text/css" href="../../resources/theme/css/style.css" >
-
+<script src="https://kit.fontawesome.com/91b40a4e4e.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <h1>Welcome to Trading Dashboard</h1>
@@ -41,9 +41,12 @@
     <th> Cancel  </th>
     </thead>
     <tbody>
-	<!-- <tr th:if="${stocks.empty}">
-            <td colspan="2"> No stocks Available </td>
-        </tr>-->
+	<tr th:if="${pendingOrders.empty}">
+			<td></td>
+			<td></td>
+			<td></td>
+            <td colspan="2"><b>No Pending Orders</b> </td>
+        </tr>
        
         <tr th:each="pOrder : ${pendingOrders}">
             <td><span th:text="${pOrder.getOrderId()}"> Order ID </span></td>
@@ -53,8 +56,11 @@
             <td><span th:text="${pOrder.getOrderTotalPrice()}">Total Price </span></td>   
             <td><span th:text="${pOrder.getOrderType()}"> Type </span></td>  
             <td><span th:text="${pOrder.getStock().getStockSymbol()}"> Stock </span></td>   
-           <!--  <td><a th:href="@{/sellOrder/{userStockId}/userStock(userStockId=${userStock.getStock().getStockId()})}">Cancel</a></td>
-            -->
+            
+           <td><a  th:href="@{/cancelOrder/{orderId}/order(orderId=${pOrder.getOrderId()})}"><i class="fas fa-trash-alt red-color"></i>
+
+           </a></td>
+           
         </tr>
         
     </tbody>

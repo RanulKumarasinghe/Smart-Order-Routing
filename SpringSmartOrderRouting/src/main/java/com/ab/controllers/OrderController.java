@@ -25,7 +25,8 @@ import com.ab.services.OrderService;
 import com.ab.services.StockExchangeService;
 import com.ab.services.StockService;
 import com.ab.services.UserService;
-@SessionAttributes({"loggedInUser","stocks","exchanges","userStocks","userStock","result","pendingOrders"})
+import com.ab.services.UserStockService;
+@SessionAttributes({"loggedInUser","stocks","exchanges","userStocks","userStock","result","pendingOrders","cOrder"})
 @Controller
 public class OrderController {
 	
@@ -37,12 +38,12 @@ public class OrderController {
 	
 	@Autowired
 	private StockExchangeService stockExchangeService;
+	
 	@Autowired
 	private StockService stockService;
 	@Autowired
 	private UserService userService;
-	
-	
+
 	private ModelAndView mv = new ModelAndView();
 	private int stock_Id = 0;
 	private int exchange_Id = 0;
@@ -50,6 +51,10 @@ public class OrderController {
 	private double stockPrice = 0.0;
 	private double totalPrice = 0.0;
 	private double stockAmount = 0.0;
+	
+
+	@Autowired
+	private UserStockService userStockService;
 	
 	public int createOrder(double orderStockAmount, double orderTotalPrice, String orderType, int orderbookId, int stockId,int userId) {
 		return orderService.createOrder(orderStockAmount, orderTotalPrice, orderType, orderbookId, stockId, userId);
@@ -67,8 +72,14 @@ public class OrderController {
 		int result = orderService.createOrder(stockAmount, orderTotalPrice, "Sell", orderbookId, userStockId, userId);
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("result","Order Placed Successfully!");
-		System.out.println();
-		mv.setViewName("sellOrder");
+		 
+		double newStockAmount = userStockService.getStockAmount(userId, userStockId) - stockAmount;
+		userStockService.updateStockAmount(userId, userStockId, newStockAmount);
+		
+		System.out.println(newStockAmount);
+		List<Order> pendingOrders = orderService.getUserPendingOrders(userId);
+		mv.setViewName("pendingOrders");
+		mv.addObject("pendingOrders",pendingOrders);
 		return mv;
 	}
 	
@@ -99,6 +110,39 @@ public class OrderController {
 		mv.addObject("pendingOrders",pendingOrders);
 		
 		return mv;
+	}
+	@GetMapping("/cancelOrder/{orderId}/order")
+	public ModelAndView loadCancelPage( @PathVariable("orderId") int orderId) {
+		Order cOrder = (Order) orderService.getOrderByOrderId(orderId);
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("cancelOrder");
+		mv.addObject("cOrder",cOrder);
+		return mv;
+	}
+	//cancel order
+	@RequestMapping(method = RequestMethod.POST, value="/cancelOrder")
+	public ModelAndView cancelOrder(@ModelAttribute("loggedInUser") User u, @ModelAttribute("cOrder") Order cOrder) {
+		int userId = u.getUserId();
+		int orderId = cOrder.getOrderId();
+		Order order = (Order) orderService.getOrderByOrderId(orderId);
+		if(order.getOrderType().equals("Sell")) {
+			double stockAmount = order.getOrderStockAmount();
+			int stockId = order.getStock().getStockId();
+			//cancel and update stock amount
+			orderService.cancelOrderByOrderId(orderId);
+			double newAmount = userStockService.getStockAmount(userId, stockId) + stockAmount;
+			userStockService.updateStockAmount(userId, stockId, newAmount);	
+			
+		}else {
+			//cancel the buy order
+			orderService.cancelOrderByOrderId(orderId);
+		}
+		List<Order> pendingOrders = orderService.getUserPendingOrders(userId);
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("pendingOrders");
+		mv.addObject("pendingOrders",pendingOrders);
+		return mv;
+		
 	}
 	
 	
@@ -178,7 +222,7 @@ public class OrderController {
 	}
 	
 	//Cancel order
-	@PostMapping("/cancelOrder")
+	//@PostMapping("/cancelOrder")
 	public int cancelOrder(@RequestParam("orderId") int orderId) {
 		return orderService.cancelOrderByOrderId(orderId);
 	}
