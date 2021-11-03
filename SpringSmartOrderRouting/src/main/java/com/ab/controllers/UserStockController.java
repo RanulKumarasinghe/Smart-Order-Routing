@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ab.entities.User;
 import com.ab.entities.UserStock;
+import com.ab.services.UserService;
 import com.ab.services.UserStockService;
 @SessionAttributes({"loggedInUser","stocks","exchanges","userStocks","userStock"})
 @Controller
@@ -24,6 +25,9 @@ public class UserStockController {
 
 	@Autowired
 	private UserStockService userStockService;
+	
+	@Autowired
+	private UserService userService;
 	
 	int userId;
 	int stockId;
@@ -43,6 +47,8 @@ public class UserStockController {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("userStocks",userStocks);
 		System.out.println(userStocks);
+		double userBallance = userService.findUserBalance(u.getUserId());
+		mv.addObject("ballance",userBallance);
 		mv.setViewName("wallet");
 		return mv;
 	}

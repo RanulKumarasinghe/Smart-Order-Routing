@@ -1,9 +1,14 @@
 package com.ab.controllers;
 
+import java.security.MessageDigest;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Objects;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -52,6 +57,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 	@Autowired
 	private StockExchangeService stockExchangeService;
 	private String user_email;
+	String hashedPassword;
     @GetMapping("/users/{id}")
     public User findUserByUserId(@PathVariable("id") int userId) {
 		return userService.findUserByUserId(userId);
@@ -106,9 +112,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 		//BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		//String hashedPassword = passwordEncoder.encode(password);
 		//System.out.println(hashedPassword);
-		System.out.println("--> Details provided:"+userEmail);
-		User u = userService.verifyUser(userEmail, userPassword);
-		System.out.println(u);
+		try {
+			hashedPassword = encrypt(userPassword,userPassword);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		User u = userService.verifyUser(userEmail, hashedPassword);
 		user_email = u.getUserEmail();
 		if(Objects.isNull("User after login-->"+u)) {
 			mv.setViewName("errorPage");
@@ -135,12 +145,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 			
 
 			mv.addObject("loggedInUser", user);
-			System.out.println(user);
 			mv.addObject("exchanges", getAllExchanges);
 			mv.addObject("stocks", dashBoardStocks);
 			mv.setViewName("dashboard");
-			//load stuff on dash board here
-			//mv.addObject("savingsAccountDetails",savingsAccount);
+		
 			return mv;
 		}
 	}
@@ -168,8 +176,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 		int userId = userService.findMaxUserId()+1;
 		
     	System.out.println("entered in register controller");
-		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		String hashedPassword = passwordEncoder.encode(userPassword);
+		//BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		//String hashedPassword = passwordEncoder.encode(userPassword);
+		try {
+			hashedPassword = encrypt(userPassword,userPassword);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		ModelAndView mv = new ModelAndView();
 		System.out.println(userService.findUserByUserEmail(userEmail));
 		if(userService.findUserByUserEmail(userEmail) == null ) {
@@ -190,11 +203,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 		System.out.println("...dashboard");
 		return "dashboard";
     }
-//	@RequestMapping(method = RequestMethod.GET, value="/wallet")
-//    public String wallet() {
-//		System.out.println("...wallet");
-//		return "wallet";
-//    }
+
 	@RequestMapping(method = RequestMethod.GET, value="/history")
     public ModelAndView tradingHistory(@ModelAttribute("loggedInUser") User u) {
 		List<Order> tradeHistory = orderService.getUserTradeHistory(u.getUserId());
@@ -215,6 +224,35 @@ import org.springframework.security.core.context.SecurityContextHolder;
 	  public User user(){
 	    return new User();
 	  } 
+	  
+	  
+	  public SecretKeySpec generateKey(String password) throws Exception {
+	        //Using MessageDigest class to get instance of SHA-256 Algorithm to generate Key
+	        final MessageDigest digest = MessageDigest.getInstance("MD5");
+	        //Converting Password into Byte Array with UTF-8 encoding
+	        byte[] bytes = password.getBytes("UTF-8");
+	        //Updating digest using specified array of bytes starting with the specified offset
+	        digest.update(bytes, 0, bytes.length);
+
+	        byte[] key = digest.digest();
+	        //Completing hash computation by performing final operations such as padding
+	        //building secret key from the given byte array
+	        SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
+	        //Returning secret key
+	        return secretKeySpec;
+
+	    }
+
+	    public String encrypt(String data, String password) throws Exception {
+	        SecretKeySpec key = generateKey(password);
+	        //Creating Cipher instance from Cipher class with Advance Encryption Standard Algorithm
+	        Cipher c = Cipher.getInstance("AES");
+	        //Initializing the Cipher with
+	        c.init(Cipher.ENCRYPT_MODE, key);
+	        byte[] encVal = c.doFinal(data.getBytes());
+	        String encryptedValue = Base64.getEncoder().encodeToString(encVal);
+	        return encryptedValue;
+	    }
 	
     
 }

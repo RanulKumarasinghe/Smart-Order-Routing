@@ -1,6 +1,8 @@
 package com.ab.entities;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -91,6 +93,12 @@ public class Order {
 
 	public LocalDateTime getOrderDate() {
 		return orderDate;
+	}
+	
+	public String getFormattedOrderDate() {
+		
+		 String date = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm").format(getOrderDate());
+		 return date;
 	}
 
 	public void setOrderDate(LocalDateTime orderDate) {

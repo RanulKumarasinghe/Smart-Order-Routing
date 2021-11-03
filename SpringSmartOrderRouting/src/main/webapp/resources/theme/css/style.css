@@ -120,6 +120,11 @@ th {
   text-decoration: none;
   
 }
+.navbar .active {
+	  background-color: white;
+	  color: #333;
+	
+}
 
 
 .navbar a:hover, .dropdown:hover .dropbtn {
@@ -142,4 +147,17 @@ color:red;
     width: 100%;
     height: auto;
   }
+}
+.log{
+	
+	background-color: white;
+  	color:black;
+  	border: 3px solid #333; width: 300px;
+  	text-align:center;
+  	margin: auto;
+  	width: 50%;
+  	 padding: 10px;
+  	
+  	
+
 }

@@ -51,10 +51,6 @@ public class UserService {
 	        
 	    }
 	
-	public String currentUserName(Authentication authentication) {
-        return authentication.getName();
-    }
-	
 	
 	public int updateUser(int userId, String user_first_name, String user_last_name, String user_email, String password, int user_age, double wallet_balance, String userRegion) {
 		return userRepository.updateUser(userId, user_first_name, user_last_name, user_email, password, user_age, wallet_balance, userRegion);
@@ -70,8 +66,22 @@ public class UserService {
 	}
 	
 	public int findMaxUserId() {
-		return userRepository.findMaxUserId();
+		String getNumber = userRepository.findMaxUserId();
+		boolean numeric = isNumeric(getNumber);
+		int userId = 0;
+		if (!numeric) {
+			userId = 0;
+		} else {
+			userId = Integer.parseInt(getNumber);
+		}
+		return userId;
 	}
+	
+	private static boolean isNumeric(String str){
+        return str != null && str.matches("[0-9.]+");
+    }
+	
+	
 	
 	public double findUserBalance(int userId) {
 		return userRepository.findUserBalance(userId);

@@ -25,7 +25,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	public User findUserByUserId(int userId);
 	
 	@Query(value="SELECT MAX(user_id) FROM user", nativeQuery=true)
-	int findMaxUserId();
+	public String findMaxUserId();
 	
 	@Query(value="SELECT user_balance FROM user WHERE user_id =:userId", nativeQuery=true)
 	public double findUserBalance(@Param("userId")int userId);

@@ -8,26 +8,25 @@
 </head>
 <body>
 <h1>Welcome to Trading Dashboard</h1>
-<div th:each="loggedInUser : ${loggedInUser}">
+<div class="log" th:each="loggedInUser : ${loggedInUser}">
     <h2>Logged in as : <span th:text="${loggedInUser.getUserEmail()}"></span></h2>
 </div>
 <!-- <h2>Logged in as : th:text="${loggedInUser.getUserEmail()}"</h2>  -->
 <br><br><br><br>
 <div class="navbar">
 	
-	<a href="/dashboard">Home</a>
-	<a href="/wallet">Sell Stock</a>
-	<a class="active" href="/pendingOrders">Pending Orders</a>
-	<a href="/history">Trading History</a>
+	<a href="/dashboard"><i class="fas fa-home"></i> Home</a>
+	<a href="/wallet"><i class="fas fa-wallet"></i></i> Sell Stock</a>
+	<a  class="active" href="/pendingOrders"><i class="fas fa-pause-circle"></i> Pending Orders</a>
+	<a href="/history"><i class="fas fa-history"></i> Trading History</a>
 	
 	<form class="myForm1">
-		<a href="/logout"  align="right" formaction="/logout">Logout</a>
+		<a href="/logout"  align="right" formaction="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
 	</form>
 	
 </div>
+
 <br><br><br><br>
-
-
 <table>
     <thead>
     <tr>
@@ -50,7 +49,7 @@
        
         <tr th:each="pOrder : ${pendingOrders}">
             <td><span th:text="${pOrder.getOrderId()}"> Order ID </span></td>
-            <td><span th:text="${pOrder.getOrderDate()}"> Date </span></td>
+            <td><span th:text="${pOrder.getFormattedOrderDate()}"> Date </span></td>
             <td><span th:text="${pOrder.getOrderStatus()}"> Status </span></td>      
             <td><span th:text="${pOrder.getOrderStockAmount()}"> Stock Amount </span></td>   
             <td><span th:text="${pOrder.getOrderTotalPrice()}">Total Price </span></td>   

@@ -18,6 +18,7 @@
 	</form>
 	
 </div>
+<br><br><br><br>
 <table>
 	<tr>
 	<th> Order ID </th>
@@ -31,7 +32,7 @@
 	<tr>
 	 <tr th:each="co : ${cOrder}">
             <td><span th:text="${co.getOrderId()}"> Order ID </span></td>
-            <td><span th:text="${co.getOrderDate()}"> Date </span></td>
+            <td><span th:text="${co.getFormattedOrderDate()}"> Date </span></td>
             <td><span th:text="${co.getOrderStatus()}"> Status </span></td>      
             <td><span th:text="${co.getOrderStockAmount()}"> Stock Amount </span></td>   
             <td><span th:text="${co.getOrderTotalPrice()}">Total Price </span></td>   

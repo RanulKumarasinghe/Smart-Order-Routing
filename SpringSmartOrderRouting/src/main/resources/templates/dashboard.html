@@ -5,29 +5,31 @@
 <meta charset="ISO-8859-1">
 <title>Dashboard</title>
 <link rel="stylesheet" type="text/css" href="../../resources/theme/css/style.css" >
+<script src="https://kit.fontawesome.com/91b40a4e4e.js" crossorigin="anonymous"></script>
 
 </head>
 <body>
 
 <h1>Welcome to Trading Dashboard</h1>
- <div th:each="loggedInUser : ${loggedInUser}">
+ <div class="log" th:each="loggedInUser : ${loggedInUser}">
     <h2>Logged in as : <span th:text="${loggedInUser.getUserEmail()}"></span></h2>
 </div>
 <!-- <h2>Logged in as : th:text="${loggedInUser.getUserEmail()}"</h2>  -->
 <br><br><br><br>
 <div class="navbar">
 	
-	<a  class= "active"href="/dashboard">Home</a>
-	<a href="/wallet">Sell Stock</a>
-	<a href="/pendingOrders">Pending Orders</a>
-	<a href="/history">Trading History</a>
+	<a  class="active"href="/dashboard"><i class="fas fa-home"></i> Home</a>
+	<a href="/wallet"><i class="fas fa-wallet"></i></i> Sell Stock</a>
+	<a href="/pendingOrders"><i class="fas fa-pause-circle"></i> Pending Orders</a>
+	<a href="/history"><i class="fas fa-history"></i> Trading History</a>
 	
 	<form class="myForm1">
-		<a href="/logout"  align="right" formaction="/logout">Logout</a>
+		<a href="/logout"  align="right" formaction="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
 	</form>
 	
 </div>
-<br><br><br><br>
+<h1>Exchanges & Stock Availability</h1>
+<br><br>
 <table>
     <thead>
     <tr>
@@ -52,7 +54,7 @@
             <td><span th:text="${stock.getAvailableSecond()}"> Second Exchange </span></td>
             <td><span th:text="${stock.getAvailableThird()}"> Third Exchange </span></td>
             <th:block th:if="${stock.getAvailableThird() eq 'available' or stock.getAvailableSecond() eq 'available' or stock.getAvailableFirst() eq 'available'}">
-            <td><a th:href="@{/buyOrder/{stock_id}/stock(stock_id=${stock.getStockId()})}">Buy Stock</a></td>
+            <td><a th:href="@{/buyOrder/{stock_id}/stock(stock_id=${stock.getStockId()})}"><i class="fas fa-cart-arrow-down"></i></a></td>
             </th:block>
         </tr>
         

@@ -24,6 +24,7 @@ public class Stock {
 	private int stockId;
 	private String stockSymbol;
 	private double stockTotalShares;
+	private double stockPrice;
 	
 	@JsonIgnore
 	@OneToMany(targetEntity=Order.class,
@@ -51,7 +52,7 @@ public class Stock {
 	private List<UserStock> userStocks = new ArrayList<UserStock>(); 
 	
 	
-	public Stock(int stockId, String stockSymbol, double stockTotalShares, List<Order> orders, List<StockExchange> stockExchanges, List<UserStock> userStocks) {
+	public Stock(int stockId, String stockSymbol, double stockTotalShares,  double stockPrice,List<Order> orders, List<StockExchange> stockExchanges, List<UserStock> userStocks) {
 		super();
 		this.stockId = stockId;
 		this.stockSymbol = stockSymbol;
@@ -59,6 +60,7 @@ public class Stock {
 		this.orders = orders;
 		this.stockExchanges = stockExchanges;
 		this.userStocks = userStocks;
+		this.stockPrice = stockPrice;
 		
 	}
 	
@@ -93,6 +95,17 @@ public class Stock {
 
 	public double getStockTotalShares() {
 		return stockTotalShares;
+	}
+	
+
+
+	public double getStockPrice() {
+		return stockPrice;
+	}
+
+
+	public void setStockPrice(double stockPrice) {
+		this.stockPrice = stockPrice;
 	}
 
 

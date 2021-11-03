@@ -72,7 +72,10 @@ public class OrderController {
 		 
 		double newStockAmount = userStockService.getStockAmount(userId, userStockId) - stockAmount;
 		userStockService.updateStockAmount(userId, userStockId, newStockAmount);
-		
+		StockExchange se = stockExchangeService.findStockOnExchange(userStockId, orderbookId);
+		double availableShares = se.getAvailableShares();
+		double newAvailableShares = availableShares + stockAmount;
+		stockExchangeService.updateShares(userStockId, orderbookId, newAvailableShares);
 		System.out.println(newStockAmount);
 		List<Order> pendingOrders = orderService.getUserPendingOrders(userId);
 		mv.setViewName("pendingOrders");

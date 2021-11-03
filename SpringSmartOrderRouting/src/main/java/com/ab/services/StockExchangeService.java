@@ -58,6 +58,13 @@ public class StockExchangeService {
 			return stockExchangeRepository.findBestStockPriceOnExchange(stockId, exchangeId);
 		}
 
+		public int updateShares(int stockId, int exchangeId, double available_shares) {
+			return stockExchangeRepository.updateShares(stockId, exchangeId, available_shares);
+		}
+		
+		public StockExchange findStockOnExchange(int stockId, int exchangeId) {
+			return stockExchangeRepository.findStockOnExchange(stockId, exchangeId);
+		}
 
 //		public StockExchange findMinPriceStock(List<StockExchange> stockExchanges) {
 //			return stockExchangeRepository.findMinFromList(stockExchanges);

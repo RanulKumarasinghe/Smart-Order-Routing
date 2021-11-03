@@ -91,7 +91,7 @@ public class OrderService {
 						double sellerAmount = Double.parseDouble(userStockRepository.getStockAmount(sellOrder.getUser().getUserId(),sellOrder.getStock().getStockId()));
 						
 						double newSellerAmount = sellerAmount - buyOrder.getOrderStockAmount();
-						userStockRepository.updateStockAmount(sellOrder.getUser().getUserId(),sellOrder.getStock().getStockId(), newSellerAmount);
+//						userStockRepository.updateStockAmount(sellOrder.getUser().getUserId(),sellOrder.getStock().getStockId(), newSellerAmount);
 						StockExchange stockExchange = stockExchangeRepository.findStockOnExchange(sellOrder.getStock().getStockId(), sellOrder.getOrderbook().getOrderBookId());
 						double stockAmount = stockExchange.getAvailableShares() - buyOrder.getOrderStockAmount();
 						stockExchangeRepository.updateShares(sellOrder.getStock().getStockId(), sellOrder.getOrderbook().getOrderBookId(), stockAmount);
