@@ -1,5 +1,8 @@
 package com.ab.services;
 
-public class SORTServiceAPACTest {
+import org.springframework.beans.factory.annotation.Autowired;
 
+public class SORTServiceAPACTest {
+	@Autowired
+	private SORTServiceAPAC sORTServiceAPAC;
 }

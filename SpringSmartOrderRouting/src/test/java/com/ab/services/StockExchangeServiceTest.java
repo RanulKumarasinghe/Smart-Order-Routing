@@ -1,5 +1,8 @@
 package com.ab.services;
 
-public class StockExchangeServiceTest {
+import org.springframework.beans.factory.annotation.Autowired;
 
+public class StockExchangeServiceTest {
+	@Autowired
+	private StockExchangeService stockExchangeService;
 }

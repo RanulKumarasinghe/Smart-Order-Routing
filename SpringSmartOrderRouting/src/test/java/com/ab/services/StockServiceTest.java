@@ -1,5 +1,8 @@
 package com.ab.services;
 
-public class StockServiceTest {
+import org.springframework.beans.factory.annotation.Autowired;
 
+public class StockServiceTest {
+	@Autowired
+	private StockService stockService;
 }

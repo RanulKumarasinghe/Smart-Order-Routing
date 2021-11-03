@@ -1,5 +1,8 @@
 package com.ab.services;
 
-public class OrderServiceTest {
+import org.springframework.beans.factory.annotation.Autowired;
 
+public class OrderServiceTest {
+	@Autowired
+	private OrderService orderService;
 }

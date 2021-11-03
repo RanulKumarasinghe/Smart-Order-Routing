@@ -1,5 +1,8 @@
 package com.ab.services;
 
-public class UserServiceTest {
+import org.springframework.beans.factory.annotation.Autowired;
 
+public class UserServiceTest {
+	@Autowired
+	private UserService userService;
 }

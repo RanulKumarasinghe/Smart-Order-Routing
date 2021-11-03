@@ -1,5 +1,12 @@
 package com.ab.services;
 
-public class ExchangeServiceTest {
+import org.springframework.beans.factory.annotation.Autowired;
 
+public class ExchangeServiceTest {
+	@Autowired
+	private ExchangeService exchangeService;
+	
+	
+
+	
 }

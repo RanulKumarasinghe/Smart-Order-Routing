@@ -1,5 +1,8 @@
 package com.ab.services;
 
-public class SORTServiceNATest {
+import org.springframework.beans.factory.annotation.Autowired;
 
+public class SORTServiceNATest {
+	@Autowired
+	private SORTServiceNA sORTServiceNA;
 }

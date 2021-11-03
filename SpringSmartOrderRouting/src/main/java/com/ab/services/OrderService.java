@@ -62,13 +62,14 @@ public class OrderService {
 		return orderRepository.changeOrderToPartiallyFullfilled(userId);
 	}
 	
-	public void updateOrdersToFullfilled(List<Order> buyOrders, List<Order> sellOrders) {
+	public boolean updateOrdersToFullfilled(List<Order> buyOrders, List<Order> sellOrders) {
 		boolean fulfilled = false;
 		for(Order buyOrder : buyOrders){
 			for(Order sellOrder: sellOrders) {
+				double balance = userRepository.findUserBalance(buyOrder.getUser().getUserId());
 				if(buyOrder.getOrderStockAmount() == sellOrder.getOrderStockAmount() && 
 						buyOrder.getStock().getStockId() == sellOrder.getStock().getStockId() && 
-						buyOrder.getUser().getUserId() != sellOrder.getUser().getUserId() && !fulfilled){
+						buyOrder.getUser().getUserId() != sellOrder.getUser().getUserId() && !fulfilled && balance > 0){
 						orderRepository.changeOrderToFullfilled(buyOrder.getOrderId());
 						orderRepository.changeOrderToFullfilled(sellOrder.getOrderId());
 						double user_balance = userRepository.findUserBalance(buyOrder.getUser().getUserId());
@@ -99,6 +100,7 @@ public class OrderService {
 				}
 			}
 			}
+		return fulfilled;
 	}
 	
 	
@@ -141,8 +143,8 @@ public class OrderService {
 
 	}
 	
-	public List<Order> findPendingSaleOrders(int stockId){
-		return orderRepository.findPendingSaleOrders(stockId);
+	public List<Order> findPendingSaleOrders(){
+		return orderRepository.findPendingSaleOrders();
 	}
 	
 	public List<Order> findPendingBuyOrders(int userId){

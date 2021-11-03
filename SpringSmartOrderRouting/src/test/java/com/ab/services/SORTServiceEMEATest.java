@@ -1,5 +1,8 @@
 package com.ab.services;
 
-public class SORTServiceEMEATest {
+import org.springframework.beans.factory.annotation.Autowired;
 
+public class SORTServiceEMEATest {
+	@Autowired
+	private SORTServiceEMEA sORTServiceEMEA;
 }

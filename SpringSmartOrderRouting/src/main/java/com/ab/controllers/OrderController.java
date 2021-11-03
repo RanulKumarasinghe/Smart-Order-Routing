@@ -88,8 +88,8 @@ public class OrderController {
 		return orderService.findPendingBuyOrders(user_id);
 	}
 	
-	public List<Order> findPendingSaleOrders(int stockId){
-		return orderService.findPendingSaleOrders(stockId);
+	public List<Order> findPendingSaleOrders(){
+		return orderService.findPendingSaleOrders();
 	}
 	
 	public void updateToFullfilled(List<Order> BuyOrders, List<Order> SellOrders) {
@@ -98,8 +98,9 @@ public class OrderController {
 	@RequestMapping(method = RequestMethod.GET, value="/pendingOrders")
 	public ModelAndView loadPendingOrderPage(@ModelAttribute("loggedInUser") User u) {
 		int userId = u.getUserId();
+		
 		List<Order> BuyOrders = findPendingBuyOrders(u.getUserId());
-		List<Order> SellOrders = findPendingSaleOrders(stock_Id);
+		List<Order> SellOrders = findPendingSaleOrders();
 		updateToFullfilled(BuyOrders, SellOrders);
 		List<Order> pendingOrders = orderService.getUserPendingOrders(userId);
 		ModelAndView mv = new ModelAndView();
