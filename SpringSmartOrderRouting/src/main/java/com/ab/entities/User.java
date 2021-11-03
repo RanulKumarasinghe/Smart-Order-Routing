@@ -14,6 +14,10 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.annotations.Fetch;
 
@@ -29,6 +33,10 @@ public class User {
 	private int userId;
 	private String userFirstName;
 	private String userLastName;
+	
+	@NotEmpty
+	@Min(value = 18)
+	@Max(value = 80)
 	private int userAge;
 	private String userEmail;
 	private String userPassword;
