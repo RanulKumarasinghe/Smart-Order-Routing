@@ -41,8 +41,8 @@ public class OrderService {
 	}
 	
 	
-	public Order getOrderByOrderId(int userId){
-		return orderRepository.findOrderByOrderId(userId);
+	public Order getOrderByOrderId(int orderId){
+		return orderRepository.findOrderByOrderId(orderId);
 	}
 	
 	public int updateOrder(double orderStockAmount, double orderTotalPrice, int orderId){

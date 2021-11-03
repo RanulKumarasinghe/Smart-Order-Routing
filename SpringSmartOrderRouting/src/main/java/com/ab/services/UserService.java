@@ -33,7 +33,7 @@ public class UserService {
 	}
 	
 
-	public int validateEmail(String  user_email) {
+	public User validateEmail(String  user_email) {
 		return userRepository.getUserByUserEmail(user_email);
 	}
 	

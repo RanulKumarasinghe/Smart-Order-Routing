@@ -29,6 +29,10 @@
 <h2>The stock price is : <span th:text="${stockExchange}"></span></h2>
 
 </div>
+
+
+<div th:each="ballance : ${ballance}" th:if="${ballance gt 1.0}">
+
 <form class="myForm" th:action="@{/buyOrder}" method="post">
   
   <div class="container">
@@ -39,6 +43,6 @@
    
   </div>
 </form>
-
+</div>
 </body>
 </html>

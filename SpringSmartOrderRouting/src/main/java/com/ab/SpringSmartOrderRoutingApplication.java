@@ -12,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.ab.controllers.OrderController;
 import com.ab.controllers.StockController;
 import com.ab.controllers.StockExchangeController;
+import com.ab.controllers.UserController;
 import com.ab.entities.Stock;
 import com.ab.entities.StockExchange;
 import com.ab.controllers.ExchangeController;
@@ -78,7 +79,6 @@ public class SpringSmartOrderRoutingApplication implements CommandLineRunner {
 //	
 //		
 //	System.out.println(se);
-		
 		
 	}
 
