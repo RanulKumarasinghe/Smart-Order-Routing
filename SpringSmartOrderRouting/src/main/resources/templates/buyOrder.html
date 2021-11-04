@@ -31,7 +31,7 @@
 </div>
 
 
-<div th:each="ballance : ${ballance}" th:if="${ballance gt 1.0}">
+<div th:each="ballance_check : ${ballance_check}" th:if="${ballance_check gt 1.0}">
 
 <form class="myForm" th:action="@{/buyOrder}" method="post">
   

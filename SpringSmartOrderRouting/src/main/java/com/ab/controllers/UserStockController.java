@@ -48,7 +48,8 @@ public class UserStockController {
 		mv.addObject("userStocks",userStocks);
 		System.out.println(userStocks);
 		double userBallance = userService.findUserBalance(u.getUserId());
-		mv.addObject("ballance",userBallance);
+		String balance = String.format("%.2f", userBallance);
+		mv.addObject("ballance",balance);
 		mv.setViewName("wallet");
 		return mv;
 	}

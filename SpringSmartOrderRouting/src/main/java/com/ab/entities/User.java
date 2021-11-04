@@ -130,6 +130,10 @@ public class User {
 	public String getUserPassword() {
 		return userPassword;
 	}
+	
+	public String getFormattedBalance() {
+		return (String.format("%.2f", getUserBalance()));
+	}
 
 	public void setUserPassword(String userPassword) {
 		this.userPassword = userPassword;

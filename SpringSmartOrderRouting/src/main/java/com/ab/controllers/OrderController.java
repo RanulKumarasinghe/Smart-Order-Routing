@@ -76,7 +76,7 @@ public class OrderController {
 		double availableShares = se.getAvailableShares();
 		double newAvailableShares = availableShares + stockAmount;
 		stockExchangeService.updateShares(userStockId, orderbookId, newAvailableShares);
-		System.out.println(newStockAmount);
+		
 		List<Order> pendingOrders = orderService.getUserPendingOrders(userId);
 		mv.setViewName("pendingOrders");
 		mv.addObject("pendingOrders",pendingOrders);
@@ -161,7 +161,9 @@ public class OrderController {
 //		List<Order> SellOrders = findPendingSaleOrders(stock_id);
 //		updateToFullfilled(BuyOrders, SellOrders);
 		double userBallance = userService.findUserBalance(u.getUserId());
-		mv.addObject("ballance",userBallance);
+		String balance = String.format("%.2f", userBallance);
+		mv.addObject("ballance",balance);
+		mv.addObject("ballance_check",userBallance);
 		mv.addObject("stockExchange", stockExchange);
 		mv.addObject("stock", stock);
 		mv.setViewName("buyOrder");		

@@ -49,9 +49,6 @@
     <th> Sell  </th>
     </thead>
     <tbody>
-	<!-- <tr th:if="${stocks.empty}">
-            <td colspan="2"> No stocks Available </td>
-        </tr>-->
        
         <tr th:each="userStock : ${userStocks}">
             <td><span th:text="${userStock.getStock().getStockId()}"> Stock ID </span></td>
