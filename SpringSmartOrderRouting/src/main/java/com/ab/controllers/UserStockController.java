@@ -46,8 +46,7 @@ public class UserStockController {
 		List<UserStock> userStocks = getUserStocks(userId);
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("userStocks",userStocks);
-		System.out.println(userStocks);
-		double userBallance = userService.findUserBalance(u.getUserId());
+		double userBallance = userService.findUserBalance(userId);
 		String balance = String.format("%.2f", userBallance);
 		mv.addObject("ballance",balance);
 		mv.setViewName("wallet");
