@@ -131,9 +131,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 			
 			List<Stock> getAllStocks = stockService.getAllStocks();
 			List<Exchange> getAllExchanges = exchangeService.getAllExchanges();
-			List<String> getFirstAvailabilty = new ArrayList<>();
-			List<String> getSecondAvailabilty = new ArrayList<>();
-			List<String> getThirdAvailabilty = new ArrayList<>();
 			List<DashBoardDto> dashBoardStocks = new ArrayList<>();
 			for (Stock stock : getAllStocks)  {
 				String firstExchange = stockExchangeService.getAvailability(stock.getStockId(), 0);
@@ -156,7 +153,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 	
 	@RequestMapping(method = RequestMethod.GET, value="/register")
     public String loadRegisterView() {
-		System.out.println("...register");
 		return "register";
     }
 
@@ -175,7 +171,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 		int age = Integer.parseInt(userAge);
 		int userId = userService.findMaxUserId()+1;
 		
-    	System.out.println("entered in register controller");
 		//BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		//String hashedPassword = passwordEncoder.encode(userPassword);
 		try {
@@ -184,23 +179,19 @@ import org.springframework.security.core.context.SecurityContextHolder;
 			e.printStackTrace();
 		}
 		ModelAndView mv = new ModelAndView();
-		System.out.println(userService.findUserByUserEmail(userEmail));
 		if(userService.findUserByUserEmail(userEmail) == null ) {
 			
 			userService.insertNewUser(userId,userFirstName, userLastName, userEmail, hashedPassword, age, userBalance, userRegion);
-			System.out.println("Registered");
 			mv.setViewName("login");
 		}
 		else {
 			mv.setViewName("register");
-			System.out.println("Error!");
 		}
 		return mv;	 
     }
 	
 	@RequestMapping(method = RequestMethod.GET, value="/dashboard")
     public String dashboard() {
-		System.out.println("...dashboard");
 		return "dashboard";
     }
 

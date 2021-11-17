@@ -60,7 +60,6 @@ public class UserStockController {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("userStock",userStock);
 		mv.setViewName("sellOrder");
-		System.out.println("...sellorder");
 		return mv;
 		
 	} 
@@ -87,7 +86,6 @@ public class UserStockController {
 	public int updateUserWalletOnBuy(@RequestParam("userId") int userId, @RequestParam("stockId") int stockId, @RequestParam("stockAmount") double stockAmount) {
 		double amount = userStockService.getStockAmount(userId, stockId);
 		
-		System.out.println(amount);
 			if(amount==0.0) {
 				return userStockService.addUserStock(userId, stockId, stockAmount);
 				
