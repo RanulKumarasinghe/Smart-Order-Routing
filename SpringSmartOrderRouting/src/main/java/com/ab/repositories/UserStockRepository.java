@@ -9,14 +9,13 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import com.ab.entities.Stock;
 import com.ab.entities.UserStock;
 
 @Repository
 public interface UserStockRepository extends JpaRepository<UserStock, Integer> {
 	//get User Stocks
-		@Query(value ="SELECT * FROM user_stock us WHERE us.user_id=:userId", nativeQuery=true)
-		public List<UserStock> findUserStocks(@Param("userId") int userId);
+	@Query(value = "SELECT * FROM user_stock us WHERE us.user_id=:user_Id", nativeQuery=true)
+	public List<UserStock> findUserStocksByUserId(@Param("user_Id") int userId);
 		
 	//update user stock amount on base of buy & sell
 	@Transactional
@@ -35,4 +34,5 @@ public interface UserStockRepository extends JpaRepository<UserStock, Integer> {
 	//get user stock by userid and stock id 
 	@Query(value ="SELECT * FROM user_stock us WHERE us.user_id=:userId AND  us.stock_id=:stockId", nativeQuery=true)
 	public UserStock findUserStock(@Param("userId") int userId,@Param("stockId") int stockId);
+
 }

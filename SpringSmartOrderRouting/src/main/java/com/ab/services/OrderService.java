@@ -78,7 +78,7 @@ public class OrderService {
 						userRepository.updateUserBalance(buyOrder.getUser().getUserId(), user_balance - buyOrder.getOrderTotalPrice());
 						userRepository.updateUserBalance(sellOrder.getUser().getUserId(), seller_balance + sellOrder.getOrderTotalPrice());
 						
-						List<UserStock> findUserStocks = userStockRepository.findUserStocks(buyOrder.getUser().getUserId());
+						List<UserStock> findUserStocks = userStockRepository.findUserStocksByUserId(buyOrder.getUser().getUserId());
 						if(findUserStocks.isEmpty()) {
 							userStockRepository.addUserStock(buyOrder.getUser().getUserId(), buyOrder.getStock().getStockId(), buyOrder.getOrderStockAmount());
 						} else {

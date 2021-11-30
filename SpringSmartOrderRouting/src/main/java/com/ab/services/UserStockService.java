@@ -17,7 +17,7 @@ public class UserStockService {
 	private UserStockRepository userStockRepository;
 
 	public List<UserStock> findUserStocks(int userId){
-		return userStockRepository.findUserStocks(userId);
+		return userStockRepository.findUserStocksByUserId(userId);
 	}
 	public  int updateStockAmount(int userId, int stockId, double stockAmount){
 		return userStockRepository.updateStockAmount(userId, stockId, stockAmount);

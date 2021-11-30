@@ -49,14 +49,14 @@ public class User {
 	
 	@JsonIgnore
 	@OneToMany(targetEntity=Order.class,
-			fetch=FetchType.EAGER,
+			fetch=FetchType.LAZY,
 			mappedBy = "user",
 			cascade = CascadeType.ALL)
 	private List<Order> orders = new ArrayList<Order>();
 	
 	@JsonIgnore
 	@OneToMany(targetEntity=UserStock.class,
-			fetch=FetchType.EAGER,
+			fetch=FetchType.LAZY,
 			mappedBy = "user",
 			cascade = CascadeType.ALL)
 	@Fetch(value= org.hibernate.annotations.FetchMode.SUBSELECT)

@@ -17,9 +17,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ab.entities.User;
 import com.ab.entities.UserStock;
+import com.ab.services.StockService;
 import com.ab.services.UserService;
 import com.ab.services.UserStockService;
-@SessionAttributes({"loggedInUser","stocks","exchanges","userStocks","userStock"})
+@SessionAttributes({"loggedInUser","stocks","exchanges","userStocks","userStock","userStockId"})
 @Controller
 public class UserStockController {
 
@@ -29,13 +30,16 @@ public class UserStockController {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private StockService stockService;
+	
 	int userId;
 	int stockId;
 	double stockAmount;
 	double amount;
+	private ModelAndView mv = new ModelAndView();
 
-	@GetMapping("/userstocks/{userId}")
-	public List<UserStock> getUserStocks(@PathVariable("userId") int userId){
+	public List<UserStock> getUserStocks(int userId){
 		
 		return userStockService.findUserStocks(userId);
 	}
@@ -43,11 +47,11 @@ public class UserStockController {
 	@RequestMapping(method = RequestMethod.GET, value="/wallet")
 	public ModelAndView loadWallet(@ModelAttribute("loggedInUser") User u) {
 		userId = u.getUserId();
-		List<UserStock> userStocks = getUserStocks(userId);
-		ModelAndView mv = new ModelAndView();
-		mv.addObject("userStocks",userStocks);
 		double userBallance = userService.findUserBalance(userId);
+		List<UserStock> userStocks = userStockService.findUserStocks(userId);
+		System.out.println(userStocks);
 		String balance = String.format("%.2f", userBallance);
+		mv.addObject("userStocks",userStocks);
 		mv.addObject("ballance",balance);
 		mv.setViewName("wallet");
 		return mv;
@@ -56,8 +60,14 @@ public class UserStockController {
 	@RequestMapping(method = RequestMethod.GET, value="/sellOrder/{userStockId}/userStock")
 	public ModelAndView getUserStock(@PathVariable ("userStockId") int userStockId, @ModelAttribute("loggedInUser") User u) {
 		userId = u.getUserId();
-		UserStock userStock = userStockService.findUserStock(userId, userStockId);
-		ModelAndView mv = new ModelAndView();
+		System.out.println(userId);
+		System.out.println(userStockId);
+		String symbol = stockService.getStockNameById(userStockId);
+		double userStock = userStockService.getStockAmount(userId, userStockId);
+		System.out.println(userStock);
+		
+		mv.addObject("userStockId",userStockId);
+		mv.addObject("stockSymbol",symbol);
 		mv.addObject("userStock",userStock);
 		mv.setViewName("sellOrder");
 		return mv;

@@ -31,7 +31,7 @@ public class Exchange {
 
 	@JsonIgnore
 	@OneToMany(targetEntity=OrderBook.class,
-			fetch=FetchType.EAGER,
+			fetch=FetchType.LAZY,
 			mappedBy = "exchange",
 			cascade = CascadeType.ALL)
 	@Fetch(value= org.hibernate.annotations.FetchMode.SUBSELECT)
@@ -44,7 +44,7 @@ public class Exchange {
 	
 	@JsonIgnore
 	@OneToMany(targetEntity=StockExchange.class,
-	fetch=FetchType.EAGER,
+	fetch=FetchType.LAZY,
 	mappedBy = "exchange",
 	cascade = CascadeType.ALL)
 	@Fetch(value= org.hibernate.annotations.FetchMode.SUBSELECT)

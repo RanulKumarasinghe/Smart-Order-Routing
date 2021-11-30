@@ -27,7 +27,7 @@ public class OrderBook {
 	
 		@JsonIgnore
 		@OneToMany(targetEntity=Order.class,
-				fetch=FetchType.EAGER,
+				fetch=FetchType.LAZY,
 				mappedBy = "orderbook",
 				cascade = CascadeType.ALL)
 		public List<Order> orders = new ArrayList<Order>();

@@ -1,6 +1,7 @@
 package com.ab.entities;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,11 +15,11 @@ public class UserStock {
 	@GeneratedValue(strategy= GenerationType.AUTO)
 	int id;
 	
-	 	@ManyToOne
+	 	@ManyToOne()
 	    @JoinColumn(name = "user_id")
 	    User user;
 
-	    @ManyToOne
+	    @ManyToOne()
 	    @JoinColumn(name = "stock_id")
 	    Stock stock;
 	    
@@ -65,12 +66,12 @@ public class UserStock {
 		public void setStockAmount(double stockAmount) {
 			this.stockAmount = stockAmount;
 		}
-//
+
 //		@Override
 //		public String toString() {
 //			return "UserStock [id=" + id + ", user=" + user + ", stock=" + stock + ", stockAmount=" + stockAmount + "]";
 //		}
-//		
+		
 		
 		
 }

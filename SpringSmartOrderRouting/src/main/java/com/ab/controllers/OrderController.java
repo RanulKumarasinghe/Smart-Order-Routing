@@ -26,7 +26,7 @@ import com.ab.services.StockExchangeService;
 import com.ab.services.StockService;
 import com.ab.services.UserService;
 import com.ab.services.UserStockService;
-@SessionAttributes({"loggedInUser","stocks","exchanges","userStocks","userStock","result","pendingOrders","cOrder"})
+@SessionAttributes({"loggedInUser","stocks","exchanges","userStocks","userStock","result","pendingOrders","cOrder","userStockId"})
 @Controller
 public class OrderController {
 	
@@ -58,29 +58,31 @@ public class OrderController {
 	private UserStockService userStockService;
 	
 	@RequestMapping(method = RequestMethod.POST, value="/sellStock")
-	public ModelAndView placeSellOrder(@ModelAttribute("loggedInUser") User u, @ModelAttribute("userStock") UserStock userStock, @RequestParam(value="stockAmount") double stockAmount ) {
+	public ModelAndView placeSellOrder(@ModelAttribute("loggedInUser") User u, @ModelAttribute("userStockId") int userStockId, @RequestParam(value="stockAmount") double stockAmount ) {
 		
-		int userStockId = userStock.getStock().getStockId();
+//		int userStockId = userStock.getStock().getStockId();
+		
 		int userId = u.getUserId();
 		//double stockPrice = userStock.getStock().getStockPrice();
 		double stockPrice = stockExchangeService.findLowestStockPrice(userStockId);
 		double orderTotalPrice = stockAmount * stockPrice;
 		int orderbookId = exchangeService.getExchangeIdByRegion(u.getUserRegion().toString());	
+		System.out.println(userStockId);
+		System.out.println(orderbookId);
 		int result = orderService.createOrder(stockAmount, orderTotalPrice, "Sell", orderbookId, userStockId, userId);
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("result","Order Placed Successfully!");
-		 
+		mv.addObject("result","Order Placed Successfully!");		 
 		double newStockAmount = userStockService.getStockAmount(userId, userStockId) - stockAmount;
 		userStockService.updateStockAmount(userId, userStockId, newStockAmount);
 		StockExchange se = stockExchangeService.findStockOnExchange(userStockId, orderbookId);
 		double availableShares = se.getAvailableShares();
 		double newAvailableShares = availableShares + stockAmount;
 		stockExchangeService.updateShares(userStockId, orderbookId, newAvailableShares);
-		
 		List<Order> pendingOrders = orderService.getUserPendingOrders(userId);
 		mv.setViewName("pendingOrders");
 		mv.addObject("pendingOrders",pendingOrders);
 		return mv;
+		
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value="/sellStock")
@@ -109,9 +111,11 @@ public class OrderController {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("pendingOrders");
 		mv.addObject("pendingOrders",pendingOrders);
-		
+		mv.addAllObjects(null);		
 		return mv;
 	}
+	
+	
 	@GetMapping("/cancelOrder/{orderId}/order")
 	public ModelAndView loadCancelPage( @PathVariable("orderId") int orderId) {
 		Order cOrder = (Order) orderService.getOrderByOrderId(orderId);
@@ -146,7 +150,7 @@ public class OrderController {
 		
 	}
 	
-	
+	//Show buy order page
 	@GetMapping("/buyOrder/{id}/stock")
 	public ModelAndView buyOrder(@PathVariable("id")int stock_id, @ModelAttribute("loggedInUser") User u) {
 		String region = u.getUserRegion().toString();
@@ -186,9 +190,10 @@ public class OrderController {
 	
 	@RequestMapping(method = RequestMethod.POST, value="/buyOrderConfirm")
 	public ModelAndView confirmBuyOrder(@ModelAttribute("loggedInUser") User u) {
-		createOrder(stockAmount,totalPrice,"Buy",exchange_Id,stock_Id,u.getUserId());
+		int result = createOrder(stockAmount,totalPrice,"Buy",exchange_Id,stock_Id,u.getUserId());
 		int userId = u.getUserId();
 		List<Order> pendingOrders = orderService.getUserPendingOrders(userId);
+		System.out.println(pendingOrders);
 		mv.addObject("pendingOrders",pendingOrders);
 		mv.setViewName("pendingOrders");
 		return mv;
